@@ -258,7 +258,7 @@ class SettingsTableViewController: BLE_tableViewController {
     }
     
     
-    o 
+     
 
     /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
