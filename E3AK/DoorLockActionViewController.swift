@@ -1,0 +1,96 @@
+//
+//  DoorLockActionViewController.swift
+//  E3AK
+//
+//  Created by nsdi36 on 2017/6/12.
+//  Copyright © 2017年 com.E3AK. All rights reserved.
+//
+
+import UIKit
+import ChameleonFramework
+
+enum DoorLockAction: Int {
+    case Use_Re_lock_Time = 0
+    case Always_Unlocked = 1
+    case Always_Locked = 2
+}
+
+class DoorLockActionViewController: UIViewController {
+
+    @IBOutlet weak var tableView: UITableView!
+    let  dataArr: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
+    var selectedIndex: DoorLockAction?
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        selectedIndex = .Use_Re_lock_Time
+        
+        title = "門鎖動作"
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+
+    /*
+    // MARK: - Navigation
+
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Get the new view controller using segue.destinationViewController.
+        // Pass the selected object to the new view controller.
+    }
+    */
+
+}
+
+extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataArr.count
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "請選擇"
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        cell.tintColor = HexColor("00b900")
+        cell.selectionStyle = .none
+        cell.textLabel?.text = "\(dataArr[indexPath.row])"
+        
+        if indexPath.row == selectedIndex?.rawValue
+        {
+            cell.accessoryType = .checkmark
+        }
+        else
+        {
+            cell.accessoryType = .none
+        }
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if (selectedIndex != nil)
+        {
+            if let unSelectedCell = tableView.cellForRow(at: IndexPath(row: (selectedIndex?.rawValue)!, section: 0))
+            {
+                unSelectedCell.accessoryType = .none
+            }
+        }
+        tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
+        selectedIndex = DoorLockAction(rawValue: indexPath.row)
+    }
+}
