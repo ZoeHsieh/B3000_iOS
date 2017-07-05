@@ -11,19 +11,19 @@ import ChameleonFramework
 import IQKeyboardManagerSwift
 
 class DoorRe_lockTimeViewController: UIViewController {
-
+    
     @IBOutlet weak var secondsTextField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        SettingsTableViewController.settingStatus = settingStatesCase.config_device.rawValue
         title = "延遲上鎖時間"
         IQKeyboardManager.sharedManager().enableAutoToolbar = false
         secondsTextField.layer.borderColor = HexColor("c8c7cc")?.cgColor
         secondsTextField.layer.borderWidth = 1.0
         secondsTextField.becomeFirstResponder()
         secondsTextField.setTextFieldPaddingView()
-    }
+            }
 
     override func viewDidDisappear(_ animated: Bool) {
         IQKeyboardManager.sharedManager().enableAutoToolbar = true

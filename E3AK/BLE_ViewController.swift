@@ -110,9 +110,9 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
             
             
             tmpBuff = tmpBuff + rawData!
-            for i in 0 ... (tmpBuff.count) - 1 {
+            /*for i in 0 ... (tmpBuff.count) - 1 {
              print(String(format:"total_tmp=%02X",(tmpBuff[i])))
-             }
+             }*/
             if (tmpBuff.count) > 5{
                 var count = 0
                 var start_index = 0

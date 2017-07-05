@@ -35,18 +35,14 @@ class HomeViewController: BLE_ViewController{
     var deviceFoundStatus: DeviceSearchingStatus = .DeviceFound
     var deviceInfoList: [DeviceInfo] = [];
     var selectDeviceIndex:Int = 0
+    var isAdminEnroll:Bool = false
+    var isEnroll:Bool = false
+    var isOpenDoor:Bool = false
+    var isKeepOpen:Bool = false
+    var userEnrollData: Data!
+    var adminEnrollData: Data!
+    var disTimer:Timer? = nil
     
-    @IBAction func settingBtnListener(_ sender: Any) {
-        
-        if deviceInfoList.count > 0 {
-            
-            
-        }else{
-        
-        
-        }
-        
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -57,16 +53,19 @@ class HomeViewController: BLE_ViewController{
         openDoorButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
         settingsButton.adjustButtonEdgeInsets()
          Config.bleManager.Init(delegate: self)
+        deviceFoundStatus = .DeviceNotFound
         changeViewContentSettings()
         deviceNameLabel.text = ""
         deviceTypeLabel.text = ""
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
         Config.bleManager.ScanBLE()
         
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
+        Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
     }
     
     public override func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -112,8 +111,13 @@ class HomeViewController: BLE_ViewController{
             else {
                 deviceInfoList.append(tmp)
                 deviceNameLabel.text = deviceInfoList[0].name
+                
                 //Save to DB
                 //  saveExpectLevelToDbByUUID(uuid.uuidString, expect_level)
+            }
+            if deviceInfoList.count > 0 {
+            deviceFoundStatus = .DeviceFound
+                changeViewContentSettings()
             }
         }
         
@@ -170,7 +174,10 @@ class HomeViewController: BLE_ViewController{
     }
     
     @IBAction func didTapOpenDoor(_ sender: Any) {
-    
+        
+        if deviceInfoList.count > 0 {
+        isOpenDoor = true
+        Config.bleManager.connect(bleDevice: deviceInfoList[selectDeviceIndex].peripheral)
         switch deviceFoundStatus
         {
         case .DeviceNotFound:
@@ -189,6 +196,7 @@ class HomeViewController: BLE_ViewController{
             
         default:
             break
+        }
         }
     }
     
@@ -240,9 +248,9 @@ class HomeViewController: BLE_ViewController{
             
         case .DeviceFound:
             
-            deviceNameLabel.text = "E3AK001"
+            //deviceNameLabel.text = "E3AK001"
             deviceNameLabel.isUserInteractionEnabled = true
-            deviceTypeLabel.text = "型號ABC123"
+            //deviceTypeLabel.text = "型號ABC123"
             dotImageView.isHidden = false
             openDoorButton.setTitle("OPEN", for: .normal)
             openDoorButton.setImage(nil, for: .normal)
@@ -283,8 +291,30 @@ class HomeViewController: BLE_ViewController{
     }
     
     @IBAction func deviceNotFound(_ sender: Any) {
-        deviceFoundStatus = .DeviceNotFound
-        changeViewContentSettings()
+        //deviceFoundStatus = .DeviceNotFound
+        //changeViewContentSettings()
+       self.loginAlert(title: "Enroll User"/*self.GetSimpleLocalizedString("enroll_dialog_title")*/ , subTitle: "", placeHolder1: "Input ID"/*self.GetSimpleLocalizedString("users_manage_add_dialog_name")*/, placeHolder2:"Input pwd"/* self.GetSimpleLocalizedString("users_manage_add_dialog_password")*/, keyboard1: .default, keyboard2: .numberPad, handler: { (input1, input2) in
+            
+            print("user input2: \(input1) & \(input2)")
+            let userID:[UInt8] = Util.StringtoUINT8(data: input1!, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
+            let userPWD:[UInt8] = Util.StringtoUINT8(data: input2!, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
+            if !input1!.isEmpty {
+                self.isEnroll = true
+                print(input1);
+                if input1! == Config.AdminID{
+                    print("admin enroll");
+                    self.adminEnrollData = Config.bpProtocol.setAdminEnroll(UserID: userID,Password: userPWD)
+                    self.isAdminEnroll = true
+                    
+                }
+                else{
+                    self.userEnrollData = Config.bpProtocol.setUserEnroll(UserID: userID, Password: userPWD)
+                    print("user enroll");
+                }
+                Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
+            }
+
+        })
     }
     
     @IBAction func deviceFound(_ sender: Any) {
@@ -298,7 +328,7 @@ class HomeViewController: BLE_ViewController{
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "showSettingsTableViewController") {
+        if (segue.identifier == "showSettingsTableViewController") && deviceInfoList.count > 0{
             let nvc = segue.destination  as! 
             SettingsTableViewController
             ///let vc = nvc.topViewController as! Intro_PasswordViewController
@@ -316,7 +346,7 @@ class HomeViewController: BLE_ViewController{
                 
                 return false;
             }
-            else if deviceInfoList.count < 0{
+            else if deviceInfoList.count <= 0{
                 showToastDialog(title:"",message:GetSimpleLocalizedString("No found device" ));
                 
                 return false;
@@ -329,14 +359,154 @@ class HomeViewController: BLE_ViewController{
         return true
     }
 
-    /*
-    // MARK: - Navigation
+    public override func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
+        
+       super.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
+        
+        if isEnroll{
+            if isAdminEnroll {
+               Config.bleManager.writeData(cmd: adminEnrollData, characteristic: bpChar)
+            }else{
+               Config.bleManager.writeData(cmd: userEnrollData, characteristic: bpChar)
+            }
+        
+        }else if isOpenDoor {
+            let isAdmin = Config.saveParam.bool(forKey: (deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString))
+            var cmd = Data()
+            if isAdmin {
+            cmd = Config.bpProtocol.setAdminIndentify()
+               
+            }else{
+                let userIndex = Config.saveParam.integer(forKey: Config.userIndexTag)
+                cmd = Config.bpProtocol.setUserIndentify(UserIndex: userIndex)
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+            }
+             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+        
+        }else if isKeepOpen {
+          let cmd = Config.bpProtocol.getDeviceConfig()
+            Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+        }
+        
+        isKeepOpen = false
+        isOpenDoor = false
+        isAdminEnroll = false
+        isEnroll = false
+        
+        if disTimer == nil {
+            
+            disTimer = Timer.scheduledTimer(timeInterval: Config.disConTimeOut, target: self, selector: #selector(disconnectTask), userInfo: nil, repeats: false)
+            
+            
+        }
+
     }
-    */
 
+    override func cmdAnalysis(cmd:[UInt8]){
+        let datalen = Int16( UInt16(cmd[2]) << 8 | UInt16(cmd[3] & 0x00FF))
+        /* for i in 0 ... cmd.count - 1{
+         print(String(format:"r-cmd[%d]=%02x\r\n",i,cmd[i]))
+         }*/
+        if datalen == Int16(cmd.count - 4) {
+            switch cmd[0]{
+                
+            case BPprotocol.cmd_admin_enroll:
+                var isAdmin = false
+                if cmd[4] == BPprotocol.result_success {
+                    isAdmin = true
+                }else{
+                    isAdmin = false
+                }
+                Config.saveParam.set(isAdmin, forKey:
+                    deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString)
+                
+                //self.backToMainPage()
+                break
+                
+            case BPprotocol.cmd_user_enroll:
+                
+                if datalen > 1 {
+                    let userIndex:Int = Int(UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF))
+                    
+                    print("userIndex=\(userIndex)")
+                    Config.saveParam.set(userIndex, forKey: deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString + Config.userIndexTag)
+                    Config.saveParam.set(false, forKey: deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString)
+                    
+                }
+                
+                break
+            case BPprotocol.cmd_device_config:
+                var cmdData = Data()
+                for i in 0 ... cmd.count - 1{
+                  cmdData.append(cmd[i+4])
+                }
+                if cmd[1] == BPprotocol.type_read{
+                    if cmd[5] == BPprotocol.door_status_KeepOpen {
+                        cmdData[1] = UInt8(BPprotocol.door_status_delayTime)
+                        
+                    }else {
+                       cmdData[1] = UInt8(BPprotocol.door_status_KeepOpen)
+                        
+                    }
+                    
+                    for j in 0 ... cmd.count - 1 {
+                        
+                        print(String(format:"%02X",cmd[j]))
+                    }
+                    
+                    
+                    
+                    let newCmd = Config.bpProtocol.setDeviceConfig(door_option: cmdData[0], lockType: cmdData[1], delayTime: Int16(UInt16(cmdData[2]) * 256 + UInt16(cmdData[3])), G_sensor_option: cmdData[4])
+                        Config.bleManager.writeData(cmd: newCmd, characteristic: bpChar)
+                    isKeepOpen = false
+                    
+                }
+                break
+                
+            case BPprotocol.cmd_fw_version:
+                if cmd[1] == BPprotocol.type_read{
+                    
+                    var data = [UInt8]()
+                    for i in 4 ... cmd.count - 1{
+                        data.append(cmd[i])
+                    }
+                    let major = data[0]
+                    let minor = data[1]
+                    
+                    if major == 1 && minor >= 6{
+                        Config.bleManager.disconnectByCMD(char: bpChar)
+                    }
+                    else{
+                        Config.bleManager.disconnect()
+                        
+                        
+                    }
+                    //self.backToMainPage()
+                }
+                
+                break
+            default:
+                break
+                
+            }
+
+        }
+        
+    }
+    func disconnect() {
+        
+       
+        //peripheral.delegate = nil
+        //self.peripheral = nil
+        
+        let cmd = Config.bpProtocol.getFW_version()
+        Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+    }
+
+    func disconnectTask(){
+        print("disconnect time out");
+        disconnect()
+        disTimer = nil
+    }
+    
 }

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -27,22 +26,10 @@
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SVh-SP-mqS">
                         <rect key="frame" x="26" y="1" width="323" height="60"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deo-vx-tUp">
-                                <rect key="frame" x="12" y="0.0" width="101.5" height="60"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deo-vx-tUp">
+                                <rect key="frame" x="12" y="0.0" width="128" height="60"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.72549019609999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5B6-nX-4Un">
-                                <rect key="frame" x="113.5" y="0.0" width="80" height="60"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
-                                <color key="textColor" red="0.64313725490196072" green="0.66666666666666663" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Supervisor" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y5L-9D-tQ8">
-                                <rect key="frame" x="194" y="0.0" width="109" height="60"/>
-                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
-                                <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure Indicator" translatesAutoresizingMaskIntoConstraints="NO" id="Hof-Vl-dtg">
@@ -51,19 +38,21 @@
                                     <constraint firstAttribute="width" constant="8" id="EKI-tw-IZ2"/>
                                 </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="12345" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5B6-nX-4Un">
+                                <rect key="frame" x="153" y="0.0" width="142" height="60"/>
+                                <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
+                                <color key="textColor" red="0.64313725490196072" green="0.66666666666666663" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="5B6-nX-4Un" firstAttribute="leading" secondItem="SVh-SP-mqS" secondAttribute="centerX" multiplier="0.7" id="7YC-nd-eG2"/>
                             <constraint firstItem="Hof-Vl-dtg" firstAttribute="centerY" secondItem="SVh-SP-mqS" secondAttribute="centerY" id="9RC-M5-WNN"/>
                             <constraint firstAttribute="bottom" secondItem="5B6-nX-4Un" secondAttribute="bottom" id="CrY-Di-6n2"/>
-                            <constraint firstItem="Hof-Vl-dtg" firstAttribute="leading" secondItem="y5L-9D-tQ8" secondAttribute="trailing" id="Iw5-Md-Ejn"/>
                             <constraint firstItem="deo-vx-tUp" firstAttribute="leading" secondItem="SVh-SP-mqS" secondAttribute="leading" constant="12" id="N2F-cf-2KY"/>
-                            <constraint firstAttribute="bottom" secondItem="y5L-9D-tQ8" secondAttribute="bottom" id="NkE-dK-EEO"/>
                             <constraint firstItem="deo-vx-tUp" firstAttribute="top" secondItem="SVh-SP-mqS" secondAttribute="top" id="Qxf-L6-6tS"/>
                             <constraint firstAttribute="bottom" secondItem="deo-vx-tUp" secondAttribute="bottom" id="RmT-Nn-ydJ"/>
-                            <constraint firstItem="y5L-9D-tQ8" firstAttribute="top" secondItem="SVh-SP-mqS" secondAttribute="top" id="Rnw-68-LaT"/>
-                            <constraint firstItem="y5L-9D-tQ8" firstAttribute="leading" secondItem="5B6-nX-4Un" secondAttribute="trailing" id="b19-vI-ky8"/>
                             <constraint firstAttribute="height" constant="60" id="eaA-UY-51i"/>
                             <constraint firstAttribute="trailing" secondItem="Hof-Vl-dtg" secondAttribute="trailing" constant="12" id="kPu-IP-Lxy"/>
                             <constraint firstItem="5B6-nX-4Un" firstAttribute="leading" secondItem="deo-vx-tUp" secondAttribute="trailing" id="pqI-M8-O4H"/>
@@ -82,7 +71,6 @@
             <connections>
                 <outlet property="accountLabel" destination="deo-vx-tUp" id="a3D-M3-5bL"/>
                 <outlet property="disclosureImageView" destination="Hof-Vl-dtg" id="asj-JC-kVi"/>
-                <outlet property="nameLabel" destination="y5L-9D-tQ8" id="E6m-ir-bqy"/>
                 <outlet property="passwordLabel" destination="5B6-nX-4Un" id="or8-x8-SqS"/>
                 <outlet property="shadowView" destination="SVh-SP-mqS" id="ndy-rk-2ka"/>
             </connections>

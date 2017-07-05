@@ -17,8 +17,8 @@ class DeviceTimeViewController: UIViewController {
     let kDateKey  = "date"  // key for obtaining the data source item's date value
     
     // keep track of which rows have date cells
-    let kDateStartRow = 1
-    let kDateEndRow   = 2
+    let kDateStartRow = 0
+    let kDateEndRow   = 1
     
     let kDateCellID       = "dateCell";       // the cells with the start or end date
     let kDatePickerCellID = "datePickerCell"; // the cell containing the date picker
@@ -38,13 +38,13 @@ class DeviceTimeViewController: UIViewController {
         super.viewDidLoad()
 
         title = "Device Time"
-        tableView.register(R.nib.deviceTimeSwitchTableViewCell)
+        //tableView.register(R.nib.deviceTimeSwitchTableViewCell)
         tableView.register(R.nib.datePickerTableViewCell)
         tableView.register(R.nib.dateTableViewCell)
         
-        let itemStart = [kTitleKey : "automatic setting", kDateKey : Date()] as [String : Any]
+        //let itemStart = [kTitleKey : "automatic setting", kDateKey : Date()] as [String : Any]
         let itemEnd = [kTitleKey : "Device Time", kDateKey : Date()] as [String : Any]
-        dataArray = [itemStart as Dictionary<String, AnyObject>, itemEnd as Dictionary<String, AnyObject>]
+        dataArray = [itemEnd as Dictionary<String, AnyObject>]
         
         dateFormatter.dateStyle = .medium // show short-style date format
         dateFormatter.timeStyle = .short
@@ -53,6 +53,10 @@ class DeviceTimeViewController: UIViewController {
         // format in the table view cells
         //
         NotificationCenter.default.addObserver(self, selector: #selector(DeviceTimeViewController.localeChanged(_:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
+        displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
+         SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
+        updateDatePicker()
+        
     }
 
     func localeChanged(_ notif: Notification) {
@@ -104,7 +108,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
 
         var cell: UITableViewCell?
         
-        var cellID = deviceTimeSwitchCellID
+        var cellID = kDateCellID
         
         if indexPathHasPicker(indexPath) {
             // the indexPath is the one containing the inline date picker
@@ -129,7 +133,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             modelRow -= 1
         }
         
-        let itemData = dataArray[modelRow]
+        let itemData = dataArray[0]
         
         if cellID == kDateCellID {
             
@@ -150,14 +154,14 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             
             cell = datePickerTableViewCell
         }
-        else if cellID == deviceTimeSwitchCellID {
+        /*else if cellID == deviceTimeSwitchCellID {
             
             let deviceTimeSwitchCell = tableView.dequeueReusableCell(withIdentifier: R.nib.deviceTimeSwitchTableViewCell.identifier, for: indexPath) as! DeviceTimeSwitchTableViewCell
             deviceTimeSwitchCell.delegate = self
             deviceTimeSwitchCell.indexPath = indexPath
             deviceTimeSwitchCell.titleLabel.text = itemData[kTitleKey] as? String
             cell = deviceTimeSwitchCell
-        }
+        }*/
         
         cell?.selectionStyle = .none;
         return cell!
@@ -277,7 +281,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             let indexPathToReveal = IndexPath(row: rowToReveal, section: 0)
             
             toggleDatePickerForSelectedIndexPath(indexPathToReveal)
-            datePickerIndexPath = IndexPath(row: indexPathToReveal.row + 1, section: 0)
+            datePickerIndexPath = IndexPath(row: indexPathToReveal.row , section: 0)
         }
         
         // always deselect the row containing the start or end date
@@ -311,9 +315,21 @@ extension DeviceTimeViewController: DatePickerTableViewCellDelegate{
         var itemData = dataArray[targetedCellIndexPath!.row]
         itemData[kDateKey] = targetedDatePicker.date as AnyObject?
         dataArray[targetedCellIndexPath!.row] = itemData
-        
+        let calendar = Calendar.current
         // update the cell's date string
         cell?.detailTextLabel?.text = dateFormatter.string(from: targetedDatePicker.date)
+       
+        let dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from: targetedDatePicker.date )
+        print(String(format:"Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+            SettingsTableViewController.startTimeArr[0] = dateComponents.year!
+        SettingsTableViewController.startTimeArr[1] = dateComponents.month!
+         SettingsTableViewController.startTimeArr[2] = dateComponents.day!
+        SettingsTableViewController.startTimeArr[3] = dateComponents.hour!
+        SettingsTableViewController.startTimeArr[4] = dateComponents.minute!
+        SettingsTableViewController.startTimeArr[5] = dateComponents.second!
+             
+        print("device Time= \(cell?.detailTextLabel?.text)")
+        SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
     }
 }
 
@@ -323,8 +339,8 @@ extension DeviceTimeViewController: DeviceTimeSwitchTableViewCellDelegate{
         
         let cell = tableView.cellForRow(at: indexPath)
         if cell?.reuseIdentifier == deviceTimeSwitchCellID {
-            displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
-        } else {
+         
+        }else {
             tableView.deselectRow(at: indexPath, animated: true)
         }
     }

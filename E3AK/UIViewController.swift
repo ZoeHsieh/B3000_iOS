@@ -291,7 +291,146 @@ extension UIViewController: StoryboardIdentifiable{
     
     func GetSimpleLocalizedString(_ key: String) -> String {
         
-        return NSLocalizedString(key, comment: "");
+        return NSLocalizedString(key, comment: "")
     }
     
+    func backToMainPage(){
+       
+        delayOnMainQueue(delay: 0.5, closure: {
+            self.dismiss(animated: true, completion: nil)
+            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true, completion: nil)
+        })
+            }
+
+    func alertWithTextField(title: String, subTitle: String, placeHolder: String, keyboard: UIKeyboardType, Tag:Int,handler: @escaping ((_ inputText: String?) -> Void)){
+        
+        let alertController = UIAlertController(title: title, message: subTitle, preferredStyle: .alert)
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = placeHolder
+            textField.keyboardType = keyboard
+            textField.tag = Tag;
+            textField.addTarget(self, action: #selector(self.editAlertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        })
+        
+        
+        let confirmAction = UIAlertAction(title:"confirm"/* GetSimpleLocalizedString("common_confirm")*/, style: .default, handler: { action in
+            if let inputText = alertController.textFields!.first?.text{
+                print("user input: \(inputText)")
+                handler(inputText)
+            }
+        })
+        let cancelAction = UIAlertAction(title:"cancel"/* GetSimpleLocalizedString("common_cancel")*/, style: .cancel, handler: nil)
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+       
+    func editAlertTextFieldDidChange(field: UITextField){
+        let alertController: UIAlertController = self.presentedViewController as! UIAlertController
+        let textField: UITextField = alertController.textFields![0];
+        
+        let addAction: UIAlertAction = alertController.actions[0];
+        if textField.tag == 0{// for user id
+            
+            if ( (textField.text?.utf8.count)! > BPprotocol.userID_maxLen ) {
+                textField.deleteBackward();
+            }
+            
+            addAction.isEnabled = ((textField.text?.utf8.count)! >= 1 )
+        }else if textField.tag == 1{ // for user pwd
+            
+            if ( (textField.text?.utf8.count)! > BPprotocol.userPD_maxLen ) {
+                textField.deleteBackward();
+            }
+            addAction.isEnabled = ((textField.text?.characters.count)! >= 4 );
+        }else if textField.tag == 2{ // for door delay time
+            
+            if ( (textField.text?.utf8.count)! > 4) {
+                textField.deleteBackward();
+            }
+            if (textField.text?.utf8.count)! > 0{
+                addAction.isEnabled = ((textField.text?.characters.count)! <= 4 ) && (Int16((textField.text!))! <= Config.DOOR_DELAY_TIME_LIMIT)
+            }else{
+                addAction.isEnabled = false
+            }
+        }else if textField.tag == 3{ // for access times
+            
+            if ( (textField.text?.utf8.count)! > 3) {
+                textField.deleteBackward();
+            }
+            if (textField.text?.utf8.count)! > 0{
+                addAction.isEnabled = ((textField.text?.characters.count)! <= 3 ) && (Int(textField.text!)!<=255)
+            }else{
+                addAction.isEnabled = false
+            }
+        }
+        
+        //Check Length
+        
+        
+    }
+    func loginAlert(title: String, subTitle: String, placeHolder1: String, placeHolder2: String, keyboard1: UIKeyboardType, keyboard2: UIKeyboardType, handler: @escaping ((_ inputText1: String?, _ inputText2: String?) -> Void)){
+        
+        
+        let alertController = UIAlertController(title: title, message: subTitle, preferredStyle: .alert)
+        
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = placeHolder1
+            textField.keyboardType = keyboard1
+            textField.tag = 0;
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        })
+        /*alertController.addTextField(configurationHandler: { (textField) in
+         textField.placeholder = "User Name"
+         textField.backgroundColor = UIColor.lightGray.withAlphaComponent(0.3)
+         textField.isEnabled = false
+         })*/
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = placeHolder2
+            textField.keyboardType = keyboard2
+            textField.tag = 1;
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        })
+        
+        let confirmAction = UIAlertAction(title:"confirm"/* GetSimpleLocalizedString("common_confirm")*/, style: .default, handler: { action in
+            if let inputText1 = alertController.textFields!.first?.text, let inputText2 = alertController.textFields!.last?.text{
+                print("user input: \(inputText1) & \(inputText2)")
+                handler(inputText1, inputText2)
+                
+            }
+        })
+        
+        let cancelAction = UIAlertAction(title: "cancel"/* GetSimpleLocalizedString("common_cancel")*/, style: .cancel, handler: nil)
+        
+        confirmAction.isEnabled = false
+        
+        alertController.addAction(confirmAction)
+        alertController.addAction(cancelAction)
+        
+        self.present(alertController, animated: true, completion: nil)
+    }
+    
+
+    func alertTextFieldDidChange(field: UITextField){
+        let alertController: UIAlertController = self.presentedViewController as! UIAlertController
+        let textField_id: UITextField = alertController.textFields![0];
+        let textField_password: UITextField = alertController.textFields![1];
+        let addAction: UIAlertAction = alertController.actions[0];
+        
+        //Check Length
+        if ( (textField_id.text?.utf8.count)! > BPprotocol.userID_maxLen ) {
+            textField_id.deleteBackward();
+        }
+        
+        if ( (textField_password.text?.utf8.count)! > BPprotocol.userPD_maxLen  ) {
+            textField_password.deleteBackward();
+        }
+        
+        addAction.isEnabled = ((textField_id.text?.characters.count)! >= 1 ) && ((textField_password.text?.characters.count)! >= 4 );
+    }
+
+   
 }

@@ -86,8 +86,50 @@ private static var peripheral:CBPeripheral?
 
     }
     
+    public func disconnect(){
+        
+        guard let peripheral = BluetoothLEDevice.peripheral  else {
+            print("No peripheral available to cleanup.")
+            return
+        }
+        
+        if peripheral.state != .connected {
+            print("Peripheral is not connected.")
+            BluetoothLEDevice.peripheral  = nil
+            return
+        }
+       
+            BluetoothLEDevice.centralManager.cancelPeripheralConnection(peripheral)
+        
+
+    
+    }
+    public func disconnectByCMD(char:CBCharacteristic){
+        
+        guard let peripheral = BluetoothLEDevice.peripheral  else {
+            print("No peripheral available to cleanup.")
+            return
+        }
+        
+        if peripheral.state != .connected {
+            print("Peripheral is not connected.")
+            BluetoothLEDevice.peripheral  = nil
+            return
+        }
+        let cmd = Config.bpProtocol.excuteForceDisconnect()
+            writeData(cmd: cmd, characteristic: char)
+      
+        
+        
+    }
+
     public func setCentralManagerDelegate(vc_delegate:CBCentralManagerDelegate){
         BluetoothLEDevice.centralManager.delegate = vc_delegate
+        
+    }
+    
+    public func setPeripheralDelegate(vc_delegate:CBPeripheralDelegate){
+        BluetoothLEDevice.peripheral?.delegate = vc_delegate 
     }
     
     func writeData(cmd:Data,characteristic:CBCharacteristic){

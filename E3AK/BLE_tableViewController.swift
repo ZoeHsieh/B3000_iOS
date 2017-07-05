@@ -101,16 +101,16 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
         
         if (characteristic.value != nil) {
             var rawData = characteristic.value
-            for j in 0 ... (rawData?.count)! - 1 {
+           /* for j in 0 ... (rawData?.count)! - 1 {
              
              print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
-             }
+             }*/
             
             
             tmpBuff = tmpBuff + rawData!
-            for i in 0 ... (tmpBuff.count) - 1 {
+            /*for i in 0 ... (tmpBuff.count) - 1 {
              print(String(format:"total_tmp=%02X",(tmpBuff[i])))
-             }
+             }*/
             if (tmpBuff.count) > 5{
                 var count = 0
                 var start_index = 0

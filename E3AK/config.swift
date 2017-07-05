@@ -40,5 +40,14 @@ class Config{
     public static let check_version:Float = 1.05
     public static let bleManager:BluetoothLEDevice = BluetoothLEDevice()
     public static let bpProtocol:BPprotocol = BPprotocol();
+    public static let adminSettingMenuItem:Int = 8
+    public static let DOOR_DELAY_TIME_LIMIT:Int16 = 1800
+    public static let  doorActionItem: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
+    public static var isUserListOK = false
+    public static var isHistoryDataOK = false
+    public static var historyListArr: [[String:Any]] = []
+    public static var userListArr: [[String:Any]] = []
+    public static var userDataArr:[UInt8] = []
+    public static var userDeleted: String?
     //public static let SCAN_TIME_INTRO:Int = 10
 }

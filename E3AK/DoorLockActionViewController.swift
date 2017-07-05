@@ -24,10 +24,11 @@ class DoorLockActionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        selectedIndex = .Use_Re_lock_Time
+        print(String(format:"%02x",SettingsTableViewController.tmpConfig[6]))
+        selectedIndex = DoorLockAction(rawValue: Int(SettingsTableViewController.tmpConfig[6]))
         
         title = "門鎖動作"
+        SettingsTableViewController.settingStatus = settingStatesCase.config_device.rawValue
     }
 
     override func didReceiveMemoryWarning() {
@@ -91,6 +92,12 @@ extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelega
             }
         }
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
-        selectedIndex = DoorLockAction(rawValue: indexPath.row)
+       // selectedIndex = DoorLockAction(rawValue: indexPath.row)
+        var data = SettingsTableViewController.tmpConfig
+        let delayTime = Int16((data[7])) * 256 + Int16((data[8]))
+        data[6] = UInt8(indexPath.row)
+        SettingsTableViewController.tmpConfig = Config.bpProtocol.setDeviceConfig(door_option: (data[5]), lockType: (data[6]), delayTime: delayTime, G_sensor_option: (data[9]))
+        SettingsTableViewController.settingStatus = settingStatesCase.config_device.rawValue
+        
     }
 }

@@ -12,7 +12,7 @@ class UsersTableViewCell: UITableViewCell {
 
     @IBOutlet weak var accountLabel: UILabel!
     @IBOutlet weak var passwordLabel: UILabel!
-    @IBOutlet weak var nameLabel: UILabel!
+    //@IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var shadowView: UIView!
     @IBOutlet weak var disclosureImageView: UIImageView!
     

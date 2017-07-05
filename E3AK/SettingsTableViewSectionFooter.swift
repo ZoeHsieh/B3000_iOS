@@ -10,6 +10,7 @@ import UIKit
 
 class SettingsTableViewSectionFooter: UITableViewCell {
 
+    @IBOutlet weak var fwVRLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
@@ -19,6 +20,9 @@ class SettingsTableViewSectionFooter: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         // Configure the view for the selected state
+    }
+    public func setVersion(version:String){
+        fwVRLabel.text = version
     }
     
 }

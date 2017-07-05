@@ -470,7 +470,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.segue` struct is generated, and contains static references to 4 view controllers.
+  /// This `R.segue` struct is generated, and contains static references to 5 view controllers.
   struct segue {
     /// This struct is generated for `HomeViewController`, and contains static references to 1 segues.
     struct homeViewController {
@@ -512,6 +512,21 @@ struct R: Rswift.Validatable {
       /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
       static func intro_Pass(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, Intro_WelcomeViewController, Intro_PasswordViewController>? {
         return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.intro_WelcomeViewController.intro_Pass, segue: segue)
+      }
+      
+      fileprivate init() {}
+    }
+    
+    /// This struct is generated for `SettingsTableViewController`, and contains static references to 1 segues.
+    struct settingsTableViewController {
+      /// Segue identifier `showUserList`.
+      static let showUserList: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, SettingsTableViewController, UsersViewController> = Rswift.StoryboardSegueIdentifier(identifier: "showUserList")
+      
+      /// Optionally returns a typed version of segue `showUserList`.
+      /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.
+      /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
+      static func showUserList(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, SettingsTableViewController, UsersViewController>? {
+        return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.settingsTableViewController.showUserList, segue: segue)
       }
       
       fileprivate init() {}
@@ -602,10 +617,10 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "anxell_logo") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'anxell_logo' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "icon_email") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_email' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "icon_version") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_version' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "icon_website") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_website' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "anxell_logo", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'anxell_logo' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "icon_email", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_email' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "icon_version", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_version' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "icon_website", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_website' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
       }
       
       fileprivate init() {}
@@ -778,7 +793,7 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "users-list") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'users-list' is used in nib 'Intro_NOUsersViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "users-list", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'users-list' is used in nib 'Intro_NOUsersViewController', but couldn't be loaded.") }
       }
       
       fileprivate init() {}
@@ -832,7 +847,7 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "disclosure Indicator") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'disclosure Indicator' is used in nib 'UsersTableViewCell', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "disclosure Indicator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'disclosure Indicator' is used in nib 'UsersTableViewCell', but couldn't be loaded.") }
       }
       
       fileprivate init() {}
@@ -946,15 +961,17 @@ struct _R: Rswift.Validatable {
       
       static func validate() throws {
         if UIKit.UIImage(named: "backup") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'backup' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "checkbox-none") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'checkbox-none' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "door-close") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'door-close' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "triangle") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "user") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'user' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "revert") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'revert' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "btn-green") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "green-dot") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "loading-white") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "history") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'history' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "back-btn-left") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'back-btn-left' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "triangle") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "checkbox-none") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'checkbox-none' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "Back Chevron") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'Back Chevron' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "revert") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'revert' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "setup") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'setup' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "plants") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Main', but couldn't be loaded.") }
         if _R.storyboard.main().homeNavigationController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'homeNavigationController' could not be loaded from storyboard 'Main' as 'HomeNavigationController'.") }
