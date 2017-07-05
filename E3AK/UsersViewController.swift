@@ -36,6 +36,13 @@ class UsersViewController: BLE_ViewController {
     @IBAction func backBefore(_ sender: Any) {
          isback = true
         print("backBefore")
+        _ = self.navigationController?.popViewController(animated: true)
+        if !Config.isUserListOK{
+            Config.userListArr.removeAll()
+            localUserArr.removeAll()
+           
+        }
+
     }
     
     override func viewDidLoad() {
