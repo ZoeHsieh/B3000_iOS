@@ -517,10 +517,19 @@ struct R: Rswift.Validatable {
       fileprivate init() {}
     }
     
-    /// This struct is generated for `SettingsTableViewController`, and contains static references to 1 segues.
+    /// This struct is generated for `SettingsTableViewController`, and contains static references to 2 segues.
     struct settingsTableViewController {
+      /// Segue identifier `showHistory`.
+      static let showHistory: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, SettingsTableViewController, ActivityHistoryViewController> = Rswift.StoryboardSegueIdentifier(identifier: "showHistory")
       /// Segue identifier `showUserList`.
       static let showUserList: Rswift.StoryboardSegueIdentifier<UIKit.UIStoryboardSegue, SettingsTableViewController, UsersViewController> = Rswift.StoryboardSegueIdentifier(identifier: "showUserList")
+      
+      /// Optionally returns a typed version of segue `showHistory`.
+      /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.
+      /// For use inside `prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?)`.
+      static func showHistory(segue: UIKit.UIStoryboardSegue) -> Rswift.TypedStoryboardSegueInfo<UIKit.UIStoryboardSegue, SettingsTableViewController, ActivityHistoryViewController>? {
+        return Rswift.TypedStoryboardSegueInfo(segueIdentifier: R.segue.settingsTableViewController.showHistory, segue: segue)
+      }
       
       /// Optionally returns a typed version of segue `showUserList`.
       /// Returns nil if either the segue identifier, the source, destination, or segue types don't match.

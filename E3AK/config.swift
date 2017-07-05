@@ -47,6 +47,8 @@ class Config{
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
     public static var userListArr: [[String:Any]] = []
+    public static var ADMINPWD:String = ""
+    public static var deviceName:String = ""
     public static var userDataArr:[UInt8] = []
     public static var userDeleted: String?
     //public static let SCAN_TIME_INTRO:Int = 10

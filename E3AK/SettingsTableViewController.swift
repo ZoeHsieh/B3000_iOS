@@ -106,6 +106,7 @@ class SettingsTableViewController: BLE_tableViewController {
         delayOnMainQueue(delay: 1, closure: {
              Config.bleManager.connect(bleDevice: self.selectedDevice)
             self.deviceNameLabel.text = self.selectedDevice.name
+            Config.deviceName =  self.deviceNameLabel.text!
         })
         
     SettingsTableViewController.settingStatus = settingStatesCase.setting_none.rawValue
@@ -155,12 +156,15 @@ class SettingsTableViewController: BLE_tableViewController {
         }
     }
     @IBAction func didTapUsers(_ sender: Any) {
-        
+        //performSegue(withIdentifier: "showUserList", sender: nil)
     }
     
     @IBAction func didTapActivityHistory(_ sender: Any) {
-        let vc = ActivityHistoryViewController(nib: R.nib.activityHistoryViewController)
-        navigationController?.pushViewController(vc, animated: true)
+       // let vc = ActivityHistoryViewController(nib: R.nib.activityHistoryViewController)
+         //  vc.bpChar = self.bpChar
+       // navigationController?.pushViewController(vc, animated: true)
+        //performSegue(withIdentifier: "showHistory", sender: nil)
+        
     }
     
     @IBAction func didTapBackup(_ sender: Any) {
@@ -558,7 +562,9 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                         
                     }
+                    Config.deviceName =  deviceNameLabel.text!
                 }
+                
                 break
               /*
             case BPprotocol.cmd_user_data:
@@ -626,6 +632,7 @@ class SettingsTableViewController: BLE_tableViewController {
                 break*/
            
             case BPprotocol.cmd_set_admin_pwd:
+                
                 for i in 0 ... cmd.count - 1{
                     print(String(format:"cmd[%d]=%02x",i,cmd[i]))
                 }
@@ -704,6 +711,7 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                     //}
                 }
+                Config.ADMINPWD = adminPWDLabel.text!
                 break
                 
             case BPprotocol.cmd_fw_version:
@@ -851,7 +859,14 @@ class SettingsTableViewController: BLE_tableViewController {
             ///let vc = nvc.topViewController as! Intro_PasswordViewController
             nvc.userMax = self.userMax
             nvc.bpChar =  self.bpChar
+        }else if (segue.identifier == "showHistory"){
+            let nvc = segue.destination  as!
+            ActivityHistoryViewController
+            nvc.bpChar = self.bpChar
+        
         }
+       
+        
         
     }
 }

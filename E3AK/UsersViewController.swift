@@ -8,6 +8,13 @@
 
 import UIKit
 import CoreBluetooth
+
+
+enum userViewStatesCase:Int {
+    case userNone = 0
+    case userAction = 1
+    
+}
 class UsersViewController: BLE_ViewController {
 
     @IBOutlet weak var tableView: UITableView!
@@ -17,20 +24,33 @@ class UsersViewController: BLE_ViewController {
     @IBOutlet weak var progress_dialog_bar: UIProgressView!
     @IBOutlet weak var progress_dialog_message: UILabel!
     
+   
     @IBOutlet weak var progress_percentage: UILabel!
     
     
+    @IBOutlet weak var SearchBar: UISearchBar!
     @IBOutlet weak var progress_count: UILabel!
-    let  accountArr = ["Chris" , "John", "媽媽桑", "000000000000", "John", "Chris", "Chris"]
+    static var status:Int = 0
+    static var result_userAction:Int = 0
     var localUserArr:[[String:Any]] = []
     var userMax:Int16 = 0
     var userCount:Int16 = 1
     var user_read_retry_cnt = 0
+    var tmpUserIndexPath:IndexPath!
     var isDownloadViewShowing:Bool = false
     var isback = false
+    var isDelelate = false
     @IBAction func progress_hide_Action(_ sender: Any) {
+        isDownloadViewShowing = false
+         self.downloadView.removeFromSuperview();
     }
     @IBAction func progress_cancel_Action(_ sender: Any) {
+        userCount = 1
+        Config.userListArr.removeAll()
+        localUserArr.removeAll()
+        isDownloadViewShowing = false
+        self.downloadView.removeFromSuperview();
+         _ = self.navigationController?.popViewController(animated: true)
     }
    
     @IBAction func backBefore(_ sender: Any) {
@@ -42,34 +62,70 @@ class UsersViewController: BLE_ViewController {
             localUserArr.removeAll()
            
         }
-
+        self.dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        SearchBar.isHidden = true
         title = "使用者"
         tableView.register(R.nib.usersTableViewCell)
           userCount = 1
         print(userMax)
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
-        if userMax > 0{
-            print("test")
+        if !Config.isUserListOK && userMax > 0{
+            Config.userListArr.removeAll()
             showDownloadDialog()
             let cmd = Config.bpProtocol.getUserInfo(UserCount: userCount)
             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
             
             
+        }else{
+            print("Userload")
+             localUserArr = Config.userListArr
+            tableView.reloadData()
         }
         
         
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+         print("UserAppear")
+        switch UsersViewController.status {
+
+        case userViewStatesCase.userAction.rawValue:
+            if UsersViewController.result_userAction == 0{
+            self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+            
+            }else{
+            self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+            
+            }
+            break
+            
+       
+            
+        default:
+            break
+        
+        }
+        localUserArr = Config.userListArr
+        tableView.reloadData()
+        UsersViewController.status = userViewStatesCase.userNone.rawValue
+        
+    }
     @IBAction func didTapAdd(_ sender: Any) {
         
+        if Config.isUserListOK{
         let vc = AddUserViewController(nib: R.nib.addUserViewController)
+            vc.bpChar =  self.bpChar
+            
         let navVC: UINavigationController = UINavigationController(rootViewController: vc)
-        present(navVC, animated: true, completion: nil)
+            present(navVC, animated: true, completion: nil)
+        }else{
+        
+            UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            isDownloadViewShowing = true
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,7 +139,26 @@ class UsersViewController: BLE_ViewController {
          print(String(format:"r-cmd[%d]=%02x\r\n",i,cmd[i]))
          }
         if datalen == Int16(cmd.count - 4) {
+            
             switch cmd[0]{
+            case BPprotocol.cmd_user_del:
+                print("del 123")
+                if cmd[4] == BPprotocol.result_success{
+                    
+                    if  isDelelate{
+                     
+                        Config.userListArr.remove(at: tmpUserIndexPath.row)
+                        localUserArr = Config.userListArr
+                        tableView.reloadData()
+                        self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                    }
+                }
+                else{
+                    
+                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                }
+                isDelelate = false
+                break
                 
             case BPprotocol.cmd_user_info:
                 print("user info")
@@ -197,6 +272,7 @@ class UsersViewController: BLE_ViewController {
         
     }
     
+  
 
     /*
     // MARK: - Navigation
@@ -222,14 +298,28 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: R.nib.usersTableViewCell.identifier, for: indexPath) as! UsersTableViewCell
+       
+        if localUserArr.count > indexPath.row {
+        guard localUserArr[indexPath.row]["name"] != nil else{
+             return cell
+        }
         cell.accountLabel.text = "\(localUserArr[indexPath.row]["name"] as! String)"
+        
+        
         cell.passwordLabel.text = "\(localUserArr[indexPath.row]["pw"] as! String)"
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = R.storyboard.main.userInfoTableViewController()
-        navigationController?.pushViewController(vc!, animated: true)
+        if Config.isUserListOK {
+            
+         let vc = R.storyboard.main.userInfoTableViewController()
+            navigationController?.pushViewController(vc!, animated: true)
+        }else{
+             UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            isDownloadViewShowing = true
+        }
     }
     
 //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -260,6 +350,15 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
 
         let moreRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "刪除", handler:{action, indexpath in
             print("delete");
+            if let userIndex = self.localUserArr[indexPath.row]["index"] as? Int16{
+                print("del0")
+                let cmdData = Config.bpProtocol.setUserDel(UserIndex: userIndex)
+                
+                Config.bleManager.writeData(cmd: cmdData, characteristic: self.bpChar!)
+            }
+            print("del1")
+            self.tmpUserIndexPath = indexPath
+            self.isDelelate = true
         });
         moreRowAction.backgroundColor = UIColor.red
         

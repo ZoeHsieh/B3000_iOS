@@ -27,6 +27,11 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         
         print("connected\r\n")
         peripheral.delegate = self
+        Config.userListArr.removeAll()
+        Config.historyListArr.removeAll()
+        Config.isUserListOK = false
+        Config.isHistoryDataOK = false
+
         delayOnMainQueue(delay: 0.2, closure: {
             peripheral.discoverServices([CBUUID(string:Config.serviceUUID)])
         })

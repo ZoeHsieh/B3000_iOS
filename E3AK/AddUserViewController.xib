@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +12,6 @@
             <connections>
                 <outlet property="accountTextField" destination="Q5S-mn-vHL" id="IJY-Cp-XoH"/>
                 <outlet property="passwordTextField" destination="PLe-5V-jDM" id="1z4-P9-nh4"/>
-                <outlet property="userNameTextField" destination="bGV-TJ-qqP" id="vZ4-qg-dB1"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>
@@ -22,17 +20,11 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Q0I-JX-kb0">
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0I-JX-kb0">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="密碼" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4SS-7z-3zQ">
                             <rect key="frame" x="15" y="115" width="27" height="16"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
-                            <color key="textColor" red="0.42745098040000001" green="0.42745098040000001" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用者名稱(非必填)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nPu-XF-BI4">
-                            <rect key="frame" x="15" y="210" width="116" height="16"/>
                             <fontDescription key="fontDescription" type="system" pointSize="13"/>
                             <color key="textColor" red="0.42745098040000001" green="0.42745098040000001" blue="0.44705882349999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
@@ -63,35 +55,19 @@
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
                         </textField>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="請輸入 (最多只能16個字元)" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="bGV-TJ-qqP">
-                            <rect key="frame" x="0.0" y="233" width="375" height="44"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="44" id="5gT-2G-36b"/>
-                            </constraints>
-                            <nil key="textColor"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                            <textInputTraits key="textInputTraits"/>
-                        </textField>
                     </subviews>
                     <constraints>
                         <constraint firstItem="4SS-7z-3zQ" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" constant="15" id="4Q3-zw-zzI"/>
                         <constraint firstItem="PLe-5V-jDM" firstAttribute="top" secondItem="4SS-7z-3zQ" secondAttribute="bottom" constant="7" id="7XP-cH-OpU"/>
-                        <constraint firstAttribute="trailing" secondItem="bGV-TJ-qqP" secondAttribute="trailing" id="DMk-RV-yxm"/>
                         <constraint firstAttribute="trailing" secondItem="Q5S-mn-vHL" secondAttribute="trailing" id="FHf-Xl-1AN"/>
                         <constraint firstItem="PLe-5V-jDM" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" id="FVu-WV-bGN"/>
                         <constraint firstAttribute="trailing" secondItem="PLe-5V-jDM" secondAttribute="trailing" id="Fzm-Os-8e8"/>
-                        <constraint firstItem="nPu-XF-BI4" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" constant="15" id="GIu-FZ-JK5"/>
                         <constraint firstItem="4SS-7z-3zQ" firstAttribute="top" secondItem="Q5S-mn-vHL" secondAttribute="bottom" constant="28" id="Ibc-Ta-nF9"/>
                         <constraint firstItem="tdA-Je-Fi1" firstAttribute="top" secondItem="Q0I-JX-kb0" secondAttribute="top" constant="20" id="OI8-zb-0QY"/>
                         <constraint firstItem="Q5S-mn-vHL" firstAttribute="centerX" secondItem="Q0I-JX-kb0" secondAttribute="centerX" id="WtY-un-a83"/>
                         <constraint firstItem="Q5S-mn-vHL" firstAttribute="top" secondItem="tdA-Je-Fi1" secondAttribute="bottom" constant="7" id="XdG-fh-BJ5"/>
                         <constraint firstItem="Q5S-mn-vHL" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" id="Ymp-bf-Zko"/>
-                        <constraint firstItem="bGV-TJ-qqP" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" id="bNz-jp-65Z"/>
-                        <constraint firstItem="bGV-TJ-qqP" firstAttribute="top" secondItem="nPu-XF-BI4" secondAttribute="bottom" constant="7" id="dwK-ZY-NJP"/>
-                        <constraint firstAttribute="bottom" secondItem="bGV-TJ-qqP" secondAttribute="bottom" id="jRn-Zo-lCt"/>
                         <constraint firstItem="tdA-Je-Fi1" firstAttribute="leading" secondItem="Q0I-JX-kb0" secondAttribute="leading" constant="15" id="oHU-kf-2VH"/>
-                        <constraint firstItem="nPu-XF-BI4" firstAttribute="top" secondItem="PLe-5V-jDM" secondAttribute="bottom" constant="28" id="ynX-fG-mZ3"/>
                     </constraints>
                 </scrollView>
             </subviews>

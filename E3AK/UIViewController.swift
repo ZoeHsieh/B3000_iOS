@@ -372,6 +372,7 @@ extension UIViewController: StoryboardIdentifiable{
         
         
     }
+   
     func loginAlert(title: String, subTitle: String, placeHolder1: String, placeHolder2: String, keyboard1: UIKeyboardType, keyboard2: UIKeyboardType, handler: @escaping ((_ inputText1: String?, _ inputText2: String?) -> Void)){
         
         
