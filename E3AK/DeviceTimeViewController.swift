@@ -237,7 +237,6 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
      @param indexPath The indexPath to reveal the UIDatePicker.
      */
     func toggleDatePickerForSelectedIndexPath(_ indexPath: IndexPath) {
-        
         tableView.beginUpdates()
         
         let indexPaths = [IndexPath(row: indexPath.row + 1, section: 0)]

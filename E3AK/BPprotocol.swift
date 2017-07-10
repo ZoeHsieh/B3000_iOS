@@ -297,12 +297,12 @@ class BPprotocol{
     public func setUserProperty(UserIndex:Int16, Keypadunlock:UInt8, LimitType:UInt8, startTime:[UInt8], endTime:[UInt8], Times:UInt8, weekly:UInt8) -> Data{
         
         var cmdData:[UInt8] = [UInt8(UserIndex >> 8)] + [UInt8(UserIndex & 0x00FF)]
-        
+       
         cmdData = cmdData + [Keypadunlock] + [LimitType]
         
         cmdData = cmdData + startTime + endTime
         cmdData = cmdData + [Times] + [weekly]
-        print(String(format:"bp time=%02x",Times))
+        //print(String(format:"bp time=%02x",Times))
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_user_property, data: cmdData,datalen: cmdData.count)
         
         return Data(bytes:slipEncode(data:cmd,len:cmd.count))

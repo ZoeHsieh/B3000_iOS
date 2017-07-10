@@ -16,7 +16,7 @@ enum AccessTypes: Int {
     case Recurrent = 3
 }
 
-class AccessTypesViewController: UIViewController {
+class AccessTypesViewController: UIViewController{
 
     let kPickerAnimationDuration = 0.40 // duration for the animation to slide the date picker into view
     let kDatePickerTag           = 99   // view tag identifiying the date picker view
@@ -39,28 +39,35 @@ class AccessTypesViewController: UIViewController {
     var datePickerIndexPath: IndexPath?
     
     var pickerCellRowHeight: CGFloat = 216
-    
-    
-    
+    static var startTimeArr: Array<Int>!
+    static var endTimeArr: Array<Int>!
+    static var openTimes: Int!
+    static var weekly: UInt8!
+    var isKeypadCode:Bool!
+    var limitType: UInt8!
+    var userIndex :Int16 = 0
     
     @IBOutlet weak var tableView: UITableView!
     var accessType: AccessTypes = .Permanent
-    let typesArray = ["永久開門的權限", "起迄時間", "限制開門次數", "週期排成"]
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "進出管制模式"
+        title = GetSimpleLocalizedString("進出管制模式")
         tableView.register(R.nib.accessTimesTableViewCell)
         tableView.register(R.nib.datePickerTableViewCell)
         tableView.register(R.nib.dateTableViewCell)
         
         // setup our data source
         
-        let itemStart = [kTitleKey : "開始", kDateKey : Date()] as [String : Any]
-        let itemEnd = [kTitleKey : "結束", kDateKey : Date()] as [String : Any]
+        let itemStart = [kTitleKey : GetSimpleLocalizedString("開始"), kDateKey : Date()] as [String : Any]
+        let itemEnd = [kTitleKey : GetSimpleLocalizedString("結束"), kDateKey : Date()] as [String : Any]
         dataArray = [itemStart as Dictionary<String, AnyObject>, itemEnd as Dictionary<String, AnyObject>]
         
+        //dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String
+       
+        //dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: itemData[kDateKey] as! Date)
         dateFormatter.dateStyle = .medium // show short-style date format
         dateFormatter.timeStyle = .short
         
@@ -68,7 +75,13 @@ class AccessTypesViewController: UIViewController {
         // format in the table view cells
         //
         NotificationCenter.default.addObserver(self, selector: #selector(AccessTypesViewController.localeChanged(_:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
-
+        
+        UserInfoTableViewController.isSettingAccess = true
+        var isKeypad:UInt8 = 0x00
+        if isKeypadCode{
+            isKeypad = 0x01
+        }
+         UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x02, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
     }
 
     func localeChanged(_ notif: Notification) {
@@ -83,6 +96,8 @@ class AccessTypesViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+   
 
     /*
     // MARK: - Navigation
@@ -95,6 +110,7 @@ class AccessTypesViewController: UIViewController {
     */
 
 }
+
 
 extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate {
     
@@ -117,16 +133,16 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
             switch accessType
             {
             case .Schedule:
-                return "起迄時間"
+                return GetSimpleLocalizedString("起迄時間")
             case .AccessTimes:
-                return "限制開門次數"
+                return GetSimpleLocalizedString("限制開門次數")
             case .Recurrent:
-                return "週期排程"
+                return GetSimpleLocalizedString("週期排程")
             default:
                 return ""
             }
         default:
-            return "請選擇模式"
+            return GetSimpleLocalizedString("請選擇模式")
         }
     }
     
@@ -161,7 +177,7 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
         }
         else
         {
-            return typesArray.count
+            return Config.accessTypesArray.count
         }
     }
     
@@ -175,7 +191,7 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
             cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
             cell?.selectionStyle = .none
             cell?.tintColor = HexColor("00b900")
-            cell?.textLabel?.text = "\(typesArray[indexPath.row])"
+            cell?.textLabel?.text = "\(Config.accessTypesArray[indexPath.row])"
             cell?.textLabel?.textColor = HexColor("4a4a4a")
             
             if indexPath.row == accessType.rawValue
@@ -231,9 +247,32 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
                     
                     // we have either start or end date cells, populate their date field
                     //
+                    let calendar = Calendar.current
+                    let currentdate = Date()
+                    var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from:  currentdate)
+                    print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+                    if indexPath.row == 0 {
+                        print("startARR\r\n")
+                        dateComponents.year = AccessTypesViewController.startTimeArr[0]
+                        dateComponents.month = AccessTypesViewController.startTimeArr[1]
+                        dateComponents.day = AccessTypesViewController.startTimeArr[2]
+                        dateComponents.hour = AccessTypesViewController.startTimeArr[3]
+                        dateComponents.minute = AccessTypesViewController.startTimeArr[4]
+                        dateComponents.second = AccessTypesViewController.startTimeArr[5]
+                    }else if indexPath.row == 1 {
+                        print("endARR\r\n")
+                        dateComponents.year = AccessTypesViewController.endTimeArr[0]
+                        dateComponents.month = AccessTypesViewController.endTimeArr[1]
+                        dateComponents.day = AccessTypesViewController.endTimeArr[2]
+                        dateComponents.hour = AccessTypesViewController.endTimeArr[3]
+                        dateComponents.minute = AccessTypesViewController.endTimeArr[4]
+                        dateComponents.second = AccessTypesViewController.endTimeArr[5]
+                    }
+                    print(String(format:"text after Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
                     dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String
                     dateTableViewCell.textLabel?.textColor = HexColor("4a4a4a")
-                    dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: itemData[kDateKey] as! Date)
+                    //dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: itemData[kDateKey] as! Date)
+                    dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
                     dateTableViewCell.detailTextLabel?.textColor = HexColor("4a4a4a")
                     dateTableViewCell.detailTextLabel?.font = .systemFont(ofSize: 17)
                     cell = dateTableViewCell
@@ -256,8 +295,10 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
             case .AccessTimes:
                 let accessTimesTableViewCell = tableView.dequeueReusableCell(withIdentifier: R.nib.accessTimesTableViewCell.identifier, for: indexPath) as! AccessTimesTableViewCell
                 accessTimesTableViewCell.accessTimesTextField.becomeFirstResponder()
+                
+                accessTimesTableViewCell.setTimesValue(times: AccessTypesViewController.openTimes)
                 cell = accessTimesTableViewCell
-
+                
             case .Recurrent:
                 cell = UITableViewCell(style: .value1, reuseIdentifier: "cell")
                 cell?.selectionStyle = .none
@@ -265,20 +306,20 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
                 
                 switch indexPath.row {
                 case 0:
-                    cell?.textLabel?.text = "開始"
+                    cell?.textLabel?.text = GetSimpleLocalizedString("開始")
                     cell?.detailTextLabel?.text = "上午4:00"
                     cell?.detailTextLabel?.textColor = HexColor("4a4a4a")
                     cell?.accessoryType = .none
                     
                 case 1:
-                    cell?.textLabel?.text = "結束"
+                    cell?.textLabel?.text = GetSimpleLocalizedString("結束")
                     cell?.detailTextLabel?.text = "下午4:00"
                     cell?.detailTextLabel?.textColor = HexColor("4a4a4a")
                     cell?.accessoryType = .none
                     
                 case 2:
-                    cell?.textLabel?.text = "週期"
-                    cell?.detailTextLabel?.text = "每週"
+                    cell?.textLabel?.text = GetSimpleLocalizedString("週期")
+                    cell?.detailTextLabel?.text = GetSimpleLocalizedString("每週")
                     cell?.detailTextLabel?.textColor = HexColor("8f8e94")
                     cell?.accessoryType = .disclosureIndicator
                     cell?.selectionStyle = .default
@@ -298,33 +339,54 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
+        
+        var isKeypad:UInt8 = 0x00
+        if isKeypadCode{
+            isKeypad = 0x01
+        }
+
         if indexPath.section == 0
         {
+
             if accessType.rawValue != indexPath.row
             {
+
                 if let unSelectedCell = tableView.cellForRow(at: IndexPath(row: accessType.rawValue, section: 0))
                 {
                     unSelectedCell.accessoryType = .none
                 }
                 tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
                 accessType = AccessTypes(rawValue: indexPath.row)!
+                //limitType = 0x00
                 
-                tableView.reloadData()
+              
+                UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x00, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
+                    tableView.reloadData()
             }
+            
+            updateDatePicker()
         }
         else
-        {
+        {   print("data1\r\n")
             switch accessType
             {
             case .Schedule:
-                
+                  UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x01, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
+                  
                 let cell = tableView.cellForRow(at: indexPath)
-                if cell?.reuseIdentifier == kDateCellID {
+                if cell?.reuseIdentifier == kDateCellID{
+                       
                     displayInlineDatePickerForRowAtIndexPath(indexPath)
                 } else {
+                    print("data\r\n")
                     tableView.deselectRow(at: indexPath, animated: true)
                 }
-//            case .AccessTimes:
+            case .AccessTimes:
+                
+                       //limitType = 0x02
+                       
+                       UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x02, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
+                       
                 
             case .Recurrent:
                 if indexPath.row == 2
@@ -386,7 +448,7 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
      @param indexPath The indexPath to reveal the UIDatePicker.
      */
     func toggleDatePickerForSelectedIndexPath(_ indexPath: IndexPath) {
-        
+        print("toggleDatePickerForSelectedIndexPath")
         self.tableView.beginUpdates()
         
         let indexPaths = [IndexPath(row: indexPath.row + 1, section: 1)]
@@ -394,7 +456,11 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
         // check if 'indexPath' has an attached date picker below it
         if hasPickerForIndexPath(indexPath) {
             // found a picker below it, so remove it
+            
+            
             self.tableView.deleteRows(at: indexPaths, with: .fade)
+            
+            
         } else {
             // didn't find a picker below it, so we should insert it
             self.tableView.insertRows(at: indexPaths, with: .fade)
@@ -408,8 +474,35 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
         if let indexPath = datePickerIndexPath {
             let associatedDatePickerCell = self.tableView.cellForRow(at: indexPath)
             if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as! UIDatePicker? {
-                let itemData = dataArray[self.datePickerIndexPath!.row - 1]
-                targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)
+                let calendar = Calendar.current
+                var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from: targetedDatePicker.date )
+                print(String(format:"before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+                print(String(format:"index=%d",indexPath.row))
+                if indexPath.row == 1 {
+                    print("update start arr")
+                 dateComponents.year = AccessTypesViewController.startTimeArr[0]
+                 dateComponents.month = AccessTypesViewController.startTimeArr[1]
+                 dateComponents.day = AccessTypesViewController.startTimeArr[2]
+                 dateComponents.hour = AccessTypesViewController.startTimeArr[3]
+                 dateComponents.minute = AccessTypesViewController.startTimeArr[4]
+                 dateComponents.second = AccessTypesViewController.startTimeArr[5]
+                }else if indexPath.row == 2 {
+                     print("update end arr")
+                    dateComponents.year = AccessTypesViewController.endTimeArr[0]
+                    dateComponents.month = AccessTypesViewController.endTimeArr[1]
+                    dateComponents.day = AccessTypesViewController.endTimeArr[2]
+                    dateComponents.hour = AccessTypesViewController.endTimeArr[3]
+                    dateComponents.minute = AccessTypesViewController.endTimeArr[4]
+                    dateComponents.second = AccessTypesViewController.endTimeArr[5]
+                }
+                print(String(format:"after Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+                 targetedDatePicker.date = calendar.date(from: dateComponents)!
+                
+                 targetedDatePicker.setDate( targetedDatePicker.date, animated: false)
+                
+                /*let itemData = dataArray[self.datePickerIndexPath!.row - 1]
+                targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)*/
+                
             }
         }
     }
@@ -459,9 +552,13 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
     }
 }
 
-extension AccessTypesViewController: DatePickerTableViewCellDelegate{
+extension AccessTypesViewController:DatePickerTableViewCellDelegate{
     
     func didSelectDate(_ sender: UIDatePicker) {
+        var isKeypad:UInt8 = 0x00
+        if isKeypadCode{
+            isKeypad = 0x01
+        }
         
         var targetedCellIndexPath: IndexPath?
         
@@ -476,13 +573,42 @@ extension AccessTypesViewController: DatePickerTableViewCellDelegate{
         
         let cell = tableView.cellForRow(at: targetedCellIndexPath!)
         let targetedDatePicker = sender
-        
+        print(String(format:"row=%d\r\n",targetedCellIndexPath!.row))
         // update our data model
+        
         var itemData = dataArray[targetedCellIndexPath!.row]
         itemData[kDateKey] = targetedDatePicker.date as AnyObject?
         dataArray[targetedCellIndexPath!.row] = itemData
         
         // update the cell's date string
         cell?.detailTextLabel?.text = dateFormatter.string(from: targetedDatePicker.date)
+       
+        let calendar = Calendar.current
+        
+        let dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from: targetedDatePicker.date )
+        print(String(format:"Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+        if targetedCellIndexPath!.row == 0{
+        AccessTypesViewController.startTimeArr[0] = dateComponents.year!
+        AccessTypesViewController.startTimeArr[1] = dateComponents.month!
+        AccessTypesViewController.startTimeArr[2] = dateComponents.day!
+        AccessTypesViewController.startTimeArr[3] = dateComponents.hour!
+        AccessTypesViewController.startTimeArr[4] = dateComponents.minute!
+            AccessTypesViewController.startTimeArr[5] = dateComponents.second!
+        } else if targetedCellIndexPath!.row == 1{
+        
+            AccessTypesViewController.endTimeArr[0] = dateComponents.year!
+            AccessTypesViewController.endTimeArr[1] = dateComponents.month!
+            AccessTypesViewController.endTimeArr[2] = dateComponents.day!
+            AccessTypesViewController.endTimeArr[3] = dateComponents.hour!
+            AccessTypesViewController.endTimeArr[4] = dateComponents.minute!
+            AccessTypesViewController.endTimeArr[5] = dateComponents.second!
+        }
+        
+        UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x01, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
+        
+
+        print("device Time= \(cell?.detailTextLabel?.text)")
+
+        
     }
 }

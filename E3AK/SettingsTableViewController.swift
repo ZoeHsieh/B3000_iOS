@@ -42,6 +42,62 @@ class SettingsTableViewController: BLE_tableViewController {
     
     @IBOutlet weak var backBar: UINavigationItem!
    
+    @IBOutlet weak var label_progress_dg_title: UILabel!
+    
+    @IBOutlet weak var label_progress_dg_msg: UILabel!
+    @IBOutlet weak var pg_bar_progress_dg_view: UIProgressView!
+    
+    @IBOutlet weak var label_progress_dg_percent: UILabel!
+    
+    @IBOutlet weak var label_progress_dg_count: UILabel!
+    
+    
+    @IBOutlet weak var downloadView: UIView!
+    
+    @IBOutlet var msgView: UIView!
+    
+    @IBOutlet weak var label_msg_dg_title: UILabel!
+    
+    @IBOutlet weak var label_msg_dg_msg: UILabel!
+    
+
+   
+    @IBAction func progress_cancel_Action(_ sender: Any) {
+        if isRestore{
+            isRestore = false
+            isErase = false
+            if fwVersionInt > Config.check_version{
+                Config.bleManager.disconnectByCMD(char: bpChar)
+            }else{
+                
+                Config.bleManager.disconnect()
+            }
+            
+            backToMainPage()
+            self.restoreCount = 0;
+        }else{
+            self.backupCount = 0;
+            isCancel = true
+        }
+        self.msgView.removeFromSuperview();
+        
+
+    }
+    @IBAction func msg_dg_okAction(_ sender: Any) {
+        
+        self.msgView.removeFromSuperview();
+        self.backupCount = 0;
+        self.backupMax = 0
+        
+        if isRestore{
+            isRestore = false
+            isErase = false
+            self.backToMainPage()
+        }
+
+        
+    }
+    
     
     var selectedDevice:CBPeripheral!
     var tmpDeviceName:String?
@@ -54,6 +110,14 @@ class SettingsTableViewController: BLE_tableViewController {
     var currConfig:[UInt8]!
     var fwVersionInt:Float = 0
     var userMax:Int16 = 0
+    var isbackup = false
+    var backupMax:Int16 = 0
+    var backupCount:Int16 = 0
+    var restoreCount:Int16 = 0
+    var restoreMax:Int16 = 0
+    var isRestore = false
+    var isErase = false
+    var isCancel = false
     static var  settingStatus:Int = 0
     @IBOutlet weak var deviceTimeLabel: UILabel!
     
@@ -118,6 +182,7 @@ class SettingsTableViewController: BLE_tableViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = false
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
+        Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         switch SettingsTableViewController.settingStatus{
             
         case settingStatesCase.config_device
@@ -182,7 +247,14 @@ class SettingsTableViewController: BLE_tableViewController {
                 } else if (buttonIndex == controller.destructiveButtonIndex) {
                     print("Delete Tapped")
                 } else if (buttonIndex >= controller.firstOtherButtonIndex) {
-                    print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
+                    self.isbackup = true
+                    self.backupMax = 0
+                    self.backupCount = 0
+                    
+                    let cmd = Config.bpProtocol.getUserCount()
+                    Config.bleManager.writeData(cmd: cmd, characteristic: self.bpChar!)
+                    
+
                 }
         })
     }
@@ -203,6 +275,47 @@ class SettingsTableViewController: BLE_tableViewController {
                     print("Delete Tapped")
                 } else if (buttonIndex >= controller.firstOtherButtonIndex) {
                     print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
+                    let alertController = UIAlertController(title: self.GetSimpleLocalizedString("restore_check_dialog_title"), message: "", preferredStyle: .alert)
+                    
+                    let enableAction = UIAlertAction(title: self.GetSimpleLocalizedString("common_confirm"), style: .default, handler: { action in
+                        
+                        let isBackupDone = (UserDefaults.standard.object(forKey: Config.backupOK) as? Bool)!
+                        
+                        if isBackupDone{
+                            self.isRestore = true
+                            self.restoreCount = 0
+                            
+                            Config.userDataArr.removeAll()
+                            Config.userDataArr = (UserDefaults.standard.object(forKey: Config.User_ListTag_backup) as? [UInt8])!
+                            let userMax:Int16 = Int16(Config.userDataArr.count/BPprotocol.userDataSize)
+                            print(String(format:"userMax=%d\r\n",userMax))
+                            self.restoreMax = userMax + 3/*4*/
+                            
+                            self.showProgressDialog(Title:self.GetSimpleLocalizedString("restore_dialog_title"), Message:self.GetSimpleLocalizedString("restore_dialog_message"), countMax: self.restoreMax)
+                            var dataDict = UserDefaults.standard.object(forKey: Config.ConfigTag_backup) as? [String:Any]!
+                            
+                            //DeviceConfig
+                            Config.doorSensor = dataDict?[Config.ConfigDoorSensorTag] as? UInt8
+                            Config.doorLockType = dataDict?[Config.ConfigDoorLockTypeTag]  as? UInt8
+                            Config.doorOpenTime = dataDict?[Config.ConfigDoorOpenTimeTag] as? UInt16
+                            Config.TamperSensor = dataDict?[Config.ConfigGSensorTag] as? UInt8
+                            Config.ADMINPWD = (UserDefaults.standard.object(forKey: Config.ADMIN_PWDTag_backup) as? String)!
+                            //DeviceData.sharedInstance.deviceName = (UserDefaults.standard.object(forKey: DeviceData.DeviceNameTag_backup) as? String)!
+                            let cmd = Config.bpProtocol.setDeviceConfig(door_option: Config.doorSensor! , lockType: Config.doorLockType!, delayTime: Int16(Config.doorOpenTime!), G_sensor_option: Config.TamperSensor!)
+                            Config.bleManager.writeData(cmd: cmd, characteristic: self.bpChar!)
+                            
+                        }else{
+                            alertController.message = self.GetSimpleLocalizedString("restore_status_file_not_found")
+                        }
+                        
+                        
+                    })
+                    
+                    let cancelAction = UIAlertAction(title: self.GetSimpleLocalizedString("common_cancel"), style: .cancel, handler: nil)
+                    
+                    alertController.addAction(cancelAction)
+                    alertController.addAction(enableAction)
+                    self.present(alertController, animated: true, completion: nil)
                 }
         })
     }
@@ -470,19 +583,22 @@ class SettingsTableViewController: BLE_tableViewController {
             switch cmd[0]{
             case BPprotocol.cmd_admin_login:
                 
-               // if cmd[4] == BPprotocol.result_success{
+                if cmd[4] == BPprotocol.result_success{
                     let cmd = Config.bpProtocol.getUserCount()
                     Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                     
                    
-                    //DeviceData.sharedInstance.isHistoryDataOK = false
-                    
-                    
-              //  }else{
-                   // Config.bleManager.disconnect()
-                   // DeviceData.sharedInstance.clearAllData()
-               //     backToMainPage()
-                //}
+                    Config.isHistoryDataOK = false
+                    isbackup = false
+                    isRestore = false
+                    isErase = false
+                }else{
+                    Config.bleManager.disconnect()
+                    Config.userDataArr.removeAll()
+                    Config.userListArr.removeAll()
+                    Config.historyListArr.removeAll()
+                    backToMainPage()
+                }
                 
                 break
                 
@@ -502,11 +618,44 @@ class SettingsTableViewController: BLE_tableViewController {
                         data.append(cmd[i + 4])
                     }
                     
+                    if isbackup{
+                        if !isCancel {
+                        Config.doorSensor = cmd[4]
+                        Config.doorLockType = cmd[5]
+                        Config.doorOpenTime = UInt16(cmd[6]) * 256 + UInt16(cmd[7])
+                        
+                        Config.TamperSensor = cmd[8]
+                        
+                        let dict: [String : Any] = [
+                           Config.ConfigDoorSensorTag    :Config.doorSensor ?? 0,
+                            Config.ConfigDoorLockTypeTag  :Config.doorLockType ?? 0,
+                            Config.ConfigDoorOpenTimeTag  :Config.doorOpenTime ?? 0,
+                            Config.ConfigGSensorTag      :Config.TamperSensor ?? 0,
+                            Config.ConfigADMIN_MACTag      :Config.userMac
+                        ]
+                        UserDefaults.standard.set(dict, forKey: Config.ConfigTag_backup)
+                        backupCount += 1
+                        updateBackupDialog()
+                        let cmd = Config.bpProtocol.getAdminPWD()
+                            Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
+                        }
+                        
+                    }else{
+
                     UI_updateDevConfig(data: data)
-                    setUIVisable(enable: true)
+                        setUIVisable(enable: true)
+                    }
                 }
             else{
                 
+                if isRestore{
+                        restoreCount += 1
+                        updateRestoreDialog()
+                        let pwdUint8 = Util.StringtoUINT8(data: Config.ADMINPWD, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
+                        let cmd = Config.bpProtocol.setAdminPWD(Password: pwdUint8)
+                        Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
+                        
+                }else{
                 for j in 0 ... (SettingsTableViewController.tmpConfig.count) - 1 {
                     
                     print(String(format:"tmp=%02X",(SettingsTableViewController.tmpConfig[j])))
@@ -522,19 +671,20 @@ class SettingsTableViewController: BLE_tableViewController {
                     showToastDialog(title:"",message:"fail"/*GetSimpleLocalizedString("program_fail")*/)
                 }
 
+                    }
                 }
             case BPprotocol.cmd_user_counter:
-               /* if isbackup{
+               if isbackup{
                     let userMax = Int(Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF)))
                     backupMax = userMax + 2//3
                     
                     showProgressDialog(Title:GetSimpleLocalizedString("backup_dialog_title"), Message:GetSimpleLocalizedString("backup_dialog_message"),countMax: backupMax)
                     /* let cmd = bpProtocol.getDeviceName()
                      writeData(cmd: cmd, characteristic: bpChar!)*/
-                    let cmd = bpProtocol.getDeviceConfig()
-                    writeData(cmd: cmd, characteristic: bpChar!)
+                    let cmd = Config.bpProtocol.getDeviceConfig()
+                    Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                     
-                }else{*/
+                }else{
                     
                      userMax = Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF))
                     print("user Max =%d",userMax)
@@ -545,7 +695,7 @@ class SettingsTableViewController: BLE_tableViewController {
                     let cmd = Config.bpProtocol.getAdminPWD()
                     Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                     
-                //}
+                }
                 
                 break
                 
@@ -556,9 +706,11 @@ class SettingsTableViewController: BLE_tableViewController {
                     if cmd[4] == BPprotocol.result_success{
                        
                         print("set device name ok")
+                        if !isRestore{
+                           
                         deviceNameLabel.text  = tmpDeviceName!
                       
-                        
+                        }
                         
                         
                     }
@@ -566,16 +718,17 @@ class SettingsTableViewController: BLE_tableViewController {
                 }
                 
                 break
-              /*
+              
             case BPprotocol.cmd_user_data:
               
                 if cmd[1] == BPprotocol.type_read{
                     if isbackup{
+                        if !isCancel {
                         print("user data read")
                         if cmd[4] != 0xFF /*&& cmd[4] != 0x00*/ {
                             
                             for i in 4 ... cmd.count - 1{
-                                DeviceData.sharedInstance.userDataArr.append(cmd[i])
+                                Config.userDataArr.append(cmd[i])
                             }
                             
                             print(String(format:"b_cnt=%d\r\n",backupCount))
@@ -585,19 +738,20 @@ class SettingsTableViewController: BLE_tableViewController {
                             if backupCount >= backupMax{
                                 
                                 isbackup = false
-                                self.progressView.removeFromSuperview();
-                                UserDefaults.standard.set(DeviceData.sharedInstance.userDataArr, forKey: DeviceData.User_ListTag_backup)
+                                self.downloadView.removeFromSuperview();
+                                UserDefaults.standard.set(Config.userDataArr, forKey: Config.User_ListTag_backup)
                                 
-                                UserDefaults.standard.set(true, forKey: DeviceData.backupOK)
+                                UserDefaults.standard.set(true, forKey: Config.backupOK)
                                 
                             }else{
                                 
                                 
-                                let cmd = bpProtocol.getUserData(UserCount: backupCount - 2)
-                                writeData(cmd: cmd, characteristic: bpChar!)
+                                let cmd = Config.bpProtocol.getUserData(UserCount: backupCount - 2)
+                                Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                             }
                             
                             
+                        }
                         }
                     }
                     
@@ -606,30 +760,30 @@ class SettingsTableViewController: BLE_tableViewController {
                     updateRestoreDialog()
                     
                     if restoreCount >= restoreMax {
-                        self.progressView.removeFromSuperview();
+                        self.downloadView.removeFromSuperview();
                         
                         
                     }else{
                         let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize
                         
                         print(String(format:"addr=%d\r\n", user_addr))
-                        print(String(format:"array cnt=%d\r\n", DeviceData.sharedInstance.userDataArr.count))
+                        print(String(format:"array cnt=%d\r\n", Config.userDataArr.count))
                         var userData = [UInt8]()
                         for i in 0 ... BPprotocol.userDataSize - 1{
                             
-                            userData.append(DeviceData.sharedInstance.userDataArr[user_addr+i])
+                            userData.append(Config.userDataArr[user_addr+i])
                             
                             print(String(format:"data[%d]=%02X\r\n",i,userData[i]))
                             
                             
                         }
-                        let cmd = bpProtocol.setUserData(UserData: userData)
-                        writeData(cmd:cmd,characteristic: bpChar!)
+                        let cmd = Config.bpProtocol.setUserData(UserData: userData)
+                        Config.bleManager.writeData(cmd:cmd,characteristic: bpChar!)
                     }
                     
                     
                 }
-                break*/
+                break
            
             case BPprotocol.cmd_set_admin_pwd:
                 
@@ -639,29 +793,25 @@ class SettingsTableViewController: BLE_tableViewController {
                 if cmd[1] == BPprotocol.type_write{
                     if cmd[4] == BPprotocol.result_success{
                         
-                        print(tmpAdminPWD)
-                       adminPWDLabel.text = tmpAdminPWD
-                      
-                    }
-                        /*if isRestore{
+                        
+                    
+                        if isRestore{
                             restoreCount += 1
                             updateRestoreDialog()
                             /*let nameUint8 = Util.StringtoUINT8(data: DeviceData.sharedInstance.deviceName!, len: 16, fillData: BPprotocol.nullData)
                              
                              let cmd = bpProtocol.setDeviceName(deviceName: nameUint8, nameLen: (DeviceData.sharedInstance.deviceName?.characters.count)!)
                              writeData(cmd: cmd, characteristic: bpChar!)*/
-                            let cmd = bpProtocol.setEraseUserList()
-                            writeData(cmd:cmd,characteristic: bpChar!)
+                            let cmd = Config.bpProtocol.setEraseUserList()
+                            Config.bleManager.writeData(cmd:cmd,characteristic: bpChar!)
                             isErase = true
                             
                         }else{
-                            
                             print(tmpAdminPWD)
-                            newAdminPWD = tmpAdminPWD
-                            mainTable.reloadData()
-                            DeviceData.sharedInstance.adminPWD =  newAdminPWD
+                            adminPWDLabel.text = tmpAdminPWD
+
                         }
-                    }*/
+                    }
                 }else{
                     var data = [UInt8]()
                     for i in 4 ... cmd.count - 1{
@@ -678,28 +828,30 @@ class SettingsTableViewController: BLE_tableViewController {
                     
                     print(pwd)
                     
-                    /*if isbackup {
-                        DeviceData.sharedInstance.adminPWD = pwd
-                        UserDefaults.standard.set( pwd, forKey: DeviceData.ADMIN_PWDTag_backup)
+                    if isbackup {
+                        if !isCancel{
+                        Config.ADMINPWD = pwd
+                        UserDefaults.standard.set(  Config.ADMINPWD, forKey: Config.ADMIN_PWDTag_backup)
                         backupCount += 1
-                        DeviceData.sharedInstance.userDataArr.removeAll()
+                        Config.userDataArr.removeAll()
                         updateBackupDialog()
                         if backupMax > 2/*3*/ {
                             
                             print(String(format:"backup=%d\r\n",backupCount - 1/*2*/))
-                            let cmd = bpProtocol.getUserData(UserCount: backupCount - 1/*2*/)
-                            writeData(cmd: cmd, characteristic: bpChar!)
+                            let cmd = Config.bpProtocol.getUserData(UserCount: backupCount - 1/*2*/)
+                            Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                         }
-                        else
-                        {   DeviceData.sharedInstance.userDataArr.removeAll()
-                            UserDefaults.standard.set(DeviceData.sharedInstance.userDataArr, forKey: DeviceData.User_ListTag_backup)
+                        else{
+                            Config.userDataArr.removeAll()
+                            UserDefaults.standard.set(Config.userDataArr, forKey: Config.User_ListTag_backup)
                             
                             
-                            UserDefaults.standard.set(true, forKey: DeviceData.backupOK)
-                            self.progressView.removeFromSuperview();
+                            UserDefaults.standard.set(true, forKey: Config.backupOK)
+                            self.downloadView.removeFromSuperview();
                             isbackup = false
-                        }*/
-                   // }else{
+                            }
+                        }
+                    }else{
                         
                         
                          adminPWDLabel.text = pwd
@@ -709,7 +861,7 @@ class SettingsTableViewController: BLE_tableViewController {
                         let cmd = Config.bpProtocol.getFW_version()
                         Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                         
-                    //}
+                    }
                 }
                 Config.ADMINPWD = adminPWDLabel.text!
                 break
@@ -796,7 +948,7 @@ class SettingsTableViewController: BLE_tableViewController {
                 
                 
                 break
-                /*
+                
             case BPprotocol.cmd_erase_users:
                 restoreCount += 1
                 print("restoreCount")
@@ -807,22 +959,22 @@ class SettingsTableViewController: BLE_tableViewController {
                     let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize
                     
                     
-                    let userIndex = Int16((UInt16(DeviceData.sharedInstance.userDataArr[user_addr]) << 8 ) | (UInt16(DeviceData.sharedInstance.userDataArr[user_addr+1]) & 0x00FF))
+                    let userIndex = Int16((UInt16(Config.userDataArr[user_addr]) << 8 ) | (UInt16(Config.userDataArr[user_addr+1]) & 0x00FF))
                     var userData = [UInt8]()
                     for i in 0 ... BPprotocol.userDataSize - 1{
                         
-                        userData.append(DeviceData.sharedInstance.userDataArr[user_addr+i])
+                        userData.append(Config.userDataArr[user_addr+i])
                         
                         
                     }
-                    let cmd = bpProtocol.setUserData( UserData: userData)
-                    writeData(cmd:cmd,characteristic: bpChar!)
+                    let cmd = Config.bpProtocol.setUserData( UserData: userData)
+                    Config.bleManager.writeData(cmd:cmd,characteristic: bpChar!)
                 }else{
-                    self.progressView.removeFromSuperview();
+                    self.downloadView.removeFromSuperview();
                     
                     
                 }
-                break*/
+                break
                 
                 
             default:
@@ -832,7 +984,93 @@ class SettingsTableViewController: BLE_tableViewController {
         }
 
     }
+    func showProgressDialog(Title:String, Message:String, countMax:Int16) {
+        
+        
+        //Set Initial Value
+        label_progress_dg_title.text = Title
+        label_progress_dg_msg.text = Message
+        
+        downloadView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
+        
+        UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+        
+        pg_bar_progress_dg_view.progress = 0.0
+        pg_bar_progress_dg_view.setProgress(0, animated: true)
+        label_progress_dg_percent.text = "0%"
+        label_progress_dg_count.text = "\(0) / \(countMax)"
+        
+        isCancel = false
+        
+    }
     
+    
+    func showMessageDialog(Title:String, Message:String) {
+        
+        
+        //Set Initial Value
+        label_msg_dg_title.text = Title
+        label_msg_dg_msg.text = Message
+        
+        msgView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
+        
+        UIApplication.shared.keyWindow?.addSubview(self.msgView);
+        
+        
+    }
+    
+    func updateBackupDialog(){
+        
+        let progressValue: Float = Float(backupCount) / Float(backupMax)
+        let prog_percent: Int = Int(progressValue * 100)
+        
+        print(prog_percent)
+        
+        //Update Info
+        pg_bar_progress_dg_view.setProgress(progressValue, animated: true)
+        label_progress_dg_percent.text = "\(prog_percent)%"
+        label_progress_dg_count.text = "\(backupCount) / \(backupMax)"
+        
+        
+        if backupCount >= backupMax{
+            
+            delayOnMainQueue(delay: 0) {
+                self.showMessageDialog(Title: self.GetSimpleLocalizedString("backup_status"), Message:self.GetSimpleLocalizedString("backup_completed"))
+                
+            }
+        }
+        
+    }
+    
+    func updateRestoreDialog(){
+        let progressValue: Float = Float(restoreCount) / Float(restoreMax)
+        let prog_percent: Int = Int(progressValue * 100)
+        
+        print(prog_percent)
+        
+        //Update Info
+        pg_bar_progress_dg_view.setProgress(progressValue, animated: true)
+        label_progress_dg_percent.text = "\(prog_percent)%"
+        label_progress_dg_count.text = "\(restoreCount) / \(restoreMax)"
+        
+        if restoreCount >= restoreMax{
+            print(Config.deviceName)
+            let nameUint8 = Util.StringtoUINT8(data: Config.deviceName , len: 16, fillData: BPprotocol.nullData)
+            
+            let cmd = Config.bpProtocol.setDeviceName(deviceName: nameUint8, nameLen: (Config.deviceName.utf8.count))
+            Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
+            
+            delayOnMainQueue(delay: 0) {
+                
+                self.showMessageDialog(Title: self.GetSimpleLocalizedString("restore_status"), Message:self.GetSimpleLocalizedString("restore_completed"))
+                
+            }
+        }
+        
+        
+        
+    }
+
     func UI_updateDevConfig( data:[UInt8]){
         
         if data[0] != 0x00{

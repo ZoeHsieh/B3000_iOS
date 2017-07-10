@@ -290,6 +290,14 @@ class HomeViewController: BLE_ViewController{
         })
     }
     
+    @IBAction func LongPress(_ sender: Any) {
+    
+        if !isKeepOpen{
+         isKeepOpen = true
+          Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
+        }
+    }
+    
     @IBAction func deviceNotFound(_ sender: Any) {
         //deviceFoundStatus = .DeviceNotFound
         //changeViewContentSettings()
@@ -388,7 +396,7 @@ class HomeViewController: BLE_ViewController{
             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
         }
         
-        isKeepOpen = false
+       
         isOpenDoor = false
         isAdminEnroll = false
         isEnroll = false
@@ -437,16 +445,17 @@ class HomeViewController: BLE_ViewController{
                 break
             case BPprotocol.cmd_device_config:
                 var cmdData = Data()
-                for i in 0 ... cmd.count - 1{
+                for i in 0 ... cmd.count - 5{
                   cmdData.append(cmd[i+4])
                 }
                 if cmd[1] == BPprotocol.type_read{
                     if cmd[5] == BPprotocol.door_status_KeepOpen {
+                        print("keepOpen\r\n")
                         cmdData[1] = UInt8(BPprotocol.door_status_delayTime)
                         
                     }else {
                        cmdData[1] = UInt8(BPprotocol.door_status_KeepOpen)
-                        
+                        print("delay\r\n")
                     }
                     
                     for j in 0 ... cmd.count - 1 {
@@ -458,8 +467,10 @@ class HomeViewController: BLE_ViewController{
                     
                     let newCmd = Config.bpProtocol.setDeviceConfig(door_option: cmdData[0], lockType: cmdData[1], delayTime: Int16(UInt16(cmdData[2]) * 256 + UInt16(cmdData[3])), G_sensor_option: cmdData[4])
                         Config.bleManager.writeData(cmd: newCmd, characteristic: bpChar)
-                    isKeepOpen = false
                     
+                }else if cmd[1] == BPprotocol.type_write{
+                    isKeepOpen = false
+
                 }
                 break
                 
@@ -504,6 +515,7 @@ class HomeViewController: BLE_ViewController{
     }
 
     func disconnectTask(){
+         isKeepOpen = false
         print("disconnect time out");
         disconnect()
         disTimer = nil

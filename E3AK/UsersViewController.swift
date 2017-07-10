@@ -90,6 +90,8 @@ class UsersViewController: BLE_ViewController {
     }
     override func viewWillAppear(_ animated: Bool) {
          print("UserAppear")
+        Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
+        Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         switch UsersViewController.status {
 
         case userViewStatesCase.userAction.rawValue:
@@ -315,6 +317,8 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         if Config.isUserListOK {
             
          let vc = R.storyboard.main.userInfoTableViewController()
+             vc?.selectUser = indexPath.row
+             vc?.bpChar = self.bpChar
             navigationController?.pushViewController(vc!, animated: true)
         }else{
              UIApplication.shared.keyWindow?.addSubview(self.downloadView);

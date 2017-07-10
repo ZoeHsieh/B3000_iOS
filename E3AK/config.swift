@@ -43,13 +43,28 @@ class Config{
     public static let adminSettingMenuItem:Int = 8
     public static let DOOR_DELAY_TIME_LIMIT:Int16 = 1800
     public static let  doorActionItem: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
+    public static let accessTypesArray = ["永久開門的權限", "起迄時間", "限制開門次數", "週期排成"]
     public static var isUserListOK = false
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
     public static var userListArr: [[String:Any]] = []
     public static var ADMINPWD:String = ""
     public static var deviceName:String = ""
+    public static var doorSensor: UInt8?
+    public static var doorLockType: UInt8?
+    public static var doorOpenTime: UInt16?
+    public static var TamperSensor: UInt8?
     public static var userDataArr:[UInt8] = []
     public static var userDeleted: String?
+    public static let ConfigTag_backup:String = "DEVICE_CONFIG"
+    public static let DeviceNameTag_backup:String = "DEVICE_NAME"
+    public static let ADMIN_PWDTag_backup:String = "ADMIN_PWD"
+    public static let User_ListTag_backup:String = "USERLIST"
+    public static let ConfigDoorSensorTag:String = "doorSensor"
+    public static let ConfigDoorLockTypeTag:String = "doorLockType"
+    public static let ConfigDoorOpenTimeTag:String = "doorOpenTime"
+    public static let ConfigGSensorTag:String = "GSensor"
+    public static let ConfigADMIN_MACTag:String = "adminMac"
+    public static let backupOK = "backupOK"
     //public static let SCAN_TIME_INTRO:Int = 10
 }
