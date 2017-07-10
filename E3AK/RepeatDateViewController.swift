@@ -11,13 +11,23 @@ import UIKit
 class RepeatDateViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let  dateArr = ["一" , "二", "三", "四", "五", "六", "天"]
+   
     var selectedDateArray = [Bool](repeating: false, count: 7)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "選擇週期"
+        print(String(format:"weekly=%02x]\r\n",AccessTypesViewController.weekly))
+        
+        for n: UInt8 in 0...6{
+            if (AccessTypesViewController.weekly & (0x1 << n)) != 0{
+                 selectedDateArray[Int(n)] = true
+            }else{
+                selectedDateArray[Int(n)] = false
+            }
+        }
+
+        title = GetSimpleLocalizedString("選擇週期")
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,13 +55,13 @@ extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dateArr.count
+        return Config.weekArr.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         cell.selectionStyle = .none
-        cell.textLabel?.text = "星期\(dateArr[indexPath.row])"
+        cell.textLabel?.text = Config.weekArr[indexPath.row]
         cell.imageView?.image = selectedDateArray[indexPath.row] ? R.image.tickGreen() : R.image.tickWhiteS()
 
         return cell
@@ -59,6 +69,19 @@ extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         selectedDateArray[indexPath.row] = !selectedDateArray[indexPath.row]
+        print(String(format:"row=%d\r\n",UInt8(indexPath.row)))
+        var n = UInt8(indexPath.row)
+        n = (0x1 << n)
+        if selectedDateArray[indexPath.row]{
+           
+          AccessTypesViewController.weekly? += n
+            
+        }else{
+          AccessTypesViewController.weekly? -= n
+            
+        }
+        UserInfoTableViewController.tmpCMD[24] = AccessTypesViewController.weekly
+        print(String(format:"weekly=%02x\r\n",AccessTypesViewController.weekly))
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 import ChameleonFramework
 import CoreBluetooth
 import UIAlertController_Blocks
+import CoreMotion
 
 enum DeviceSearchingStatus {
     case DeviceSearching
@@ -42,6 +43,15 @@ class HomeViewController: BLE_ViewController{
     var userEnrollData: Data!
     var adminEnrollData: Data!
     var disTimer:Timer? = nil
+    let motionManager = CMMotionManager()
+    var shakeTime = 0
+     var bgAutoTimer = Timer()
+    var isBackground = false
+    
+    var bgTaskID: UIBackgroundTaskIdentifier?
+    var backCount = 0
+    
+    var backgroundTimers: [Timer] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +70,37 @@ class HomeViewController: BLE_ViewController{
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
         Config.bleManager.ScanBLE()
         
+        if motionManager.isDeviceMotionAvailable{
+            motionManager.deviceMotionUpdateInterval = 0.02
+            motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: { (data, error) in
+                if let acc = data?.userAcceleration.z{
+                    if acc > 0.5{
+                        self.shakeTime += 1
+                        print("ShakeTIme: \(self.shakeTime)")
+                        self.delayOnMainQueue(delay: 1, closure: {
+                            self.shakeTime = 0
+                        })
+                        Config.bleManager.ScanBLE()
+
+                        
+                        if self.bgAutoTimer.isValid{
+                            //print("bg alive")
+                            
+                        }else if self.isBackground{
+                            self.StartBgAutoTimer()
+                        }
+                        
+                        //if self.shakeTime == 3{
+                        //self.openTheDoor(true)
+                        //}
+                    }
+                }
+            })
+        }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBG), name: Notification.Name.UIApplicationWillResignActive, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterFG), name: Notification.Name.UIApplicationDidBecomeActive, object: nil)
         
     }
     
@@ -85,7 +126,7 @@ class HomeViewController: BLE_ViewController{
         let name: String = advertisementData["kCBAdvDataLocalName"] as! String
         let uuid: UUID = peripheral.identifier
         
-        // let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
+         let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
         
         //print("expect_level = \(expect_level)")
         
@@ -104,7 +145,7 @@ class HomeViewController: BLE_ViewController{
                 tmp.rssi = avg_rssi;
                 tmp.current_level = Convert_RSSI_to_LEVEL(avg_rssi)
                 
-                //print("RSSI: \(RSSI.intValue), LEVEL: \(tmp.current_level)")
+            //    print("RSSI: \(RSSI.intValue), LEVEL: \(tmp.current_level)")
                 
                 deviceInfoList[du_idx] = tmp;
             }
@@ -113,7 +154,7 @@ class HomeViewController: BLE_ViewController{
                 deviceNameLabel.text = deviceInfoList[0].name
                 
                 //Save to DB
-                //  saveExpectLevelToDbByUUID(uuid.uuidString, expect_level)
+                saveExpectLevelToDbByUUID(uuid.uuidString, expect_level)
             }
             if deviceInfoList.count > 0 {
             deviceFoundStatus = .DeviceFound
@@ -127,7 +168,124 @@ class HomeViewController: BLE_ViewController{
         
     }
 
+    func StartBgAutoTimer() {
+        
+        //Create Timer
+        bgAutoTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(updateBgAutoTimer), userInfo: nil, repeats: true)
+    }
+    func didEnterBG(){
+        
+        print("didEnterBG")
+        
+        isBackground = true
+        
+        //Stop Timer
+       // scanningTimer.invalidate()
+        
+        if(isAutoMode) {
+            
+            //MARK: beginBackgroundTask
+            print("Request BackgroundTask !!")
+            
+            bgTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: {
+                self.backCount = 0
+                
+                Config.bleManager.ScanBLE()
+                
+                //MARK: NEED TODO
+                //self.act(.expire)
+                UIApplication.shared.endBackgroundTask(self.bgTaskID!)
+            })
+            
+            //Start Timer
+            StartBgAutoTimer();
+            
+        }
+        
+        
+        
+        
+        
+        
+        /*
+         guard isAuto else{ return }
+         for name in enrolledDevices{
+         if scanningDeviceInfoList[name] != nil{
+         let timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(bgAuto), userInfo: nil, repeats: true)
+         backgroungDevice.append(name)
+         backgroundTimers.append(timer)
+         }
+         }
+         */
+    }
     
+    func didEnterFG(){
+        
+        print("didEnterFG")
+        
+        isBackground = false
+         Config.bleManager.ScanBLE()
+        //Start Timer
+        // StartScanningTimer();
+        
+        guard isAutoMode else{ return }
+        for timer in backgroundTimers{
+            timer.invalidate()
+        }
+        backgroundTimers = []
+        Config.bleManager.ScanBLE()
+        
+        //Stop Timer
+        bgAutoTimer.invalidate()
+    }
+    
+
+    func updateBgAutoTimer() {
+        
+        // print("updateBgAutoTimer()")
+        Config.bleManager.ScanBLE()
+        if(isAutoMode) {
+            // print(" ---- isBackGround-AutoMode ---- ")
+            var idx: Int = 0;
+            Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
+            isOpenDoor = true
+            //print("Scan-CNT: \(scanningDeviceInfoList.count)")
+        }
+            /*for (item) in deviceInfoList {
+                print("BG-AutoMode Items: \(item)")
+                
+                let curr_ticks: TimeInterval = Date().timeIntervalSince1970
+            }*/
+                //Get Data from DB
+                /*let isUsed: Bool = storeInfo.bool(forKey: (item.UUID.uuidString + expectLevel_isUsed_Suffix))
+                let expect_level: Int? = storeInfo.integer(forKey: (item.UUID.uuidString + expectLevel_Value_Suffix))
+                let last_ticks: TimeInterval? = storeInfo.object(forKey: (item.UUID.uuidString + device_LastIdentify_Ticks_Suffix)) as? TimeInterval ?? 0
+                
+                let diff_ticks:Int = Int(curr_ticks - last_ticks!)
+                
+                print("(\(idx)) name: \(item.name), isUsed = \(isUsed), curr = \(item.current_level), expect = \(String(describing: expect_level)), last_ticks = \(String(describing: last_ticks)), diff = \(diff_ticks)")
+                */
+                //if((diff_ticks >= 6) && (item.current_level <= expect_level!)) {
+                //if((diff_ticks >= 6)) {
+                 //   autoMode_SelectedDeviceInfo = item
+                    
+                    //Assign Device
+                   /// target_SelectedDeviceInfo = autoMode_SelectedDeviceInfo;
+                    
+                    //act(.open)
+                   // act(.bgAuto)
+                    
+                //    print("Do BG-Auto Open: [\(item.name)] ")
+                    
+                  //  break;
+               // }
+                
+               // idx += 1
+           // }
+            
+       // }
+    }
+
     func didTapChooseDevice() {
         var deviceList:[String] = []
         
@@ -201,7 +359,14 @@ class HomeViewController: BLE_ViewController{
     }
     
     @IBAction func didTapDoorCheck(_ sender: Any) {
-        doorCheckButton.setImage(R.image.checkboxTick(), for: .normal)
+        isAutoMode = !isAutoMode
+        if isAutoMode{
+            doorCheckButton.setImage(R.image.checkboxTick(), for: .normal)
+        }else{
+           doorCheckButton.setImage(R.image.checkboxNone(), for: .normal)
+        
+        }
+        print("didTapDoorCheck")
     }
     
     
@@ -291,7 +456,7 @@ class HomeViewController: BLE_ViewController{
     }
     
     @IBAction func LongPress(_ sender: Any) {
-    
+    print(LongPress)
         if !isKeepOpen{
          isKeepOpen = true
           Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)

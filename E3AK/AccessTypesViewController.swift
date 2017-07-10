@@ -367,7 +367,7 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
             updateDatePicker()
         }
         else
-        {   print("data1\r\n")
+        {  
             switch accessType
             {
             case .Schedule:
@@ -389,11 +389,16 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
                        
                 
             case .Recurrent:
+                
+                UserInfoTableViewController.tmpCMD = Config.bpProtocol.setUserProperty(UserIndex: userIndex, Keypadunlock: isKeypad, LimitType: 0x03, startTime: Util.toUInt8date(AccessTypesViewController.startTimeArr), endTime:  Util.toUInt8date(AccessTypesViewController.endTimeArr), Times: UInt8(AccessTypesViewController.openTimes), weekly: AccessTypesViewController.weekly)
+                
+
                 if indexPath.row == 2
                 {
                     let vc = RepeatDateViewController(nib: R.nib.repeatDateViewController)
                     navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: self, action: nil)        
                     navigationController?.pushViewController(vc, animated: true)
+                    
                 }
                 
             default:

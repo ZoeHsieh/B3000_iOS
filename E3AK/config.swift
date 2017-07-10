@@ -44,6 +44,7 @@ class Config{
     public static let DOOR_DELAY_TIME_LIMIT:Int16 = 1800
     public static let  doorActionItem: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
     public static let accessTypesArray = ["永久開門的權限", "起迄時間", "限制開門次數", "週期排成"]
+    public static let  weekArr = ["星期一" , "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"]
     public static var isUserListOK = false
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
