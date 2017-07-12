@@ -18,7 +18,7 @@ enum DoorLockAction: Int {
 class DoorLockActionViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let  dataArr: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
+    
     var selectedIndex: DoorLockAction?
     
     
@@ -27,7 +27,7 @@ class DoorLockActionViewController: UIViewController {
         print(String(format:"%02x",SettingsTableViewController.tmpConfig[6]))
         selectedIndex = DoorLockAction(rawValue: Int(SettingsTableViewController.tmpConfig[6]))
         
-        title = "門鎖動作"
+        title = GetSimpleLocalizedString("Door Lock Action")
         SettingsTableViewController.settingStatus = settingStatesCase.config_device.rawValue
     }
 
@@ -56,11 +56,11 @@ extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataArr.count
+        return Config.doorActionItem.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "請選擇"
+        return GetSimpleLocalizedString("Please choose")
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -68,7 +68,7 @@ extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelega
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         cell.tintColor = HexColor("00b900")
         cell.selectionStyle = .none
-        cell.textLabel?.text = "\(dataArr[indexPath.row])"
+        cell.textLabel?.text = "\(Config.doorActionItem[indexPath.row])"
         
         if indexPath.row == selectedIndex?.rawValue
         {
@@ -92,7 +92,7 @@ extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelega
             }
         }
         tableView.cellForRow(at: indexPath as IndexPath)?.accessoryType = .checkmark
-       // selectedIndex = DoorLockAction(rawValue: indexPath.row)
+        selectedIndex = DoorLockAction(rawValue: indexPath.row)
         var data = SettingsTableViewController.tmpConfig
         let delayTime = Int16((data[7])) * 256 + Int16((data[8]))
         data[6] = UInt8(indexPath.row)

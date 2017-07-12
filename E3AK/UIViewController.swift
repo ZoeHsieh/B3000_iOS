@@ -20,9 +20,9 @@ extension UIViewController: StoryboardIdentifiable{
         
         let alertController = UIAlertController(title: "Enable the BlueTooth?", message: "Do You Enable the BlueTooth ?", preferredStyle: .alert)
         
-        let cancelAct = UIAlertAction(title: "cancel", style: UIAlertActionStyle.cancel, handler: nil)
+        let cancelAct = UIAlertAction(title: GetSimpleLocalizedString("Cancel"), style: UIAlertActionStyle.cancel, handler: nil)
         
-        let openBtAct = UIAlertAction(title: "Open", style: UIAlertActionStyle.default) { (action: UIAlertAction) in
+        let openBtAct = UIAlertAction(title: GetSimpleLocalizedString("Open"), style: UIAlertActionStyle.default) { (action: UIAlertAction) in
             app.openURL(url!)
         }
         
@@ -46,7 +46,7 @@ extension UIViewController: StoryboardIdentifiable{
     }
     
     func setNavigationBarSkipItem() {
-        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: "略過", style: .plain, target: self, action: #selector(self.didTapSkipItem))
+        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: GetSimpleLocalizedString("略過"), style: .plain, target: self, action: #selector(self.didTapSkipItem))
         rightBarButtonItem.tintColor = HexColor("00B900")
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -95,27 +95,30 @@ extension UIViewController: StoryboardIdentifiable{
     }
     
     func saveExpectLevelToDbByUUID(_ uuidString: String, _ expect_level: Int) {
+     
+       //Save to DB
+        Config.saveParam.setValue(expect_level, forKey: (uuidString + Config.RSSI_LEVEL_Tag))
+        Config.saveParam.set(true, forKey: (uuidString + Config.RSSI_DB_EXIST))
+        Config.saveParam.synchronize()
         
-      /*  //Save to DB
-        storeInfo.setValue(expect_level, forKey: (uuidString + expectLevel_Value_Suffix))
-        storeInfo.set(true, forKey: (uuidString + expectLevel_isUsed_Suffix))
-        storeInfo.synchronize()*/
+       
     }
     
     func readExpectLevelFromDbByUUID(_ uuidString: String) -> Int {
         
-      /*  //Get Expect Level from DB
-        var expect_level: Int? = storeInfo.integer(forKey: (uuidString + expectLevel_Value_Suffix))
-        let isDeviceExist: Bool = storeInfo.bool(forKey: (uuidString + expectLevel_isUsed_Suffix))
+        //Get Expect Level from DB
+        var expect_level: Int? = Config.saveParam.integer(forKey: (uuidString + Config.RSSI_LEVEL_Tag))
+        let isDeviceExist: Bool = Config.saveParam.bool(forKey: (uuidString + Config.RSSI_DB_EXIST))
         
         if(!isDeviceExist) {
             //print("expect_level is nil ")
-            expect_level = BLE_RSSI_LEVEL_DEFAULT
+            
+            expect_level = Config.BLE_RSSI_LEVEL_DEFAULT
         }
         
-        //print("expect_level = \(expect_level)")*/
+       // print("expect_level = \(expect_level)")
         
-        return 0 //expect_level!
+        return expect_level!
     }
     func delayOnMainQueue(delay: Double, closure: @escaping ()->()) {
         
@@ -162,13 +165,13 @@ extension UIViewController: StoryboardIdentifiable{
         })
         
         
-        let confirmAction = UIAlertAction(title:"confirm"/* GetSimpleLocalizedString("common_confirm")*/, style: .default, handler: { action in
+        let confirmAction = UIAlertAction(title:GetSimpleLocalizedString("Confirm"), style: .default, handler: { action in
             if let inputText = alertController.textFields!.first?.text{
                 print("user input: \(inputText)")
                 handler(inputText)
             }
         })
-        let cancelAction = UIAlertAction(title:"cancel"/* GetSimpleLocalizedString("common_cancel")*/, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title:GetSimpleLocalizedString("Cancel"), style: .cancel, handler: nil)
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
@@ -244,7 +247,7 @@ extension UIViewController: StoryboardIdentifiable{
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
         })
         
-        let confirmAction = UIAlertAction(title:"confirm"/* GetSimpleLocalizedString("common_confirm")*/, style: .default, handler: { action in
+        let confirmAction = UIAlertAction(title: GetSimpleLocalizedString("Confirm"), style: .default, handler: { action in
             if let inputText1 = alertController.textFields!.first?.text, let inputText2 = alertController.textFields!.last?.text{
                 print("user input: \(inputText1) & \(inputText2)")
                 handler(inputText1, inputText2)
@@ -252,7 +255,7 @@ extension UIViewController: StoryboardIdentifiable{
             }
         })
         
-        let cancelAction = UIAlertAction(title: "cancel"/* GetSimpleLocalizedString("common_cancel")*/, style: .cancel, handler: nil)
+        let cancelAction = UIAlertAction(title:  GetSimpleLocalizedString("Cancel"), style: .cancel, handler: nil)
         
         confirmAction.isEnabled = false
         

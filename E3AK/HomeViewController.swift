@@ -31,6 +31,8 @@ class HomeViewController: BLE_ViewController{
     @IBOutlet weak var doorStatusLabel: UILabel!
     @IBOutlet weak var dotImageView: UIImageView!
     @IBOutlet weak var loadingImageView: UIImageView!
+    
+    @IBOutlet weak var enrollButon: UIButton!
     var doorIsOpen = false
     var isAutoMode = false
     var deviceFoundStatus: DeviceSearchingStatus = .DeviceFound
@@ -46,16 +48,67 @@ class HomeViewController: BLE_ViewController{
     let motionManager = CMMotionManager()
     var shakeTime = 0
      var bgAutoTimer = Timer()
+    var scanningTimer = Timer();
+    var connectTimer:Timer? = nil
+
     var isBackground = false
     
     var bgTaskID: UIBackgroundTaskIdentifier?
     var backCount = 0
     
     var backgroundTimers: [Timer] = []
-    
+    var isForce:Bool = false
+    var ScanningTimerflag = false
+    var bgAutoTimerFlag = false
+    var isMotion = false
+    var selectSetDevice:CBPeripheral!
+    var forceDevice:CBPeripheral!
+    @IBAction func didEnroll(_ sender: Any) {
+        if !isAutoMode {
+         StopScanningTimer()
+        if deviceInfoList.count > 0 {
+            let target = GetTargetDevice()
+        self.loginAlert(title:self.GetSimpleLocalizedString("enroll_dialog_title") , subTitle: "", placeHolder1: self.GetSimpleLocalizedString("Please Provide Up to 16 characters"), placeHolder2: self.GetSimpleLocalizedString("4~8 digits"), keyboard1: .default, keyboard2: .numberPad, handler: { (input1, input2) in
+            
+           // print("user input2: \(input1) & \(input2)")
+            let userID:[UInt8] = Util.StringtoUINT8(data: input1!, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
+            let userPWD:[UInt8] = Util.StringtoUINT8(data: input2!, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
+            if !input1!.isEmpty {
+                self.isEnroll = true
+               // print(input1);
+                if input1! == Config.AdminID{
+                    //print("admin enroll");
+                    self.adminEnrollData = Config.bpProtocol.setAdminEnroll(UserID: userID,Password: userPWD)
+                    self.isAdminEnroll = true
+                    
+                }
+                else{
+                    self.userEnrollData = Config.bpProtocol.setUserEnroll(UserID: userID, Password: userPWD)
+                    //print("user enroll");
+                }
+               
+                Config.bleManager.connect(bleDevice: target)
+                self.StartConnectTimer()
+            }
+            
+        })
+        }else{
+            StartScanningTimer()
+            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+            }
+            
+        }else{
+          
+          showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
+        }
+        
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
-
+       settingsButton.setTitle(GetSimpleLocalizedString("Settings"),for: .normal)
+        doorCheckButton.setTitle(GetSimpleLocalizedString("Auto"),for: .normal)
+        enrollButon.setTitle(GetSimpleLocalizedString("Enroll"), for: .normal)
+        
         gradientView.gradientBackground(percent: 250/667)
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapChooseDevice))
         deviceNameLabel.addGestureRecognizer(gestureRecognizer)
@@ -68,7 +121,11 @@ class HomeViewController: BLE_ViewController{
         deviceNameLabel.text = ""
         deviceTypeLabel.text = ""
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
-        Config.bleManager.ScanBLE()
+        deviceFoundStatus = .DeviceSearching
+        changeViewContentSettings()
+        
+        //Config.bleManager.ScanBLE()
+        StartScanningTimer()
         
         if motionManager.isDeviceMotionAvailable{
             motionManager.deviceMotionUpdateInterval = 0.02
@@ -77,11 +134,13 @@ class HomeViewController: BLE_ViewController{
                     if acc > 0.5{
                         self.shakeTime += 1
                         print("ShakeTIme: \(self.shakeTime)")
+                        if !self.isOpenDoor {
+                            print("open door in auto mode")
+                         self.isMotion  =  true
+                        }
                         self.delayOnMainQueue(delay: 1, closure: {
                             self.shakeTime = 0
                         })
-                        Config.bleManager.ScanBLE()
-
                         
                         if self.bgAutoTimer.isValid{
                             //print("bg alive")
@@ -128,7 +187,7 @@ class HomeViewController: BLE_ViewController{
         
          let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
         
-        //print("expect_level = \(expect_level)")
+        print("deviceName = \(name)")
         
         if((RSSI.intValue <= 0) && (RSSI.intValue >= Config.BLE_RSSI_MIN)) {
             
@@ -168,11 +227,7 @@ class HomeViewController: BLE_ViewController{
         
     }
 
-    func StartBgAutoTimer() {
-        
-        //Create Timer
-        bgAutoTimer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(updateBgAutoTimer), userInfo: nil, repeats: true)
-    }
+  
     func didEnterBG(){
         
         print("didEnterBG")
@@ -180,7 +235,7 @@ class HomeViewController: BLE_ViewController{
         isBackground = true
         
         //Stop Timer
-       // scanningTimer.invalidate()
+        StopScanningTimer()
         
         if(isAutoMode) {
             
@@ -190,7 +245,7 @@ class HomeViewController: BLE_ViewController{
             bgTaskID = UIApplication.shared.beginBackgroundTask(expirationHandler: {
                 self.backCount = 0
                 
-                Config.bleManager.ScanBLE()
+               
                 
                 //MARK: NEED TODO
                 //self.act(.expire)
@@ -202,21 +257,6 @@ class HomeViewController: BLE_ViewController{
             
         }
         
-        
-        
-        
-        
-        
-        /*
-         guard isAuto else{ return }
-         for name in enrolledDevices{
-         if scanningDeviceInfoList[name] != nil{
-         let timer = Timer.scheduledTimer(timeInterval: 6, target: self, selector: #selector(bgAuto), userInfo: nil, repeats: true)
-         backgroungDevice.append(name)
-         backgroundTimers.append(timer)
-         }
-         }
-         */
     }
     
     func didEnterFG(){
@@ -224,81 +264,35 @@ class HomeViewController: BLE_ViewController{
         print("didEnterFG")
         
         isBackground = false
-         Config.bleManager.ScanBLE()
         //Start Timer
-        // StartScanningTimer();
+        //StartScanningTimer();
         
         guard isAutoMode else{ return }
         for timer in backgroundTimers{
             timer.invalidate()
         }
         backgroundTimers = []
-        Config.bleManager.ScanBLE()
         
         //Stop Timer
         bgAutoTimer.invalidate()
+        StartScanningTimer()
     }
     
-
-    func updateBgAutoTimer() {
-        
-        // print("updateBgAutoTimer()")
-        Config.bleManager.ScanBLE()
-        if(isAutoMode) {
-            // print(" ---- isBackGround-AutoMode ---- ")
-            var idx: Int = 0;
-            Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
-            isOpenDoor = true
-            //print("Scan-CNT: \(scanningDeviceInfoList.count)")
-        }
-            /*for (item) in deviceInfoList {
-                print("BG-AutoMode Items: \(item)")
-                
-                let curr_ticks: TimeInterval = Date().timeIntervalSince1970
-            }*/
-                //Get Data from DB
-                /*let isUsed: Bool = storeInfo.bool(forKey: (item.UUID.uuidString + expectLevel_isUsed_Suffix))
-                let expect_level: Int? = storeInfo.integer(forKey: (item.UUID.uuidString + expectLevel_Value_Suffix))
-                let last_ticks: TimeInterval? = storeInfo.object(forKey: (item.UUID.uuidString + device_LastIdentify_Ticks_Suffix)) as? TimeInterval ?? 0
-                
-                let diff_ticks:Int = Int(curr_ticks - last_ticks!)
-                
-                print("(\(idx)) name: \(item.name), isUsed = \(isUsed), curr = \(item.current_level), expect = \(String(describing: expect_level)), last_ticks = \(String(describing: last_ticks)), diff = \(diff_ticks)")
-                */
-                //if((diff_ticks >= 6) && (item.current_level <= expect_level!)) {
-                //if((diff_ticks >= 6)) {
-                 //   autoMode_SelectedDeviceInfo = item
-                    
-                    //Assign Device
-                   /// target_SelectedDeviceInfo = autoMode_SelectedDeviceInfo;
-                    
-                    //act(.open)
-                   // act(.bgAuto)
-                    
-                //    print("Do BG-Auto Open: [\(item.name)] ")
-                    
-                  //  break;
-               // }
-                
-               // idx += 1
-           // }
-            
-       // }
-    }
-
     func didTapChooseDevice() {
+        StopScanningTimer()
         var deviceList:[String] = []
+        var deviceOBJ:[CBPeripheral] = []
         
         for i in 0 ... deviceList.count{
-            
+            deviceOBJ.append(deviceInfoList[i].peripheral)
             deviceList.append(deviceInfoList[i].name)
         }
-
+        
         UIAlertController.showActionSheet(
             in: self,
-            withTitle: "請選擇裝置",
+            withTitle: self.GetSimpleLocalizedString("Please Choose"),
             message: nil,
-            cancelButtonTitle: "取消",
+            cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
             otherButtonTitles: deviceList, popoverPresentationControllerBlock: nil) { (controller, action, buttonIndex) in
                 
@@ -314,18 +308,26 @@ class HomeViewController: BLE_ViewController{
             {
                 print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
                 if self.deviceInfoList.count > 0{
-                    if self.selectDeviceIndex == (buttonIndex - controller.firstOtherButtonIndex) && self.deviceNameLabel.textColor == #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1){
+                    if self.selectDeviceIndex == (buttonIndex - controller.firstOtherButtonIndex) && self.isForce{
                         self.selectDeviceIndex = 0
-                        self.deviceNameLabel.text = self.deviceInfoList[self.selectDeviceIndex].name
+                        self.deviceNameLabel.text = self.deviceInfoList[0].name
                         self.deviceNameLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-
+                        self.isForce = false
                     }else{
                 
 
-                    self.deviceNameLabel.text = self.deviceInfoList[buttonIndex - controller.firstOtherButtonIndex].name
-                    self.deviceNameLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                    self.deviceNameLabel.text = deviceList[buttonIndex - controller.firstOtherButtonIndex]
                         self.selectDeviceIndex = (buttonIndex - controller.firstOtherButtonIndex)
+                        
+                        self.isForce = self.isExistTarget(targetUUID: deviceOBJ[self.selectDeviceIndex].identifier.uuidString)
+                        
+                        if self.isForce {
+                            self.forceDevice = deviceOBJ[self.selectDeviceIndex]
+                            self.deviceNameLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                        }
+                        
                     }
+                    self.StartScanningTimer()
                 }
             }
         }
@@ -333,9 +335,20 @@ class HomeViewController: BLE_ViewController{
     
     @IBAction func didTapOpenDoor(_ sender: Any) {
         
+        if !isAutoMode {
+        StopScanningTimer()
         if deviceInfoList.count > 0 {
         isOpenDoor = true
-        Config.bleManager.connect(bleDevice: deviceInfoList[selectDeviceIndex].peripheral)
+        let target = GetTargetDevice()
+        
+            
+        let isAdmin = Config.saveParam.bool(forKey: (target.identifier.uuidString))
+        if isAdmin || checkConTimeLimit(target: target)
+        {
+            Config.bleManager.connect(bleDevice: target)
+            StartConnectTimer()
+        }
+            
         switch deviceFoundStatus
         {
         case .DeviceNotFound:
@@ -355,7 +368,16 @@ class HomeViewController: BLE_ViewController{
         default:
             break
         }
+        }else{
+            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+            StartScanningTimer()
+            }
+        }else{
+            showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
+            
         }
+
+        
     }
     
     @IBAction func didTapDoorCheck(_ sender: Any) {
@@ -371,15 +393,16 @@ class HomeViewController: BLE_ViewController{
     
     
     func changeViewContentSettings() {
-    
+         deviceTypeLabel.isHidden = true
         switch deviceFoundStatus
         {
         
         case .DeviceSearching:
         
-            deviceNameLabel.text = "搜尋中..."
+            deviceNameLabel.text = GetSimpleLocalizedString("Searching…")
             deviceNameLabel.isUserInteractionEnabled = false
-            deviceTypeLabel.text = "請稍後"
+            deviceTypeLabel.text = GetSimpleLocalizedString("Please wait a moment…")
+            deviceTypeLabel.isHidden = true
             dotImageView.isHidden = true
             openDoorButton.setTitle("", for: .normal)
             openDoorButton.setImage(nil, for: .normal)
@@ -432,101 +455,96 @@ class HomeViewController: BLE_ViewController{
     }
     
     
-    // for test
-    @IBAction func deviceSearching(_ sender: Any) {
-        deviceFoundStatus = .DeviceSearching
-        changeViewContentSettings()
-        
-        UIAlertController.showAlert(
-            in: self,
-            withTitle: "No Device in Range",
-            message: nil,
-            cancelButtonTitle: nil,
-            destructiveButtonTitle: nil,
-            otherButtonTitles: ["OK"],
-            tap: {(controller, action, buttonIndex) in
-                if (buttonIndex == controller.cancelButtonIndex) {
-                    print("Cancel Tapped")
-                } else if (buttonIndex == controller.destructiveButtonIndex) {
-                    print("Delete Tapped")
-                } else if (buttonIndex >= controller.firstOtherButtonIndex) {
-                    print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
-                }
-        })
-    }
     
     @IBAction func LongPress(_ sender: Any) {
-    print(LongPress)
-        if !isKeepOpen{
-         isKeepOpen = true
-          Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
-        }
-    }
-    
-    @IBAction func deviceNotFound(_ sender: Any) {
-        //deviceFoundStatus = .DeviceNotFound
-        //changeViewContentSettings()
-       self.loginAlert(title: "Enroll User"/*self.GetSimpleLocalizedString("enroll_dialog_title")*/ , subTitle: "", placeHolder1: "Input ID"/*self.GetSimpleLocalizedString("users_manage_add_dialog_name")*/, placeHolder2:"Input pwd"/* self.GetSimpleLocalizedString("users_manage_add_dialog_password")*/, keyboard1: .default, keyboard2: .numberPad, handler: { (input1, input2) in
+        if !isAutoMode{
+        StopScanningTimer()
+        if deviceInfoList.count > 0 {
+           
+            let target = GetTargetDevice()
             
-            print("user input2: \(input1) & \(input2)")
-            let userID:[UInt8] = Util.StringtoUINT8(data: input1!, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
-            let userPWD:[UInt8] = Util.StringtoUINT8(data: input2!, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
-            if !input1!.isEmpty {
-                self.isEnroll = true
-                print(input1);
-                if input1! == Config.AdminID{
-                    print("admin enroll");
-                    self.adminEnrollData = Config.bpProtocol.setAdminEnroll(UserID: userID,Password: userPWD)
-                    self.isAdminEnroll = true
-                    
+            
+            let isAdmin = Config.saveParam.bool(forKey: (target.identifier.uuidString))
+            if isAdmin
+            {   if !isKeepOpen{
+                isKeepOpen = true
+                Config.bleManager.connect(bleDevice: target)
+                StartConnectTimer()
                 }
-                else{
-                    self.userEnrollData = Config.bpProtocol.setUserEnroll(UserID: userID, Password: userPWD)
-                    print("user enroll");
-                }
-                Config.bleManager.connect(bleDevice: self.deviceInfoList[self.selectDeviceIndex].peripheral)
             }
-
-        })
+        }else{
+            StartScanningTimer()
+            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+        }
+        }else{
+            showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
+            
+        }
+        
     }
     
-    @IBAction func deviceFound(_ sender: Any) {
-        deviceFoundStatus = .DeviceFound
-        changeViewContentSettings()
-    }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if (segue.identifier == "showSettingsTableViewController") && deviceInfoList.count > 0{
+        
+       
+        
+        if (segue.identifier == "showSettingsTableViewController") {
             let nvc = segue.destination  as! 
             SettingsTableViewController
             ///let vc = nvc.topViewController as! Intro_PasswordViewController
-            nvc.selectedDevice = deviceInfoList[selectDeviceIndex].peripheral
-        }
+          
+            nvc.selectedDevice = selectSetDevice
+            
+            }
         
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         
-        if(identifier == "showSettingsTableViewController") {
-            if(isAutoMode){
-                //print("Need Disable 'AUTO-MODE' First!!")
-                showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
-                
-                return false;
-            }
-            else if deviceInfoList.count <= 0{
-                showToastDialog(title:"",message:GetSimpleLocalizedString("No found device" ));
-                
-                return false;
-               
-            }else{
+       
+      
+        StopScanningTimer()
+        if(isAutoMode){
+            print("Need Disable 'AUTO-MODE' First!!")
+            showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
+            
+            return false;
+        }
+        
+        
+        if deviceInfoList.count > 0{
+            selectSetDevice = GetTargetDevice()
+            
+        
+        let isAdmin = Config.saveParam.bool(forKey: ( selectSetDevice.identifier.uuidString))
+    
+           
+            if isAdmin
+            {
                 return true
-            }
+            }else{
+              
+                let vc = UserProximityReadRangeViewController(nib:R.nib.userProximityReadRangeViewController)
+               
+                vc.selectedDevice = GetTargetDevice()
+                vc.current_level_RSSI = GetCurrLevel(targetUUID: selectSetDevice.identifier.uuidString)
+                
+                navigationController?.isNavigationBarHidden = false
+                navigationController?.pushViewController(vc, animated: true)
+                return false
+                 }
+            
+        }else{
+            
+            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+            StartScanningTimer()
+            
+
+          return  false
         }
         
         return true
@@ -535,7 +553,8 @@ class HomeViewController: BLE_ViewController{
     public override func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
        super.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
-        
+        connectTimer?.invalidate()
+        connectTimer = nil
         if isEnroll{
             if isAdminEnroll {
                Config.bleManager.writeData(cmd: adminEnrollData, characteristic: bpChar)
@@ -651,12 +670,18 @@ class HomeViewController: BLE_ViewController{
                     
                     if major == 1 && minor >= 6{
                         Config.bleManager.disconnectByCMD(char: bpChar)
+                        
                     }
                     else{
                         Config.bleManager.disconnect()
                         
-                        
                     }
+                    if isAutoMode{
+                      // Config.bleManager.release()
+                    }else{
+                     StartScanningTimer()
+                    }
+                    //isMotion = false
                     //self.backToMainPage()
                 }
                 
@@ -669,6 +694,7 @@ class HomeViewController: BLE_ViewController{
         }
         
     }
+    
     func disconnect() {
         
        
@@ -677,13 +703,324 @@ class HomeViewController: BLE_ViewController{
         
         let cmd = Config.bpProtocol.getFW_version()
         Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+       
     }
 
     func disconnectTask(){
          isKeepOpen = false
         print("disconnect time out");
         disconnect()
+        
         disTimer = nil
+    }
+    func connectTimeOutTask(){
+        isKeepOpen = false
+        isOpenDoor = false
+        isEnroll = false
+        
+        print("connect time out");
+        Config.bleManager.disconnect()
+        connectTimer = nil
+        deviceFoundStatus = .DeviceSearching
+        changeViewContentSettings()
+        StartScanningTimer()
+    }
+
+    func GetTargetDevice()->CBPeripheral{
+        var targetDevice:CBPeripheral?
+        
+        if isForce{
+            if selectDeviceIndex < deviceInfoList.count{
+                if isExistTarget(targetUUID: forceDevice.identifier.uuidString){
+                    targetDevice = forceDevice
+                }
+            }else{
+               targetDevice = deviceInfoList[selectDeviceIndex].peripheral
+            }
+        }else{
+            
+            var current_level = deviceInfoList[0].current_level
+             targetDevice = deviceInfoList[0].peripheral
+            for i in 0 ... deviceInfoList.count - 1{
+                if deviceInfoList[i].current_level < current_level{
+                    
+                    targetDevice = deviceInfoList[i].peripheral
+                    current_level = deviceInfoList[i].current_level
+                }
+            }
+        }
+    
+      return targetDevice!
+    }
+    
+    func StartBgAutoTimer() {
+        
+        //Create Timer
+        bgAutoTimerFlag = true
+        bgAutoTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateBgAutoTimer), userInfo: nil, repeats: true)
+    }
+    func StopBgAutoTimer(){
+        bgAutoTimerFlag = false
+        bgAutoTimer.invalidate()
+    }
+    
+    func updateBgAutoTimer() {
+        //
+        // print("updateBgAutoTimer()")
+    if bgAutoTimerFlag {
+       
+        
+        
+        
+        if(isAutoMode && !isOpenDoor) {
+            // print(" ---- isBackGround-AutoMode ---- ")
+            if !Config.bleManager.isScanBLE(){
+               Config.bleManager.ScanBLE()
+            }
+            
+            checkDeviceAlive()
+            
+            if isMotion{
+                
+        
+                Config.bleManager.ScanBLEStop()
+
+                
+            if deviceInfoList.count > 0 {
+            
+                let target = GetTargetDevice()
+                
+                isMotion = false
+                let expectLEVEL = readExpectLevelFromDbByUUID(target.identifier.uuidString)
+                print("expectLEVEL=: \(expectLEVEL )")
+
+                if expectLEVEL >= GetCurrLevel(targetUUID: target.identifier.uuidString){
+                    Config.bleManager.connect(bleDevice: target)
+                    
+                    isOpenDoor = true
+
+                  }
+                }
+            }
+            print("Scan-CNT: \(deviceInfoList.count)")
+             //StopBgAutoTimer()
+        }
+       
+        /*for (item) in deviceInfoList {
+         print("BG-AutoMode Items: \(item)")
+         
+         let curr_ticks: TimeInterval = Date().timeIntervalSince1970
+         }*/
+        //Get Data from DB
+        /*let isUsed: Bool = storeInfo.bool(forKey: (item.UUID.uuidString + expectLevel_isUsed_Suffix))
+         let expect_level: Int? = storeInfo.integer(forKey: (item.UUID.uuidString + expectLevel_Value_Suffix))
+         let last_ticks: TimeInterval? = storeInfo.object(forKey: (item.UUID.uuidString + device_LastIdentify_Ticks_Suffix)) as? TimeInterval ?? 0
+         
+         let diff_ticks:Int = Int(curr_ticks - last_ticks!)
+         
+         print("(\(idx)) name: \(item.name), isUsed = \(isUsed), curr = \(item.current_level), expect = \(String(describing: expect_level)), last_ticks = \(String(describing: last_ticks)), diff = \(diff_ticks)")
+         */
+        //if((diff_ticks >= 6) && (item.current_level <= expect_level!)) {
+        //if((diff_ticks >= 6)) {
+        //   autoMode_SelectedDeviceInfo = item
+        
+        //Assign Device
+        /// target_SelectedDeviceInfo = autoMode_SelectedDeviceInfo;
+        
+        //act(.open)
+        // act(.bgAuto)
+        
+        //    print("Do BG-Auto Open: [\(item.name)] ")
+        
+        //  break;
+        // }
+        
+        // idx += 1
+        // }
+        
+        // }
+        }
+    }
+
+    func isExistTarget(targetUUID:String)->Bool{
+        
+        
+        if deviceInfoList.count > 0{
+        for i in 0 ... deviceInfoList.count - 1{
+            if deviceInfoList[i].UUID.uuidString == targetUUID{
+               return true
+              }
+            }
+        }
+        
+        return false
+    }
+    
+    func StartScanningTimer() {
+        //Create Timer
+        ScanningTimerflag = true
+        scanningTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateScanningTimer), userInfo: nil, repeats: true)
+    }
+    func StopScanningTimer(){
+       ScanningTimerflag = false
+       Config.bleManager.ScanBLEStop()
+       scanningTimer.invalidate()
+       
+        
+    }
+    func GetCurrLevel(targetUUID:String)->Int{
+      
+        
+        if deviceInfoList.count > 0{
+            for i in 0 ... deviceInfoList.count - 1{
+                if deviceInfoList[i].UUID.uuidString == targetUUID{
+                    return deviceInfoList[i].current_level
+                    
+                }
+            }
+        }
+      return 0
+    }
+    func checkDeviceAlive(){
+    
+        var need_remove_array: [Int] = []
+        var need_Check_Alive: Bool = true;
+        
+        if(Config.bleManager.isScanBLE()) {
+            need_Check_Alive = true;
+        }
+        else {
+            need_Check_Alive = false;
+            
+            Config.bleManager.ScanBLE()
+        }
+        
+        //print("Update - Timer")
+        
+        if( need_Check_Alive) {
+            
+            for index in 0..<deviceInfoList.count  {
+                deviceInfoList[index].alive -= 1;
+               
+                if(deviceInfoList[index].alive <= 0) {
+                    //print("Remove [\(deviceInfoList[index].name)]")
+                    
+                    need_remove_array.append(index)
+                }
+            }
+            
+            for remove_idx in 0..<need_remove_array.count {
+                let remove_idx: Int = need_remove_array[remove_idx];
+                
+                //print("remove idx \(remove_idx)")
+                if deviceInfoList.count > remove_idx {
+                    deviceInfoList.remove(at: remove_idx)
+                }
+            }
+        }
+    
+        print(String(format:"check alive device cnt=%d",deviceInfoList.count))
+    
+    }
+    
+    func updateScanningTimer() {
+        if ScanningTimerflag{
+            Config.bleManager.ScanBLE()
+            checkDeviceAlive()
+            if !(deviceInfoList.count > 0) {
+                deviceFoundStatus = .DeviceSearching
+                changeViewContentSettings()
+                
+            }
+        }
+       /* //Check isAutoMode
+        if(isAutoMode) {
+            print(" ---- isAutoMode ---- ")
+            var idx: Int = 0;
+            
+            //Check Need Count
+            if(needAutoModeIdentifyCnt == 0) {
+                
+                for (item) in deviceInfoList {
+                    //print("AutoMode Items: \(item)")
+                    
+                    let curr_ticks: TimeInterval = Date().timeIntervalSince1970
+                    
+                    //Get Data from DB
+                    let isUsed: Bool = storeInfo.bool(forKey: (item.UUID.uuidString + expectLevel_isUsed_Suffix))
+                    let expect_level: Int? = storeInfo.integer(forKey: (item.UUID.uuidString + expectLevel_Value_Suffix))
+                    let last_ticks: TimeInterval? = storeInfo.object(forKey: (item.UUID.uuidString + device_LastIdentify_Ticks_Suffix)) as? TimeInterval ?? 0
+                    
+                    let diff_ticks:Int = Int(curr_ticks - last_ticks!)
+                    
+                    print("(\(idx)) name: \(item.name), isUsed = \(isUsed), curr = \(item.current_level), expect = \(String(describing: expect_level)), last_ticks = \(String(describing: last_ticks)), diff = \(diff_ticks)")
+                    
+                    if((diff_ticks >= 6) && (item.current_level <= expect_level!)) {
+                        //autoMode_SelectedDeviceInfo = item
+                        
+                        //act(.open)
+                        if(!isBackground) {
+                            act(.open)
+                        }
+                        else {
+                            if(item.peripheral.state == .connected) {
+                                do_Direct_Open();
+                            }
+                            else if(item.peripheral.state == .connecting) {
+                                print(".connecting")
+                                
+                            }
+                        }
+                        
+                        print("Do Auto Open: [\(item.name)] ")
+                        
+                        needAutoModeIdentifyCnt += 1;
+                        
+                        break;
+                    }
+                    
+                    idx += 1
+                }
+            }
+            else {
+                print("needAutoModeIdentifyCnt = \(needAutoModeIdentifyCnt)")
+                act(.open)
+            }
+            
+            if(isAutoModeIdentidfyDone) {
+                needAutoModeIdentifyCnt = 0;
+                isAutoModeIdentidfyDone = false
+            }
+        }
+        
+        //Update Device Name
+        update_target_and_device_name(false)*/
+    }
+
+    func checkConTimeLimit(target:CBPeripheral)->Bool{
+        var res:Bool = false
+        let date = Date()
+        let calendar = Calendar.current
+        let minutes = calendar.component(.minute, from: date)
+        let sec = calendar.component(.second, from: date)
+        let currentTime = (minutes * 60) + sec
+        let disConTime = Config.saveParam.integer(forKey: (target.identifier.uuidString)+"d_time")
+        print("disT=\(disConTime), currT=\(currentTime)")
+        if ((abs(currentTime - disConTime)) > Int(Config.disConTimeOut)){
+            res = true
+        }
+        
+        return res
+    }
+    
+    func StartConnectTimer(){
+        if connectTimer == nil {
+            
+            connectTimer = Timer.scheduledTimer(timeInterval: Config.ConTimeOut, target: self, selector: #selector(connectTimeOutTask), userInfo: nil, repeats: false)
+            
+            
+        }
+
     }
     
 }

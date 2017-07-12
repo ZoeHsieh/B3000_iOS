@@ -24,21 +24,34 @@ class SettingsTableViewController: BLE_tableViewController {
     
     @IBOutlet var loadingView: UIView!
  
+    @IBOutlet weak var deviceNameTitle: UILabel!
     @IBOutlet weak var deviceNameLabel: UILabel!
+    @IBOutlet weak var adminPWDTitle: UILabel!
     
     @IBOutlet weak var adminPWDLabel: UILabel!
     
+    @IBOutlet weak var doorSwitchTitle: UILabel!
     
     @IBOutlet weak var doorSwitch: UISwitch!
     
+    @IBOutlet weak var doorActionTitle: UILabel!
     @IBOutlet weak var doorActionLabel: UILabel!
     
+    @IBOutlet weak var tamperSwitchTitle: UILabel!
     
     @IBOutlet weak var tamperSwitch: UISwitch!
     
+    @IBOutlet weak var delayTimeTitle: UILabel!
+    
     @IBOutlet weak var delayTimeLabel: UILabel!
     
+    @IBOutlet weak var rssiTitle: UILabel!
+    
     @IBOutlet weak var rssiLabel: UILabel!
+    
+    @IBOutlet weak var deviceTimeTitle: UILabel!
+    
+    @IBOutlet weak var aboutTitle: UILabel!
     
     @IBOutlet weak var backBar: UINavigationItem!
    
@@ -92,6 +105,12 @@ class SettingsTableViewController: BLE_tableViewController {
         if isRestore{
             isRestore = false
             isErase = false
+            if fwVersionInt > Config.check_version{
+                Config.bleManager.disconnectByCMD(char: bpChar)
+            }else{
+                
+                Config.bleManager.disconnect()
+            }
             self.backToMainPage()
         }
 
@@ -124,7 +143,7 @@ class SettingsTableViewController: BLE_tableViewController {
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBAction func backPageListener(_ sender: Any) {
         
-       print("backpage")
+       
         switch SettingsTableViewController.settingStatus{
             
             default:
@@ -148,7 +167,22 @@ class SettingsTableViewController: BLE_tableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-     
+        title = GetSimpleLocalizedString("Settings")
+        usersButton.setTitle(GetSimpleLocalizedString("Users"), for: .normal)
+        activityHistoryButton.setTitle(GetSimpleLocalizedString("Activity History"), for: .normal)
+        backupButton.setTitle(GetSimpleLocalizedString("Backup"), for: .normal)
+        restoreButton.setTitle(GetSimpleLocalizedString("Restore"), for: .normal)
+        deviceNameTitle.text = GetSimpleLocalizedString("Device Name")
+        adminPWDTitle.text = GetSimpleLocalizedString("settings_Admin_pwd")
+        doorSwitchTitle.text =
+            GetSimpleLocalizedString("Door Sensor")
+        doorActionTitle.text = GetSimpleLocalizedString("Door Lock Action")
+        delayTimeTitle.text = GetSimpleLocalizedString("Use Re-lock Time")
+        tamperSwitchTitle.text = GetSimpleLocalizedString("Tamper Sensor")
+        rssiTitle.text = GetSimpleLocalizedString("Proximity Read Range")
+       
+        deviceTimeTitle.text = GetSimpleLocalizedString("Device Time")
+        aboutTitle.text = GetSimpleLocalizedString("About Us")
         
         usersButton.adjustButtonEdgeInsets()
         activityHistoryButton.adjustButtonEdgeInsets()
@@ -200,7 +234,7 @@ class SettingsTableViewController: BLE_tableViewController {
             tmpDeviceTime = cmd
             break
         default:
-            
+            rssiLabel.text = String(format:"%d",readExpectLevelFromDbByUUID(selectedDevice.identifier.uuidString))
             break
         }
          SettingsTableViewController.settingStatus = settingStatesCase.setting_none.rawValue
@@ -236,11 +270,11 @@ class SettingsTableViewController: BLE_tableViewController {
         
         UIAlertController.showAlert(
             in: self,
-            withTitle: "確定要備份資料？",
+            withTitle: self.GetSimpleLocalizedString("Backup all data now?"),
             message: nil,
-            cancelButtonTitle: "Cancel",
+            cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
-            otherButtonTitles: ["OK"],
+            otherButtonTitles: [self.GetSimpleLocalizedString("Confirm")],
             tap: {(controller, action, buttonIndex) in
                 if (buttonIndex == controller.cancelButtonIndex) {
                     print("Cancel Tapped")
@@ -263,11 +297,11 @@ class SettingsTableViewController: BLE_tableViewController {
         
         UIAlertController.showAlert(
             in: self,
-            withTitle: "確定要還原備份資料？",
+            withTitle: self.GetSimpleLocalizedString("Restore all data now?"),
             message: nil,
-            cancelButtonTitle: "Cancel",
+            cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
-            otherButtonTitles: ["OK"],
+            otherButtonTitles: [self.GetSimpleLocalizedString("Confirm")],
             tap: {(controller, action, buttonIndex) in
                 if (buttonIndex == controller.cancelButtonIndex) {
                     print("Cancel Tapped")
@@ -277,7 +311,7 @@ class SettingsTableViewController: BLE_tableViewController {
                     print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
                     let alertController = UIAlertController(title: self.GetSimpleLocalizedString("restore_check_dialog_title"), message: "", preferredStyle: .alert)
                     
-                    let enableAction = UIAlertAction(title: self.GetSimpleLocalizedString("common_confirm"), style: .default, handler: { action in
+                    let enableAction = UIAlertAction(title: self.GetSimpleLocalizedString("Confirm"), style: .default, handler: { action in
                         
                         let isBackupDone = (UserDefaults.standard.object(forKey: Config.backupOK) as? Bool)!
                         
@@ -311,7 +345,7 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                     })
                     
-                    let cancelAction = UIAlertAction(title: self.GetSimpleLocalizedString("common_cancel"), style: .cancel, handler: nil)
+                    let cancelAction = UIAlertAction(title: self.GetSimpleLocalizedString("Cancel"), style: .cancel, handler: nil)
                     
                     alertController.addAction(cancelAction)
                     alertController.addAction(enableAction)
@@ -382,10 +416,10 @@ class SettingsTableViewController: BLE_tableViewController {
         switch indexPath.row
         {
         case 0:
-            alertWithTextField(title: self.GetSimpleLocalizedString("settings_device_name_edit"), subTitle: "", placeHolder: deviceNameLabel.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
+            alertWithTextField(title: self.GetSimpleLocalizedString("Edit Device Name"), subTitle: self.GetSimpleLocalizedString("Up to 16 characters"), placeHolder: deviceNameLabel.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
                 
                 guard var newName: String = inputText else{
-                    self.showToastDialog(title: "", message: "Wrong format!")
+                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("Wrong format!"))
                     
                     return
                 }
@@ -430,7 +464,7 @@ class SettingsTableViewController: BLE_tableViewController {
                 checkFlag = true
             }
             if Config.isUserListOK || checkFlag {
-                alertWithTextField(title: self.GetSimpleLocalizedString("settings_Admin_pwd_Edit"), subTitle: "", placeHolder: adminPWDLabel.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
+                alertWithTextField(title: self.GetSimpleLocalizedString("settings_Admin_pwd_Edit"), subTitle: self.GetSimpleLocalizedString("4~8 digits"), placeHolder: adminPWDLabel.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
                     guard let newPWD: String = inputText else{
                         
                         //self.showAlert(message: "Wrong format!")
@@ -445,9 +479,9 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                         let pwArr = Config.userListArr.map{ $0["pw"] as! String }
                         
-                        
+                       
                         if pwArr.contains(inputText!){
-                            
+                           
                             self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_duplication_password"))
                             return
                         }
@@ -468,7 +502,7 @@ class SettingsTableViewController: BLE_tableViewController {
                         }
                        
                     }else{
-                     self.showToastDialog(title: "", message: "wrong format!")
+                     self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("wrong format!"))
                     } })
             }
         case 2:
@@ -504,7 +538,7 @@ class SettingsTableViewController: BLE_tableViewController {
             let vc = DoorRe_lockTimeViewController(nib: R.nib.doorReLockTimeViewController)
             navigationController?.pushViewController(vc, animated: true)*/
             
-             alertWithTextField(title: "請輸入上鎖時間（1~1800秒）"/*self.GetSimpleLocalizedString("settings_Admin_pwd_Edit")*/, subTitle: "", placeHolder: delayTimeLabel.text!, keyboard: .numberPad, Tag: 2, handler: { (inputText) in
+             alertWithTextField(title:self.GetSimpleLocalizedString( "Edit Door Re-lock Time (1~1800 seconds)"), subTitle: "", placeHolder: delayTimeLabel.text!, keyboard: .numberPad, Tag: 2, handler: { (inputText) in
                 guard let newDelayTime: String = inputText else{
                     
                     //self.showAlert(message: "Wrong format!")
@@ -523,11 +557,12 @@ class SettingsTableViewController: BLE_tableViewController {
                     
                     
                 }else{
-                    self.showToastDialog(title: "", message: "wrong format!")
+                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("wrong format!"))
                 } })
 
         case 6:
          let vc = ProximityReadRangeViewController(nib: R.nib.proximityReadRangeViewController)
+         vc.selectedDevice = selectedDevice
             navigationController?.pushViewController(vc, animated: true)
             
         case 7:
@@ -666,9 +701,9 @@ class SettingsTableViewController: BLE_tableViewController {
                         tmpData.append(SettingsTableViewController.tmpConfig[i])
                     }
                     UI_updateDevConfig(data: tmpData)
-                    showToastDialog(title:"",message:"success"/*GetSimpleLocalizedString("program_success")*/)
+                    showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
                 }else{
-                    showToastDialog(title:"",message:"fail"/*GetSimpleLocalizedString("program_fail")*/)
+                    showToastDialog(title:"",message: GetSimpleLocalizedString("program_fail"))
                 }
 
                     }
@@ -733,9 +768,10 @@ class SettingsTableViewController: BLE_tableViewController {
                             
                             print(String(format:"b_cnt=%d\r\n",backupCount))
                             
-                            backupCount += 1
+                            
                             updateBackupDialog()
-                            if backupCount >= backupMax{
+                            backupCount += 1
+                            if backupCount >= backupMax+1{
                                 
                                 isbackup = false
                                 self.downloadView.removeFromSuperview();
@@ -811,6 +847,9 @@ class SettingsTableViewController: BLE_tableViewController {
                             adminPWDLabel.text = tmpAdminPWD
 
                         }
+                    }else {
+                       self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_duplication_password"))
+                    
                     }
                 }else{
                     var data = [UInt8]()

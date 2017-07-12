@@ -34,17 +34,18 @@ class Config{
     public static let user_limit_def:UInt8 = 0x00
     public static let user_keypad_unlock_def:UInt8 = 0x00
     public static let disConTimeOut:Double = 6
+    public static let ConTimeOut:Double = 6
     public static let userIndexTag:String = "userIndex"
     public static let saveParam  = UserDefaults.standard
     public static let BLE_MTU_MAX = 20
     public static let check_version:Float = 1.05
     public static let bleManager:BluetoothLEDevice = BluetoothLEDevice()
     public static let bpProtocol:BPprotocol = BPprotocol();
-    public static let adminSettingMenuItem:Int = 8
+    public static let adminSettingMenuItem:Int = 9
     public static let DOOR_DELAY_TIME_LIMIT:Int16 = 1800
-    public static let  doorActionItem: Array = ["依據延遲上鎖時間" , "常開", "常閉"]
-    public static let accessTypesArray = ["永久開門的權限", "起迄時間", "限制開門次數", "週期排成"]
-    public static let  weekArr = ["星期一" , "星期二", "星期三", "星期四", "星期五", "星期六", "星期天"]
+    public static let  doorActionItem: Array = [NSLocalizedString("Use Re-lock Time", comment: ""), NSLocalizedString("Door Always Unlocked", comment: ""), NSLocalizedString("Door Always Locked", comment: "")]
+    public static let accessTypesArray = [NSLocalizedString("Permanent", comment: ""), NSLocalizedString("Schedule", comment: ""), NSLocalizedString("Access Times", comment: ""),NSLocalizedString("Recurrent", comment: "") ]
+    public static let  weekArr = [NSLocalizedString("Monday", comment: "") , NSLocalizedString("Tuesday", comment: ""), NSLocalizedString("Wednesday", comment: ""), NSLocalizedString("Thursday", comment: ""),NSLocalizedString("Friday", comment: ""),NSLocalizedString("Saturday", comment: ""), NSLocalizedString("Sunday", comment: "")]
     public static var isUserListOK = false
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
@@ -57,6 +58,8 @@ class Config{
     public static var TamperSensor: UInt8?
     public static var userDataArr:[UInt8] = []
     public static var userDeleted: String?
+    public static let RSSI_LEVEL_Tag:String = "RSSI"
+    public static let RSSI_DB_EXIST:String = "RSSI_EXIST"
     public static let ConfigTag_backup:String = "DEVICE_CONFIG"
     public static let DeviceNameTag_backup:String = "DEVICE_NAME"
     public static let ADMIN_PWDTag_backup:String = "ADMIN_PWD"

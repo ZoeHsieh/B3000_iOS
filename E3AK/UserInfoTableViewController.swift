@@ -15,19 +15,18 @@ class UserInfoTableViewController: BLE_tableViewController {
     @IBOutlet weak var accountTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var userNameTextField: UITextField!
-    
-    
-   
-   
-   
     @IBOutlet weak var label_accessLimit: UILabel!
     @IBOutlet weak var keypadSwitch: UISwitch!
+    @IBOutlet weak var keypadSwitchTitle: UILabel!
+    @IBOutlet weak var accessTypeTitle: UILabel!
+    @IBOutlet weak var deleteButton: UIButton!
     
     var selectUser:Int = 0
     var userIndex :Int16 = 0
     var isKeypadCode:Bool = false
     static var tmpCMD = Data()
     static var isSettingAccess = false
+    static var titleForFooter:String =  ""
     var limitType: UInt8!
     var startTimeArr: Array<Int>!
     var endTimeArr: Array<Int>!
@@ -39,7 +38,14 @@ class UserInfoTableViewController: BLE_tableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        title = GetSimpleLocalizedString("User Info")
+        //recurrentLabel.text = "Recurrent".localized()
+        accountTextField.placeholder = GetSimpleLocalizedString("Please Provide Up to 16 characters")
+        passwordTextField.placeholder = GetSimpleLocalizedString("4~8 digits")
+        
+        keypadSwitchTitle.text = GetSimpleLocalizedString("Keypad Access")
+        deleteButton.setTitle(GetSimpleLocalizedString("Delete"), for: .normal)
+        accessTypeTitle.text = GetSimpleLocalizedString("Access Types/Schedule")
         accountTextField.setTextFieldPaddingView()
         accountTextField.isUserInteractionEnabled = false
        // accountTextField.addTarget(self, action: #selector(UserInfoTableViewController.didTapID), for: .touchUpOutside)
@@ -73,11 +79,11 @@ class UserInfoTableViewController: BLE_tableViewController {
     @IBAction func didTapDelete(_ sender: Any) {
         UIAlertController.showAlert(
             in: self,
-            withTitle: GetSimpleLocalizedString("確定要刪除？"),
+            withTitle: GetSimpleLocalizedString("Delete User?"),
             message: nil,
             cancelButtonTitle: GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
-            otherButtonTitles: [GetSimpleLocalizedString("OK")],
+            otherButtonTitles: [GetSimpleLocalizedString("Confirm")],
             tap: {(controller, action, buttonIndex) in
                 if (buttonIndex == controller.cancelButtonIndex) {
                     print("Cancel Tapped")
@@ -116,6 +122,28 @@ class UserInfoTableViewController: BLE_tableViewController {
             return 2;
         default:
             return 1;
+        }
+    }
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        switch section {
+        case 0:
+            return GetSimpleLocalizedString("ID")            
+        case 1:
+            return GetSimpleLocalizedString("Password/PIN Code (4~8 Digits)")
+            
+        default:
+            return ""
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        switch section {
+        case 3:
+            return UserInfoTableViewController.titleForFooter
+        default:
+            return ""
         }
     }
 
@@ -171,7 +199,7 @@ class UserInfoTableViewController: BLE_tableViewController {
     
     func didTapID() {
         
-        alertWithTextField(title: self.GetSimpleLocalizedString("settings_device_name_edit"), subTitle: "", placeHolder: accountTextField.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
+        alertWithTextField(title: self.GetSimpleLocalizedString("users_id_edit_dialog_title"), subTitle: "", placeHolder: accountTextField.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
             
             guard var newName: String = inputText else{
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("Wrong format!"))
@@ -217,7 +245,7 @@ class UserInfoTableViewController: BLE_tableViewController {
     }
     
     func didTapPWD() {
-        alertWithTextField(title: self.GetSimpleLocalizedString("settings_Admin_pwd_Edit"), subTitle: "", placeHolder: passwordTextField.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
+        alertWithTextField(title: self.GetSimpleLocalizedString("users_pwd_edit_dialog_title"), subTitle: "", placeHolder: passwordTextField.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
             guard let newPWD: String = inputText else{
                 
                 //self.showAlert(message: "Wrong format!")

@@ -10,9 +10,12 @@ import UIKit
 
 class SettingsTableViewSectionFooter: UITableViewCell {
 
+    @IBOutlet weak var fwVRTitle: UILabel!
     @IBOutlet weak var fwVRLabel: UILabel!
     override func awakeFromNib() {
         super.awakeFromNib()
+        fwVRTitle.text = NSLocalizedString("settings_device_vr",comment: "")
+
         // Initialization code
     }
 

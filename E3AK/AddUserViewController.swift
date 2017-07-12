@@ -17,7 +17,11 @@ protocol AddUserViewControllerDelegate {
 class AddUserViewController: BLE_ViewController {
 
     var delegate: AddUserViewControllerDelegate?
+    
+    @IBOutlet weak var accountTitle: UILabel!
     @IBOutlet weak var accountTextField: UITextField!
+    
+    @IBOutlet weak var passwordTitle: UILabel!
     @IBOutlet weak var passwordTextField: UITextField!
     
     var tmpID:String = ""
@@ -26,8 +30,12 @@ class AddUserViewController: BLE_ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "新增使用者"
+        title = GetSimpleLocalizedString("Add Users")
         configUI()
+        accountTitle.text = GetSimpleLocalizedString("ID")
+        accountTextField.placeholder = GetSimpleLocalizedString("Please Provide Up to 16 characters")
+        passwordTitle.text = GetSimpleLocalizedString("Password/PIN Code")
+        passwordTextField.placeholder = GetSimpleLocalizedString("4~8 digits")
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         accountTextField.tag = 0
         accountTextField.addTarget(self, action: #selector(self.userAddTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
@@ -39,11 +47,11 @@ class AddUserViewController: BLE_ViewController {
 
     func configUI() {
         
-        setNavigationBarRightItemWithTitle(title: "新增")
+        setNavigationBarRightItemWithTitle(title: self.GetSimpleLocalizedString("Add"))
         let leftBtn = UIButton(type: .custom)
-        leftBtn.setTitle("取消", for: .normal)
+        leftBtn.setTitle(self.GetSimpleLocalizedString("Cancel"), for: .normal)
         leftBtn.setTitleColor(UIColor.flatGreen, for: .normal)
-        leftBtn.frame = CGRect(x: 0, y: 0, width: 50, height: 30)
+        leftBtn.frame = CGRect(x: 0, y: 0, width: 60, height: 30)
         leftBtn.addTarget(self, action: #selector(didTapLeftBarButtonItem), for: .touchUpInside)
         let leftBarButtonItem = UIBarButtonItem(customView: leftBtn)
         navigationItem.leftBarButtonItem = leftBarButtonItem

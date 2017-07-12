@@ -25,18 +25,32 @@ private static var peripheral:CBPeripheral?
         
         BluetoothLEDevice.centralManager = CBCentralManager(delegate: delegate, queue: nil, options: nil)
         
+        
     }
+    public func release(){
+        BluetoothLEDevice.centralManager.cancelPeripheralConnection(BluetoothLEDevice.peripheral!)
+        
+BluetoothLEDevice.peripheral = nil
+        
+        BluetoothLEDevice.centralManager = nil
+    }
+    
   public func isBLEPowerON()->Bool{
     
     
     return (BluetoothLEDevice.centralManager.state != .poweredOff)
   }
+
+    public func isScanBLE()->Bool{
+    
+       return BluetoothLEDevice.centralManager.isScanning
+    }
     
   public func ScanBLE(){
    
         if BluetoothLEDevice.centralManager.isScanning {
             if debugFlag{
-                print("Central Manager is already scanning!!")
+                print("ScanBLE Central Manager is already scanning!!")
             }
             return
         } else {

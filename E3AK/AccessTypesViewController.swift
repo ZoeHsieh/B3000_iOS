@@ -54,15 +54,15 @@ class AccessTypesViewController: UIViewController{
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = GetSimpleLocalizedString("進出管制模式")
+        title = GetSimpleLocalizedString("Access Types/Schedule")
         tableView.register(R.nib.accessTimesTableViewCell)
         tableView.register(R.nib.datePickerTableViewCell)
         tableView.register(R.nib.dateTableViewCell)
         
         // setup our data source
         
-        let itemStart = [kTitleKey : GetSimpleLocalizedString("開始"), kDateKey : Date()] as [String : Any]
-        let itemEnd = [kTitleKey : GetSimpleLocalizedString("結束"), kDateKey : Date()] as [String : Any]
+        let itemStart = [kTitleKey : GetSimpleLocalizedString("Start"), kDateKey : Date()] as [String : Any]
+        let itemEnd = [kTitleKey : GetSimpleLocalizedString("End"), kDateKey : Date()] as [String : Any]
         dataArray = [itemStart as Dictionary<String, AnyObject>, itemEnd as Dictionary<String, AnyObject>]
         
         //dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String

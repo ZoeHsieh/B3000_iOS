@@ -85,8 +85,10 @@
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             <connections>
                 <outlet property="accountLabel" destination="deo-vx-tUp" id="a3D-M3-5bL"/>
+                <outlet property="accountTitle" destination="PBG-Eg-7DJ" id="W2f-wE-nui"/>
                 <outlet property="disclosureImageView" destination="Hof-Vl-dtg" id="asj-JC-kVi"/>
                 <outlet property="passwordLabel" destination="5B6-nX-4Un" id="or8-x8-SqS"/>
+                <outlet property="passwordTitle" destination="prZ-W8-4FZ" id="Pge-dB-tV4"/>
                 <outlet property="shadowView" destination="SVh-SP-mqS" id="ndy-rk-2ka"/>
             </connections>
             <point key="canvasLocation" x="35.5" y="54"/>

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ProximityReadRangeViewController" customModule="E3AK" customModuleProvider="target">
             <connections>
+                <outlet property="Label_CurrentRSSILevel" destination="rIA-4o-gjN" id="NPI-3G-kAZ"/>
+                <outlet property="deviceDistanceTitle" destination="3uw-Qt-R5F" id="nLb-gJ-NNT"/>
                 <outlet property="deviceDistanceView" destination="Sva-gs-yHs" id="zxs-gE-vXx"/>
                 <outlet property="deviceSettingSliderValueLabel" destination="3rd-sU-DwQ" id="DTT-cC-1C5"/>
                 <outlet property="distanceSettingView" destination="2Bj-4h-R5d" id="I6C-q8-i9z"/>
+                <outlet property="levelSlider" destination="zqy-tq-fDV" id="IWH-Yf-uW0"/>
+                <outlet property="proximityReadRangeTitle" destination="6Js-IH-fc0" id="JOf-8r-Caz"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
         </placeholder>

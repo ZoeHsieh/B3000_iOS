@@ -10,7 +10,10 @@ import UIKit
 
 class UsersTableViewCell: UITableViewCell {
 
+    @IBOutlet weak var accountTitle: UILabel!
     @IBOutlet weak var accountLabel: UILabel!
+    
+    @IBOutlet weak var passwordTitle: UILabel!
     @IBOutlet weak var passwordLabel: UILabel!
     //@IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var shadowView: UIView!
@@ -20,7 +23,10 @@ class UsersTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        shadowView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+           accountTitle.text =  NSLocalizedString("ID", comment: "")
+        
+           passwordTitle.text = NSLocalizedString("Password", comment: "")
+          shadowView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

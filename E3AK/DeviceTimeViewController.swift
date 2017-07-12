@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class DeviceTimeViewController: UIViewController {
 
@@ -37,15 +38,15 @@ class DeviceTimeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Device Time"
+        title = GetSimpleLocalizedString("Device Time")
         //tableView.register(R.nib.deviceTimeSwitchTableViewCell)
         tableView.register(R.nib.datePickerTableViewCell)
         tableView.register(R.nib.dateTableViewCell)
         
         //let itemStart = [kTitleKey : "automatic setting", kDateKey : Date()] as [String : Any]
-        let itemEnd = [kTitleKey : "Device Time", kDateKey : Date()] as [String : Any]
+        let itemEnd = [kTitleKey : GetSimpleLocalizedString("Device Time"), kDateKey : Date()] as [String : Any]
         dataArray = [itemEnd as Dictionary<String, AnyObject>]
-        
+       
         dateFormatter.dateStyle = .medium // show short-style date format
         dateFormatter.timeStyle = .short
         
@@ -55,7 +56,7 @@ class DeviceTimeViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(DeviceTimeViewController.localeChanged(_:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
         displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
          SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
-        updateDatePicker()
+       
         
     }
 
@@ -140,10 +141,28 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             let dateTableViewCell = tableView.dequeueReusableCell(withIdentifier: R.nib.dateTableViewCell.identifier, for: indexPath) as! DateTableViewCell
             
             // we have either start or end date cells, populate their date field
-            //
+            let calendar = Calendar.current
+            let currentdate = Date()
+            var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from:  currentdate)
+            print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+            
+            
+                dateComponents.year = SettingsTableViewController.startTimeArr[0]
+                dateComponents.month = SettingsTableViewController.startTimeArr[1]
+                dateComponents.day = SettingsTableViewController.startTimeArr[2]
+                dateComponents.hour = SettingsTableViewController.startTimeArr[3]
+                dateComponents.minute = SettingsTableViewController.startTimeArr[4]
+                dateComponents.second = SettingsTableViewController.startTimeArr[5]
+            
+            print(String(format:"text after Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
             dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String
-            dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: itemData[kDateKey] as! Date)
-            dateTableViewCell.detailTextLabel?.font = .systemFont(ofSize: 17)
+            
+            dateTableViewCell.detailTextLabel?.textColor = HexColor("4a4a4a")
+           
+            
+            dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
+           
+            dateTableViewCell.detailTextLabel?.font = .systemFont(ofSize: 15)
             cell = dateTableViewCell
             
         }
@@ -153,9 +172,28 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             datePickerTableViewCell.delegate = self
             
             cell = datePickerTableViewCell
+            let targetedDatePicker = cell?.viewWithTag(kDatePickerTag) as! UIDatePicker?
+            let calendar = Calendar.current
+            var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from: (targetedDatePicker?.date)!)
+            print(String(format:"before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+            print(String(format:"index=%d",indexPath.row))
+            
+            print("update start arr")
+            dateComponents.year = SettingsTableViewController.startTimeArr[0]
+            dateComponents.month = SettingsTableViewController.startTimeArr[1]
+            dateComponents.day = SettingsTableViewController.startTimeArr[2]
+            dateComponents.hour = SettingsTableViewController.startTimeArr[3]
+            dateComponents.minute = SettingsTableViewController.startTimeArr[4]
+            dateComponents.second = SettingsTableViewController.startTimeArr[5]
+            
+            targetedDatePicker?.date = calendar.date(from: dateComponents)!
+            
+            targetedDatePicker?.setDate( (targetedDatePicker?.date)!, animated: false)
+            
+            
         }
         /*else if cellID == deviceTimeSwitchCellID {
-            
+         
             let deviceTimeSwitchCell = tableView.dequeueReusableCell(withIdentifier: R.nib.deviceTimeSwitchTableViewCell.identifier, for: indexPath) as! DeviceTimeSwitchTableViewCell
             deviceTimeSwitchCell.delegate = self
             deviceTimeSwitchCell.indexPath = indexPath
@@ -196,12 +234,19 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
     /*! Updates the UIDatePicker's value to match with the date of the cell above it.
      */
     func updateDatePicker() {
+       print("indexPath= \(datePickerIndexPath?.row)")
         if let indexPath = datePickerIndexPath {
+            
             let associatedDatePickerCell = tableView.cellForRow(at: indexPath)
-            if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as! UIDatePicker? {
-                let itemData = dataArray[self.datePickerIndexPath!.row - 1]
-                targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)
-            }
+             if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as! UIDatePicker?
+            {
+            
+               
+
+                //let itemData = dataArray[self.datePickerIndexPath!.row - 1]
+               // targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)
+           }
+            
         }
     }
     

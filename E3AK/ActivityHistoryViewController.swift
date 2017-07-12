@@ -100,7 +100,8 @@ class ActivityHistoryViewController: BLE_ViewController {
         var text = "\"No\",\"Name\",\"DateTime\",\"Type\"\n"
         var count = 0
         for data in Config.historyListArr{
-            let userID = data["userID"] as! String
+            
+            var userID = data["userID"] as! String
             let openType = data["openType"] as! UInt8
             let timeText = data["timeText"] as! String
             
@@ -115,11 +116,12 @@ class ActivityHistoryViewController: BLE_ViewController {
             case 3:
                 osStr = "Keypad"
             case 0x30:
+                userID = GetSimpleLocalizedString("Tamper Alarm")
                 osStr = "Alarm"
             default:
                 osStr = "Alarm"
             }
-            
+            print("userID = \(userID)")
             text += "\"\(count)\",\"\(userID)\",\"\(timeText)\",\"\(osStr)\"\n"
             count = count + 1
         }
@@ -359,7 +361,7 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                     osStr = "unKnown"
                 }
                 if openType == 0x30{
-                    cell.nameLabel.text = "Tamper Alarm"
+                    cell.nameLabel.text = GetSimpleLocalizedString("Tamper Alarm")
                 }else{
                     cell.nameLabel.text = name
                 }

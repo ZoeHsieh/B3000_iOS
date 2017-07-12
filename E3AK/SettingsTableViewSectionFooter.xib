@@ -44,6 +44,7 @@
             </tableViewCellContentView>
             <connections>
                 <outlet property="fwVRLabel" destination="9ZK-Jc-ea3" id="geW-7k-V16"/>
+                <outlet property="fwVRTitle" destination="e02-ZO-nQa" id="2sL-b0-dWf"/>
             </connections>
         </tableViewCell>
     </objects>

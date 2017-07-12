@@ -30,6 +30,9 @@ class UsersViewController: BLE_ViewController {
     
     @IBOutlet weak var SearchBar: UISearchBar!
     @IBOutlet weak var progress_count: UILabel!
+    @IBOutlet weak var addItem: UIBarButtonItem!
+    
+    
     static var status:Int = 0
     static var result_userAction:Int = 0
     var localUserArr:[[String:Any]] = []
@@ -68,7 +71,11 @@ class UsersViewController: BLE_ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         SearchBar.isHidden = true
-        title = "使用者"
+        title = GetSimpleLocalizedString("Users")
+        addItem.title = GetSimpleLocalizedString("Add")
+        SearchBar.placeholder = GetSimpleLocalizedString("Search")
+        
+
         tableView.register(R.nib.usersTableViewCell)
           userCount = 1
         print(userMax)
