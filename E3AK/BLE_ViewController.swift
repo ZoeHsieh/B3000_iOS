@@ -39,7 +39,7 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        
+        backToMainPage()
         
     }
     

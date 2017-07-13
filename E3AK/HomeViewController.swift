@@ -180,6 +180,11 @@ class HomeViewController: BLE_ViewController{
         
         
     }
+    
+    public override func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        
+        
+    }
 
     public override func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
         let name: String = advertisementData["kCBAdvDataLocalName"] as! String
@@ -553,6 +558,7 @@ class HomeViewController: BLE_ViewController{
     public override func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
        super.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
+        selectSetDevice = peripheral
         connectTimer?.invalidate()
         connectTimer = nil
         if isEnroll{
@@ -563,7 +569,7 @@ class HomeViewController: BLE_ViewController{
             }
         
         }else if isOpenDoor {
-            let isAdmin = Config.saveParam.bool(forKey: (deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString))
+            let isAdmin = Config.saveParam.bool(forKey: (selectSetDevice.identifier.uuidString))
             var cmd = Data()
             if isAdmin {
             cmd = Config.bpProtocol.setAdminIndentify()
@@ -610,7 +616,7 @@ class HomeViewController: BLE_ViewController{
                     isAdmin = false
                 }
                 Config.saveParam.set(isAdmin, forKey:
-                    deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString)
+                    selectSetDevice.identifier.uuidString)
                 
                 //self.backToMainPage()
                 break
@@ -621,8 +627,8 @@ class HomeViewController: BLE_ViewController{
                     let userIndex:Int = Int(UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF))
                     
                     print("userIndex=\(userIndex)")
-                    Config.saveParam.set(userIndex, forKey: deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString + Config.userIndexTag)
-                    Config.saveParam.set(false, forKey: deviceInfoList[selectDeviceIndex].peripheral.identifier.uuidString)
+                    Config.saveParam.set(userIndex, forKey: selectSetDevice.identifier.uuidString + Config.userIndexTag)
+                    Config.saveParam.set(false, forKey: selectSetDevice.identifier.uuidString)
                     
                 }
                 

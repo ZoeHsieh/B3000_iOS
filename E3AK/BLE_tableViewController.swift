@@ -37,7 +37,8 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
-        
+        backToMainPage()
+
     }
     
     public func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {

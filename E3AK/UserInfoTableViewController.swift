@@ -74,6 +74,8 @@ class UserInfoTableViewController: BLE_tableViewController {
             UserInfoTableViewController.isSettingAccess = false
         }
         
+        tableView.reloadData()
+        
     }
 
     @IBAction func didTapDelete(_ sender: Any) {
@@ -469,6 +471,7 @@ class UserInfoTableViewController: BLE_tableViewController {
         startTimeArr = [Int(UInt16(startTime[0]) * 256 + UInt16(startTime[1])), Int(startTime[2]), Int(startTime[3]), Int(startTime[4]), Int(startTime[5]), Int(startTime[6])]
         
         endTimeArr = [Int(UInt16(endTime[0]) * 256 + UInt16(endTime[1])), Int(endTime[2]), Int(endTime[3]), Int(endTime[4]), Int(endTime[5]), Int(endTime[6])]
+        updateFooterAccessTypeText()
         
         /*
         newStartTimeArr = startTimeArr
@@ -512,7 +515,52 @@ class UserInfoTableViewController: BLE_tableViewController {
         
     }
     
-
+    func updateFooterAccessTypeText(){
+        let StartTimeArr = startTimeArr
+        
+        let EndTimeArr = endTimeArr
+        
+        switch limitType
+        {
+        case 0x00://.Permanent:
+            
+            UserInfoTableViewController.titleForFooter = ""
+            
+        case 0x01://.Schedule:
+            
+            
+        let startTimerStr =  "\(String(format: "%04d",(StartTimeArr?[0])!))/\(String(format: "%02d",(StartTimeArr?[1])!))/\(String(format: "%02d",(StartTimeArr?[2])!))" + " " + String(format: "%02d",(StartTimeArr?[3])!) + ":" + String(format: "%02d",(startTimeArr?[4])!)
+            
+            let endTimerStr =  "\(String(format: "%04d",(EndTimeArr?[0])!))/\(String(format: "%02d",(EndTimeArr?[1])!))/\(String(format: "%02d",(EndTimeArr?[2])!))" + " " + String(format: "%02d",(EndTimeArr?[3])!) + ":" + String(format: "%02d",(EndTimeArr?[4])!)
+            
+            UserInfoTableViewController.titleForFooter =  startTimerStr + "~" + endTimerStr + "\n"
+            
+        case 0x02://.AccessTimes:
+            UserInfoTableViewController.titleForFooter = GetSimpleLocalizedString("users_edit_access_control_dialog_type_times_mark") + "\((String(format:"%02d",openTimes)))" + "\n"
+            
+        case 0x03://.Recurrent:
+            let weekString = [GetSimpleLocalizedString("weekly_Sun"), GetSimpleLocalizedString("weekly_Mon"), GetSimpleLocalizedString("weekly_Tue"), GetSimpleLocalizedString("weekly_Wed"), GetSimpleLocalizedString("weekly_Thu"), GetSimpleLocalizedString("weekly_Fri"), GetSimpleLocalizedString("weekly_Sat")]
+            var weekText = ""
+            print(String(format:"%02x",weekly))
+            for n: UInt8 in 0...6{
+                
+                if (weekly & (0x1 << n)) != 0{
+                    weekText += weekString[Int(n)]
+                }
+            }
+            
+            let startTimerStr =  String(format: "%02d",(StartTimeArr?[3])!) + ":" + String(format: "%02d",(StartTimeArr?[4])!)
+            
+            let endTimerStr = String(format: "%02d",(EndTimeArr?[3])!) + ":" + String(format: "%02d",(EndTimeArr?[4])!)
+            
+            
+            UserInfoTableViewController.titleForFooter =  weekText + "\n" + startTimerStr + " ~ " + endTimerStr
+        default:
+            UserInfoTableViewController.titleForFooter = ""
+        }
+        tableView.reloadData()
+    }
+    
 
 
 }

@@ -27,6 +27,10 @@ class Intro_WelcomeViewController: BLE_ViewController {
     @IBOutlet weak var loadingImageView: UIImageView!
     @IBOutlet weak var gradientView: UIView!
     @IBOutlet weak var deviceNameLabel: UILabel!
+    @IBOutlet weak var welcomeLabel: UILabel!
+    @IBOutlet weak var searchingLabel: UILabel!
+    @IBOutlet weak var searchResultLabel: UILabel!
+    @IBOutlet weak var pleasePressNextLabel: UILabel!
     var deviceInfoList: [DeviceInfo] = [];
     var selectDeviceIndex:Int = 0
     var searchStatus: SearchStatus = .Searching
@@ -34,6 +38,12 @@ class Intro_WelcomeViewController: BLE_ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        welcomeLabel.text = self.GetSimpleLocalizedString("Welcome")
+        searchingLabel.text = self.GetSimpleLocalizedString("Searching")
+        searchResultLabel.text = self.GetSimpleLocalizedString("Search result")
+        pleasePressNextLabel.text = self.GetSimpleLocalizedString("Please press Next to continue")
+        nextButton.setTitle(self.GetSimpleLocalizedString("Next"), for: .normal)
+        rightButton.setTitle(self.GetSimpleLocalizedString("Skip"), for: .normal)
         loadingImageView.rotate360Degree()
         rightButton.addTarget(self, action: #selector(didTapSkipItem), for: .touchUpInside)
         gradientView.gradientBackground(percent: 160/667)
@@ -42,7 +52,7 @@ class Intro_WelcomeViewController: BLE_ViewController {
         deviceNameLabel.addGestureRecognizer(gestureRecognizer)
          Config.bleManager.Init(delegate: self)
        
-        let when = DispatchTime.now() + 10 // change 2 to desired number of seconds
+        let when = DispatchTime.now() + 5 // change 2 to desired number of seconds
         DispatchQueue.main.asyncAfter(deadline: when) {
               self.changeRightButtonStatus()
         }
@@ -65,7 +75,7 @@ class Intro_WelcomeViewController: BLE_ViewController {
         let name: String = advertisementData["kCBAdvDataLocalName"] as! String
         let uuid: UUID = peripheral.identifier
         
-       // let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
+        let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
         
         //print("expect_level = \(expect_level)")
         
@@ -92,7 +102,7 @@ class Intro_WelcomeViewController: BLE_ViewController {
                 deviceInfoList.append(tmp)
                 
                 //Save to DB
-              //  saveExpectLevelToDbByUUID(uuid.uuidString, expect_level)
+                saveExpectLevelToDbByUUID(uuid.uuidString, expect_level)
             }
         }
         
@@ -112,9 +122,9 @@ class Intro_WelcomeViewController: BLE_ViewController {
         
         UIAlertController.showActionSheet(
             in: self,
-            withTitle: "請選擇裝置",
+            withTitle: self.GetSimpleLocalizedString("Please Choose"),
             message: nil,
-            cancelButtonTitle: "取消",
+            cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
             otherButtonTitles: deviceList, popoverPresentationControllerBlock: nil) { (controller, action, buttonIndex) in
                 
@@ -161,14 +171,14 @@ class Intro_WelcomeViewController: BLE_ViewController {
             Config.bleManager.ScanBLEStop()
             if deviceInfoList.count == 0{
                 
-                deviceNameLabel.text = "沒有找到裝置"
+                deviceNameLabel.text = GetSimpleLocalizedString("Can't find device")
             }
             deviceNameLabel.text =  deviceInfoList[0].name
         case .Finished:// start BLE scan
             
             rightButton.removeTarget(nil, action: nil, for: .allEvents)
             rightButton.addTarget(self, action: #selector(didTapSkipItem), for: .touchUpInside)
-            rightButton.setTitle("略過", for: .normal)
+            rightButton.setTitle(GetSimpleLocalizedString("Skip"), for: .normal)
             rightButton.setImage(nil, for: .normal)
             
             loadingImageView.rotate360Degree()
@@ -203,11 +213,14 @@ class Intro_WelcomeViewController: BLE_ViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        print("test2")
         if (segue.identifier == "intro_Pass") {
             let nvc = segue.destination  as! Intro_PasswordViewController
             
             ///let vc = nvc.topViewController as! Intro_PasswordViewController
              nvc.selectedDevice = deviceInfoList[selectDeviceIndex].peripheral
+            print( "device name= \(nvc.selectedDevice.name)")
         }
         
     }

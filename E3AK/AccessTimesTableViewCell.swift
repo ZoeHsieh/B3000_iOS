@@ -15,7 +15,7 @@ class AccessTimesTableViewCell: UITableViewCell {
     var openTimes:Int = 0
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        accessTimesTextField.placeholder =  NSLocalizedString("Please enter access times", comment: "")
         accessTimesTextField.addTarget(self, action: #selector(AccessTimesTableViewCell.checkLen), for: .editingChanged)
         accessTimesTextField.addTarget(self, action: #selector(AccessTimesTableViewCell.didEdit), for: .editingDidEnd)
         

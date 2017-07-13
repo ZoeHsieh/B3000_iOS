@@ -38,6 +38,9 @@
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="addMoreButton" destination="dke-99-gZu" id="8bL-WK-lKg"/>
+            </connections>
         </view>
     </objects>
 </document>

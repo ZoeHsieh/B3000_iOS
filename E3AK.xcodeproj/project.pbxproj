@@ -20,6 +20,8 @@
 		74750C931F0623E6007F91C3 /* StoreDeviceInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74750C921F0623E6007F91C3 /* StoreDeviceInfo.swift */; };
 		749699E01F0A149A004F4DA3 /* BLE_ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749699DF1F0A149A004F4DA3 /* BLE_ViewController.swift */; };
 		74BA39FA1F1461850027E195 /* UserProximityReadRangeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74BA39F91F1461850027E195 /* UserProximityReadRangeViewController.xib */; };
+		74E9B4AA1F164ADD00586B07 /* RepeatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E9B4A81F164ADD00586B07 /* RepeatTableViewCell.swift */; };
+		74E9B4AB1F164ADD00586B07 /* RepeatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 74E9B4A91F164ADD00586B07 /* RepeatTableViewCell.xib */; };
 		A00B24111EE8E71A009B59CD /* UIStoryboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00B24101EE8E71A009B59CD /* UIStoryboard.swift */; };
 		A00B24141EE8FEEF009B59CD /* R.generated.swift in Sources */ = {isa = PBXBuildFile; fileRef = A00B24131EE8FEEF009B59CD /* R.generated.swift */; };
 		A01EDB461EEF899500330CD7 /* UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = A01EDB451EEF899500330CD7 /* UITextField.swift */; };
@@ -100,6 +102,8 @@
 		74750C921F0623E6007F91C3 /* StoreDeviceInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoreDeviceInfo.swift; sourceTree = "<group>"; };
 		749699DF1F0A149A004F4DA3 /* BLE_ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLE_ViewController.swift; sourceTree = "<group>"; };
 		74BA39F91F1461850027E195 /* UserProximityReadRangeViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserProximityReadRangeViewController.xib; sourceTree = "<group>"; };
+		74E9B4A81F164ADD00586B07 /* RepeatTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RepeatTableViewCell.swift; sourceTree = "<group>"; };
+		74E9B4A91F164ADD00586B07 /* RepeatTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RepeatTableViewCell.xib; sourceTree = "<group>"; };
 		A00B24101EE8E71A009B59CD /* UIStoryboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIStoryboard.swift; sourceTree = "<group>"; };
 		A00B24131EE8FEEF009B59CD /* R.generated.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = R.generated.swift; sourceTree = "<group>"; };
 		A01EDB451EEF899500330CD7 /* UITextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITextField.swift; sourceTree = "<group>"; };
@@ -210,6 +214,8 @@
 		A01EDB491EEFDE0A00330CD7 /* Cell */ = {
 			isa = PBXGroup;
 			children = (
+				74E9B4A81F164ADD00586B07 /* RepeatTableViewCell.swift */,
+				74E9B4A91F164ADD00586B07 /* RepeatTableViewCell.xib */,
 				A01EDB4A1EEFDE3A00330CD7 /* ActivityHistoryTableViewCell.swift */,
 				A01EDB4B1EEFDE3A00330CD7 /* ActivityHistoryTableViewCell.xib */,
 				A01EDB4E1EEFF8D300330CD7 /* UsersTableViewCell.swift */,
@@ -416,6 +422,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				74E9B4AB1F164ADD00586B07 /* RepeatTableViewCell.xib in Resources */,
 				A0FF105A1EF12A0C00F30987 /* Intro_NOUsersViewController.xib in Resources */,
 				A09BC3681EE798CC00F38AB8 /* LaunchScreen.storyboard in Resources */,
 				A09BC3651EE798CC00F38AB8 /* Assets.xcassets in Resources */,
@@ -537,6 +544,7 @@
 				A01EDB4C1EEFDE3A00330CD7 /* ActivityHistoryTableViewCell.swift in Sources */,
 				A0CCF7C21EEE8EF100EB1A99 /* SettingsTableViewController.swift in Sources */,
 				74509C691F02468D003E135A /* BlueToothLEDevice.swift in Sources */,
+				74E9B4AA1F164ADD00586B07 /* RepeatTableViewCell.swift in Sources */,
 				A038794F1EF3E8BF0043C7C1 /* DatePickerTableViewCell.swift in Sources */,
 				740AF23F1F0A41AC00958B34 /* UInt8_Extenstion.swift in Sources */,
 				74349E141F146D0500DD50C5 /* UserProximityReadRangeViewController.swift in Sources */,

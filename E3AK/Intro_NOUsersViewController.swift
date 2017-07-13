@@ -10,10 +10,12 @@ import UIKit
 
 class Intro_NOUsersViewController: UIViewController {
 
+    @IBOutlet weak var noUsersLabel: UILabel!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        noUsersLabel.text = GetSimpleLocalizedString("There's no users, add now?")
     }
 
     override func didReceiveMemoryWarning() {

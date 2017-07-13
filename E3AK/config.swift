@@ -45,7 +45,14 @@ class Config{
     public static let DOOR_DELAY_TIME_LIMIT:Int16 = 1800
     public static let  doorActionItem: Array = [NSLocalizedString("Use Re-lock Time", comment: ""), NSLocalizedString("Door Always Unlocked", comment: ""), NSLocalizedString("Door Always Locked", comment: "")]
     public static let accessTypesArray = [NSLocalizedString("Permanent", comment: ""), NSLocalizedString("Schedule", comment: ""), NSLocalizedString("Access Times", comment: ""),NSLocalizedString("Recurrent", comment: "") ]
-    public static let  weekArr = [NSLocalizedString("Monday", comment: "") , NSLocalizedString("Tuesday", comment: ""), NSLocalizedString("Wednesday", comment: ""), NSLocalizedString("Thursday", comment: ""),NSLocalizedString("Friday", comment: ""),NSLocalizedString("Saturday", comment: ""), NSLocalizedString("Sunday", comment: "")]
+    public static let  weekArr = [
+         NSLocalizedString("Sunday", comment: ""),
+         NSLocalizedString("Monday", comment: ""),
+         NSLocalizedString("Tuesday", comment: ""),
+         NSLocalizedString("Wednesday", comment: ""),
+         NSLocalizedString("Thursday", comment: ""),
+         NSLocalizedString("Friday", comment: ""),
+         NSLocalizedString("Saturday", comment: "")]
     public static var isUserListOK = false
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
@@ -70,5 +77,6 @@ class Config{
     public static let ConfigGSensorTag:String = "GSensor"
     public static let ConfigADMIN_MACTag:String = "adminMac"
     public static let backupOK = "backupOK"
+    public static let firstOpen = "FirstOpen"
     //public static let SCAN_TIME_INTRO:Int = 10
 }

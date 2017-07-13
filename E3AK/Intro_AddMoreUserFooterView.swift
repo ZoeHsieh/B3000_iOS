@@ -15,6 +15,15 @@ protocol Intro_AddMoreUserFooterViewDelegate {
 class Intro_AddMoreUserFooterView: UIView {
 
     var delegate: Intro_AddMoreUserFooterViewDelegate?
+    @IBOutlet weak var addMoreButton: UIButton!
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        addMoreButton.setTitle(NSLocalizedString("Add more", comment: ""), for: .normal)
+        
+    }
+    
     @IBAction func didTapAddMore(_ sender: Any) {
         
         delegate?.didTapAddMore()

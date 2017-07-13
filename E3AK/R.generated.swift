@@ -53,7 +53,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.image` struct is generated, and contains static references to 36 images.
+  /// This `R.image` struct is generated, and contains static references to 37 images.
   struct image {
     /// Image `Back Chevron`.
     static let backChevron = Rswift.ImageResource(bundle: R.hostingBundle, name: "Back Chevron")
@@ -99,6 +99,8 @@ struct R: Rswift.Validatable {
     static let loadingWhite = Rswift.ImageResource(bundle: R.hostingBundle, name: "loading-white")
     /// Image `plants`.
     static let plants = Rswift.ImageResource(bundle: R.hostingBundle, name: "plants")
+    /// Image `relogin`.
+    static let relogin = Rswift.ImageResource(bundle: R.hostingBundle, name: "relogin")
     /// Image `research-green`.
     static let researchGreen = Rswift.ImageResource(bundle: R.hostingBundle, name: "research-green")
     /// Image `research-white`.
@@ -238,6 +240,11 @@ struct R: Rswift.Validatable {
       return UIKit.UIImage(resource: R.image.plants, compatibleWith: traitCollection)
     }
     
+    /// `UIImage(named: "relogin", bundle: ..., traitCollection: ...)`
+    static func relogin(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
+      return UIKit.UIImage(resource: R.image.relogin, compatibleWith: traitCollection)
+    }
+    
     /// `UIImage(named: "research-green", bundle: ..., traitCollection: ...)`
     static func researchGreen(compatibleWith traitCollection: UIKit.UITraitCollection? = nil) -> UIKit.UIImage? {
       return UIKit.UIImage(resource: R.image.researchGreen, compatibleWith: traitCollection)
@@ -311,7 +318,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.nib` struct is generated, and contains static references to 20 nibs.
+  /// This `R.nib` struct is generated, and contains static references to 21 nibs.
   struct nib {
     /// Nib `AboutUsViewController`.
     static let aboutUsViewController = _R.nib._AboutUsViewController()
@@ -347,6 +354,8 @@ struct R: Rswift.Validatable {
     static let proximityReadRangeViewController = _R.nib._ProximityReadRangeViewController()
     /// Nib `RepeatDateViewController`.
     static let repeatDateViewController = _R.nib._RepeatDateViewController()
+    /// Nib `RepeatTableViewCell`.
+    static let repeatTableViewCell = _R.nib._RepeatTableViewCell()
     /// Nib `SettingsTableViewSectionFooter`.
     static let settingsTableViewSectionFooter = _R.nib._SettingsTableViewSectionFooter()
     /// Nib `UserProximityReadRangeViewController`.
@@ -439,6 +448,11 @@ struct R: Rswift.Validatable {
       return UIKit.UINib(resource: R.nib.repeatDateViewController)
     }
     
+    /// `UINib(name: "RepeatTableViewCell", in: bundle)`
+    static func repeatTableViewCell(_: Void = ()) -> UIKit.UINib {
+      return UIKit.UINib(resource: R.nib.repeatTableViewCell)
+    }
+    
     /// `UINib(name: "SettingsTableViewSectionFooter", in: bundle)`
     static func settingsTableViewSectionFooter(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.settingsTableViewSectionFooter)
@@ -457,7 +471,7 @@ struct R: Rswift.Validatable {
     fileprivate init() {}
   }
   
-  /// This `R.reuseIdentifier` struct is generated, and contains static references to 8 reuse identifiers.
+  /// This `R.reuseIdentifier` struct is generated, and contains static references to 9 reuse identifiers.
   struct reuseIdentifier {
     /// Reuse identifier `accessTimesCell`.
     static let accessTimesCell: Rswift.ReuseIdentifier<AccessTimesTableViewCell> = Rswift.ReuseIdentifier(identifier: "accessTimesCell")
@@ -471,6 +485,8 @@ struct R: Rswift.Validatable {
     static let deviceTimeSwitchCell: Rswift.ReuseIdentifier<DeviceTimeSwitchTableViewCell> = Rswift.ReuseIdentifier(identifier: "deviceTimeSwitchCell")
     /// Reuse identifier `remove`.
     static let remove: Rswift.ReuseIdentifier<UIKit.UITableViewCell> = Rswift.ReuseIdentifier(identifier: "remove")
+    /// Reuse identifier `repeatCell`.
+    static let repeatCell: Rswift.ReuseIdentifier<RepeatTableViewCell> = Rswift.ReuseIdentifier(identifier: "repeatCell")
     /// Reuse identifier `settingsSectionFooter`.
     static let settingsSectionFooter: Rswift.ReuseIdentifier<SettingsTableViewSectionFooter> = Rswift.ReuseIdentifier(identifier: "settingsSectionFooter")
     /// Reuse identifier `usersCell`.
@@ -597,7 +613,7 @@ struct R: Rswift.Validatable {
   
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 117 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 127 localization keys.
     struct localizable {
       /// Base translation:  History List
       /// 
@@ -619,7 +635,7 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let accessTimes = Rswift.StringResource(key: "Access Times", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
-      /// Base translation: Access Types/Schedule
+      /// Base translation: Access Types
       /// 
       /// Locales: zh-Hant, Base
       static let accessTypesSchedule = Rswift.StringResource(key: "Access Types/Schedule", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
@@ -695,6 +711,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let backup_dialog_message = Rswift.StringResource(key: "backup_dialog_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: CANCEL
+      /// 
+      /// Locales: zh-Hant, Base
+      static let progress_dialog_cancel_btn_title = Rswift.StringResource(key: "progress_dialog_cancel_btn_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: Can't find device
       /// 
       /// Locales: zh-Hant, Base
@@ -703,6 +723,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let cancel = Rswift.StringResource(key: "Cancel", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: Current number of times:
+      /// 
+      /// Locales: zh-Hant, Base
+      static let users_edit_access_control_dialog_type_times_mark = Rswift.StringResource(key: "users_edit_access_control_dialog_type_times_mark", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: Date
       /// 
       /// Locales: zh-Hant, Base
@@ -799,6 +823,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let friday = Rswift.StringResource(key: "Friday", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: HIDE
+      /// 
+      /// Locales: zh-Hant, Base
+      static let progress_dialog_hide_btn_title = Rswift.StringResource(key: "progress_dialog_hide_btn_title", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: ID
       /// 
       /// Locales: zh-Hant, Base
@@ -1063,6 +1091,34 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let yourID = Rswift.StringResource(key: "Your ID", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [FRI]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Fri = Rswift.StringResource(key: "weekly_Fri", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [MON]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Mon = Rswift.StringResource(key: "weekly_Mon", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [SAT]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Sat = Rswift.StringResource(key: "weekly_Sat", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [SUN]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Sun = Rswift.StringResource(key: "weekly_Sun", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [THU]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Thu = Rswift.StringResource(key: "weekly_Thu", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [TUE]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Tue = Rswift.StringResource(key: "weekly_Tue", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: [WED]
+      /// 
+      /// Locales: zh-Hant, Base
+      static let weekly_Wed = Rswift.StringResource(key: "weekly_Wed", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: please try later
       /// 
       /// Locales: zh-Hant, Base
@@ -1103,11 +1159,11 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("Access Times", bundle: R.hostingBundle, value: "Access Times", comment: "")
       }
       
-      /// Base translation: Access Types/Schedule
+      /// Base translation: Access Types
       /// 
       /// Locales: zh-Hant, Base
       static func accessTypesSchedule(_: Void = ()) -> String {
-        return NSLocalizedString("Access Types/Schedule", bundle: R.hostingBundle, value: "Access Types/Schedule", comment: "")
+        return NSLocalizedString("Access Types/Schedule", bundle: R.hostingBundle, value: "Access Types", comment: "")
       }
       
       /// Base translation: Activity History
@@ -1236,6 +1292,13 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("backup_dialog_message", bundle: R.hostingBundle, value: "Backup...", comment: "")
       }
       
+      /// Base translation: CANCEL
+      /// 
+      /// Locales: zh-Hant, Base
+      static func progress_dialog_cancel_btn_title(_: Void = ()) -> String {
+        return NSLocalizedString("progress_dialog_cancel_btn_title", bundle: R.hostingBundle, value: "CANCEL", comment: "")
+      }
+      
       /// Base translation: Can't find device
       /// 
       /// Locales: zh-Hant, Base
@@ -1248,6 +1311,13 @@ struct R: Rswift.Validatable {
       /// Locales: zh-Hant, Base
       static func cancel(_: Void = ()) -> String {
         return NSLocalizedString("Cancel", bundle: R.hostingBundle, value: "Cancel", comment: "")
+      }
+      
+      /// Base translation: Current number of times:
+      /// 
+      /// Locales: zh-Hant, Base
+      static func users_edit_access_control_dialog_type_times_mark(_: Void = ()) -> String {
+        return NSLocalizedString("users_edit_access_control_dialog_type_times_mark", bundle: R.hostingBundle, value: "Current number of times:", comment: "")
       }
       
       /// Base translation: Date
@@ -1416,6 +1486,13 @@ struct R: Rswift.Validatable {
       /// Locales: zh-Hant, Base
       static func friday(_: Void = ()) -> String {
         return NSLocalizedString("Friday", bundle: R.hostingBundle, value: "Friday", comment: "")
+      }
+      
+      /// Base translation: HIDE
+      /// 
+      /// Locales: zh-Hant, Base
+      static func progress_dialog_hide_btn_title(_: Void = ()) -> String {
+        return NSLocalizedString("progress_dialog_hide_btn_title", bundle: R.hostingBundle, value: "HIDE", comment: "")
       }
       
       /// Base translation: ID
@@ -1880,6 +1957,55 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("Your ID", bundle: R.hostingBundle, value: "Your ID", comment: "")
       }
       
+      /// Base translation: [FRI]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Fri(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Fri", bundle: R.hostingBundle, value: "[FRI]", comment: "")
+      }
+      
+      /// Base translation: [MON]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Mon(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Mon", bundle: R.hostingBundle, value: "[MON]", comment: "")
+      }
+      
+      /// Base translation: [SAT]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Sat(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Sat", bundle: R.hostingBundle, value: "[SAT]", comment: "")
+      }
+      
+      /// Base translation: [SUN]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Sun(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Sun", bundle: R.hostingBundle, value: "[SUN]", comment: "")
+      }
+      
+      /// Base translation: [THU]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Thu(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Thu", bundle: R.hostingBundle, value: "[THU]", comment: "")
+      }
+      
+      /// Base translation: [TUE]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Tue(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Tue", bundle: R.hostingBundle, value: "[TUE]", comment: "")
+      }
+      
+      /// Base translation: [WED]
+      /// 
+      /// Locales: zh-Hant, Base
+      static func weekly_Wed(_: Void = ()) -> String {
+        return NSLocalizedString("weekly_Wed", bundle: R.hostingBundle, value: "[WED]", comment: "")
+      }
+      
       /// Base translation: please try later
       /// 
       /// Locales: zh-Hant, Base
@@ -2132,6 +2258,20 @@ struct _R: Rswift.Validatable {
       fileprivate init() {}
     }
     
+    struct _RepeatTableViewCell: Rswift.NibResourceType, Rswift.ReuseIdentifierType {
+      typealias ReusableType = RepeatTableViewCell
+      
+      let bundle = R.hostingBundle
+      let identifier = "repeatCell"
+      let name = "RepeatTableViewCell"
+      
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> RepeatTableViewCell? {
+        return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? RepeatTableViewCell
+      }
+      
+      fileprivate init() {}
+    }
+    
     struct _SettingsTableViewSectionFooter: Rswift.NibResourceType, Rswift.ReuseIdentifierType {
       typealias ReusableType = SettingsTableViewSectionFooter
       
@@ -2294,6 +2434,7 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "checkbox-none") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'checkbox-none' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "Back Chevron") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'Back Chevron' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "revert") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'revert' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "relogin") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'relogin' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "setup") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'setup' is used in storyboard 'Main', but couldn't be loaded.") }
         if UIKit.UIImage(named: "plants") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Main', but couldn't be loaded.") }
         if _R.storyboard.main().homeNavigationController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'homeNavigationController' could not be loaded from storyboard 'Main' as 'HomeNavigationController'.") }

@@ -16,10 +16,20 @@ class Intro_DistanceSettingsViewController: UIViewController {
     @IBOutlet weak var distanceSettingView: UIView!
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var deviceSettingSliderValueLabel: UILabel!
+    @IBOutlet weak var proximityReadRangeLabel: UILabel!
+    @IBOutlet weak var settingProximityReadRangeLabel: UILabel!
+    @IBOutlet weak var deviceDistanceLabel: UILabel!
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        rightButton.setTitle(self.GetSimpleLocalizedString("Skip"), for: .normal)
+        deviceDistanceLabel.text = self.GetSimpleLocalizedString("Device Distance")
+        proximityReadRangeLabel.text = self.GetSimpleLocalizedString("Proximity Read Range Settings")
+        settingProximityReadRangeLabel.text = self.GetSimpleLocalizedString("Please Setting Proximity Read Range")
+        nextButton.setTitle(self.GetSimpleLocalizedString("Finish Done"), for: .normal)
+        
+        
         rightButton.addTarget(self, action: #selector(didTapSkipItem), for: .touchUpInside)
         nextButton.addTarget(self, action: #selector(didTapSkipItem), for: .touchUpInside)
         nextButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)

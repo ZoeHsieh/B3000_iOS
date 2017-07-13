@@ -27,7 +27,7 @@ class RepeatDateViewController: UIViewController {
             }
         }
 
-        title = GetSimpleLocalizedString("選擇週期")
+        title = GetSimpleLocalizedString("Repeat Select")
     }
 
     override func didReceiveMemoryWarning() {

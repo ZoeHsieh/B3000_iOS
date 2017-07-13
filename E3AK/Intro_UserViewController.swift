@@ -8,6 +8,7 @@
 
 import UIKit
 import ChameleonFramework
+import CoreBluetooth
 
 class Intro_UserViewController: UIViewController {
 
@@ -15,7 +16,8 @@ class Intro_UserViewController: UIViewController {
     @IBOutlet weak var nextButton: UIButton!
     @IBOutlet weak var containerView: UIView!
     var isNOUser = true
-    
+    var selectedDevice:CBPeripheral!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         

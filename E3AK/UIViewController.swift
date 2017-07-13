@@ -46,7 +46,7 @@ extension UIViewController: StoryboardIdentifiable{
     }
     
     func setNavigationBarSkipItem() {
-        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: GetSimpleLocalizedString("略過"), style: .plain, target: self, action: #selector(self.didTapSkipItem))
+        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(title: GetSimpleLocalizedString("Skip"), style: .plain, target: self, action: #selector(self.didTapSkipItem))
         rightBarButtonItem.tintColor = HexColor("00B900")
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }

@@ -29,11 +29,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-       /* let storyboard = UIStoryboard(storyboard: .Intro)
-        let vc: IntroNavigationController = storyboard.instantiateViewController()*/
-        let storyboard = UIStoryboard(storyboard: .Main)
-        let vc: HomeNavigationController = storyboard.instantiateViewController()
-        window?.rootViewController = vc
+        
+        let isfirst = Config.saveParam.bool(forKey: Config.firstOpen)
+        var storyboard:UIStoryboard!
+        
+        
+        if isfirst{
+          storyboard = UIStoryboard(storyboard: .Intro)
+            let vc:IntroNavigationController = storyboard.instantiateViewController()
+           Config.saveParam.set(true, forKey: Config.firstOpen)
+            window?.rootViewController = vc
+        }else{
+            storyboard = UIStoryboard(storyboard: .Main)
+           let vc:HomeNavigationController =  storyboard.instantiateViewController()
+           window?.rootViewController = vc
+        }
+       
+       
         window?.makeKeyAndVisible()
         
         configUI()

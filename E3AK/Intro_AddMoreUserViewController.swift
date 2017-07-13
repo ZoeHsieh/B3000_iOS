@@ -12,6 +12,10 @@ class Intro_AddMoreUserViewController: UIViewController {
 
     @IBOutlet weak var tableView: UITableView!
     let  accountArr = ["Chris"]
+    @IBOutlet weak var IDLabel: UILabel!
+    @IBOutlet weak var passwordLabel: UILabel!
+    @IBOutlet weak var userLabel: UILabel!
+    
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -19,6 +23,9 @@ class Intro_AddMoreUserViewController: UIViewController {
         footerView?.delegate = self
         tableView.tableFooterView = footerView
         
+        IDLabel.text = self.GetSimpleLocalizedString("ID")
+        passwordLabel.text = self.GetSimpleLocalizedString("Password")
+        userLabel.text = self.GetSimpleLocalizedString("User Name")
     }
     
     override func viewDidLoad() {

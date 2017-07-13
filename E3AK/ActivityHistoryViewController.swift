@@ -21,12 +21,21 @@ class ActivityHistoryViewController: BLE_ViewController {
     @IBOutlet weak var label_progress_dg_msg: UILabel!
     @IBOutlet weak var pg_bar_progress_dg_view: UIProgressView!
     
+    @IBOutlet weak var userIDTitle: UILabel!
+    
+    @IBOutlet weak var dateTitle: UILabel!
+    
+    @IBOutlet weak var openTypeTitle: UILabel!
     @IBOutlet weak var label_progress_dg_percent: UILabel!
     
     @IBOutlet weak var label_progress_dg_count: UILabel!
     
     
     @IBOutlet weak var downloadView: UIView!
+    
+    @IBOutlet weak var progress_dg_btn_cancel: UIButton!
+    
+    @IBOutlet weak var progress_dg_btn_hide: UIButton!
     
     @IBAction func progress_dg_cancel_Action(_ sender: Any) {
         
@@ -53,7 +62,15 @@ class ActivityHistoryViewController: BLE_ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
        
-        title = "歷史進出記錄"
+        title = GetSimpleLocalizedString("Activity History")
+        searchBar.placeholder = GetSimpleLocalizedString("Search")
+        userIDTitle.text = GetSimpleLocalizedString("ID")
+        dateTitle.text = GetSimpleLocalizedString("Date")
+        
+        openTypeTitle.text = GetSimpleLocalizedString("Lock Action")
+        
+        progress_dg_btn_hide.setTitle(self.GetSimpleLocalizedString("progress_dialog_hide_btn_title"), for: .normal)
+        progress_dg_btn_cancel.setTitle(self.GetSimpleLocalizedString("progress_dialog_cancel_btn_title"), for: .normal)
         tableView.register(R.nib.activityHistoryTableViewCell)
        
               

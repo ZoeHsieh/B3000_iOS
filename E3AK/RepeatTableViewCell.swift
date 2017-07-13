@@ -1,14 +1,14 @@
 //
-//  DateTableViewCell.swift
+//  RepeatTableViewCell.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/16.
+//  Created by nsdi36 on 2017/7/11.
 //  Copyright © 2017年 com.E3AK. All rights reserved.
 //
 
 import UIKit
 
-class DateTableViewCell: UITableViewCell {
+class RepeatTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
