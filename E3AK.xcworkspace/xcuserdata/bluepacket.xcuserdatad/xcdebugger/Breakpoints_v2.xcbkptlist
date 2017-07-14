@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/HomeViewController.swift"
-            timestampString = "521704726.621528"
+            timestampString = "521717115.174634"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "904"
-            endingLineNumber = "904"
+            startingLineNumber = "909"
+            endingLineNumber = "909"
             landmarkName = "StartScanningTimer()"
             landmarkType = "7">
          </BreakpointContent>

@@ -81,6 +81,7 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         
         print("Discover Characteristics!!!")
         let characteristic = service.characteristics?[0]
+        print("UUID=\(characteristic?.uuid.uuidString)")
         bpChar = characteristic
         peripheral.setNotifyValue(true, for: characteristic!)
         

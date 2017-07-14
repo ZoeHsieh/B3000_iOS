@@ -128,14 +128,21 @@ class HomeViewController: BLE_ViewController{
         //Config.bleManager.ScanBLE()
         StartScanningTimer()
         
-        if motionManager.isDeviceMotionAvailable{
+        /*if motionManager.isDeviceMotionAvailable{
             motionManager.deviceMotionUpdateInterval = 0.02
             motionManager.startDeviceMotionUpdates(to: OperationQueue.main, withHandler: { (data, error) in
                 if let acc = data?.userAcceleration.z{
+                    if self.isAutoMode {
+                    if acc > 0{
+                       Config.bleManager.ScanBLE()
+                    }else{
+                      Config.bleManager.ScanBLEStop()
+                        }
+                    }
                     if acc > 0.5{
                         self.shakeTime += 1
                         print("ShakeTIme: \(self.shakeTime)")
-                       
+                        
                         self.delayOnMainQueue(delay: 1, closure: {
                             self.shakeTime = 0
                         })
@@ -144,15 +151,18 @@ class HomeViewController: BLE_ViewController{
                         
                             if !self.isOpenDoor {
                             print("open door in auto mode")
-                            self.isMotion  =  true
+                            //self.isMotion  =  true
+                            
+                            self.StartBgAutoTimer()
+                            }
                         }
-                        if self.bgAutoTimer.isValid{
+                        /*if self.bgAutoTimer.isValid{
                             //print("bg alive")
                             
                         }else if self.isBackground{
                             self.StartBgAutoTimer()
                             }
-                        }
+                        }*/
                         
                         //if self.shakeTime == 3{
                         //self.openTheDoor(true)
@@ -160,7 +170,7 @@ class HomeViewController: BLE_ViewController{
                     }
                 }
             })
-        }
+        }*/
         
         NotificationCenter.default.addObserver(self, selector: #selector(didEnterBG), name: Notification.Name.UIApplicationWillResignActive, object: nil)
         
@@ -188,7 +198,14 @@ class HomeViewController: BLE_ViewController{
     }
     
     public override func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        let date = Date()
+        let calendar = Calendar.current
+        let minutes = calendar.component(.minute, from: date)
+        let sec = calendar.component(.second, from: date)
+        let disonTime = (minutes * 60) + sec
+        Config.saveParam.set(disonTime, forKey: peripheral.identifier.uuidString+"d_time")
         
+
         
     }
 
@@ -197,7 +214,7 @@ class HomeViewController: BLE_ViewController{
         let uuid: UUID = peripheral.identifier
         
          let expect_level: Int = readExpectLevelFromDbByUUID(uuid.uuidString);
-        
+        print("adv event")
         print("deviceName = \(name)")
         
         if((RSSI.intValue <= 0) && (RSSI.intValue >= Config.BLE_RSSI_MIN)) {
@@ -324,7 +341,7 @@ class HomeViewController: BLE_ViewController{
         var deviceList:[String] = []
         var deviceOBJ:[CBPeripheral] = []
         
-        for i in 0 ... deviceList.count{
+        for i in 0 ... deviceInfoList.count - 1{
             deviceOBJ.append(deviceInfoList[i].peripheral)
             deviceList.append(deviceInfoList[i].name)
         }
@@ -425,8 +442,11 @@ class HomeViewController: BLE_ViewController{
         isAutoMode = !isAutoMode
         if isAutoMode{
             doorCheckButton.setImage(R.image.checkboxTick(), for: .normal)
+            StopScanningTimer()
+            StartBgAutoTimer()
         }else{
            doorCheckButton.setImage(R.image.checkboxNone(), for: .normal)
+            StopBgAutoTimer()
         
         }
         print("didTapDoorCheck")
@@ -442,6 +462,7 @@ class HomeViewController: BLE_ViewController{
         
             deviceNameLabel.text = GetSimpleLocalizedString("Searching…")
             deviceNameLabel.isUserInteractionEnabled = false
+             deviceNameLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             deviceTypeLabel.text = GetSimpleLocalizedString("Please wait a moment…")
             deviceTypeLabel.isHidden = true
             dotImageView.isHidden = true
@@ -492,6 +513,9 @@ class HomeViewController: BLE_ViewController{
             doorStatusLabel.textColor = HexColor("a4aab3")
             loadingImageView.isHidden = true
             loadingImageView.stopRotate()
+            if isForce {
+             deviceNameLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+            }
         }
     }
     
@@ -594,6 +618,7 @@ class HomeViewController: BLE_ViewController{
     public override func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
         
        super.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
+       
         selectSetDevice = peripheral
         connectTimer?.invalidate()
         connectTimer = nil
@@ -623,10 +648,11 @@ class HomeViewController: BLE_ViewController{
         }
         
        
-        isOpenDoor = false
+       // isOpenDoor = false
         isAdminEnroll = false
         isEnroll = false
-        
+        selectSetDevice.delegate = self
+
         if disTimer == nil {
             
             disTimer = Timer.scheduledTimer(timeInterval: Config.disConTimeOut, target: self, selector: #selector(disconnectTask), userInfo: nil, repeats: false)
@@ -635,10 +661,12 @@ class HomeViewController: BLE_ViewController{
         }
 
     }
+    
+  
 
     override func cmdAnalysis(cmd:[UInt8]){
         let datalen = Int16( UInt16(cmd[2]) << 8 | UInt16(cmd[3] & 0x00FF))
-        /* for i in 0 ... cmd.count - 1{
+      /*   for i in 0 ... cmd.count - 1{
          print(String(format:"r-cmd[%d]=%02x\r\n",i,cmd[i]))
          }*/
         if datalen == Int16(cmd.count - 4) {
@@ -712,14 +740,24 @@ class HomeViewController: BLE_ViewController{
                     
                     if major == 1 && minor >= 6{
                         Config.bleManager.disconnectByCMD(char: bpChar)
-                        
                     }
                     else{
                         Config.bleManager.disconnect()
                         
                     }
+                    print("disconnection ok\r\n")
+                    let date = Date()
+                    let calendar = Calendar.current
+                    let minutes = calendar.component(.minute, from: date)
+                    let sec = calendar.component(.second, from: date)
+                    let disonTime = (minutes * 60) + sec
+                    Config.saveParam.set(disonTime, forKey: selectSetDevice.identifier.uuidString+"d_time")
+                    
+
+                    isOpenDoor = false
+                   
                     if isAutoMode{
-                      // Config.bleManager.release()
+                       bgAutoTimerFlag = true
                     }else{
                      StartScanningTimer()
                     }
@@ -751,21 +789,26 @@ class HomeViewController: BLE_ViewController{
     func disconnectTask(){
          isKeepOpen = false
         print("disconnect time out");
+       
         disconnect()
-        
         disTimer = nil
     }
     func connectTimeOutTask(){
         isKeepOpen = false
         isOpenDoor = false
         isEnroll = false
-        
         print("connect time out");
         Config.bleManager.disconnect()
         connectTimer = nil
+        if isAutoMode{
+          bgAutoTimerFlag = true
+          
+        }else{
+       
         deviceFoundStatus = .DeviceSearching
         changeViewContentSettings()
-        StartScanningTimer()
+            StartScanningTimer()
+        }
     }
 
     func GetTargetDevice()->CBPeripheral{
@@ -807,81 +850,43 @@ class HomeViewController: BLE_ViewController{
     }
     
     func updateBgAutoTimer() {
-        //
-        // print("updateBgAutoTimer()")
+    
+        
+    var selectTarget:CBPeripheral!
     if bgAutoTimerFlag {
-       
+              //rtrerrrr  print("updateBgAutoTimer()")
+        var isTriggerOpendoor = false
+        if deviceInfoList.count > 0 && !isOpenDoor{
+            Config.bleManager.ScanBLEStop()
+        selectTarget = GetTargetDevice()
+           isTriggerOpendoor = checkConTimeLimit(target: selectTarget)
+        }
         
+        if(isTriggerOpendoor) {
+            //print(" ---- isBackGround-AutoMode ---- ")
         
-        
-        if(isAutoMode && !isOpenDoor) {
-            // print(" ---- isBackGround-AutoMode ---- ")
-            if !Config.bleManager.isScanBLE(){
-               Config.bleManager.ScanBLE()
-            }
-            
-            checkDeviceAlive()
-            
-            if isMotion{
-                
-        
-                Config.bleManager.ScanBLEStop()
 
                 
-            if deviceInfoList.count > 0 {
-            
-                let target = GetTargetDevice()
-                
-                isMotion = false
-                let expectLEVEL = readExpectLevelFromDbByUUID(target.identifier.uuidString)
-                print("expectLEVEL=: \(expectLEVEL )")
+                let expectLEVEL = readExpectLevelFromDbByUUID(selectTarget.identifier.uuidString)
+                //print("expectLEVEL=: \(expectLEVEL )")
 
-                if expectLEVEL >= GetCurrLevel(targetUUID: target.identifier.uuidString){
-                    Config.bleManager.connect(bleDevice: target)
-                    
+                if expectLEVEL >= GetCurrLevel(targetUUID: selectTarget.identifier.uuidString){
+                    Config.bleManager.connect(bleDevice: selectTarget)
+                    StartConnectTimer()
                     isOpenDoor = true
-
+                    bgAutoTimerFlag = false
                   }
                 }
-            }
+        
             print("Scan-CNT: \(deviceInfoList.count)")
-             //StopBgAutoTimer()
-        }
+        
+        
        
-        /*for (item) in deviceInfoList {
-         print("BG-AutoMode Items: \(item)")
-         
-         let curr_ticks: TimeInterval = Date().timeIntervalSince1970
-         }*/
-        //Get Data from DB
-        /*let isUsed: Bool = storeInfo.bool(forKey: (item.UUID.uuidString + expectLevel_isUsed_Suffix))
-         let expect_level: Int? = storeInfo.integer(forKey: (item.UUID.uuidString + expectLevel_Value_Suffix))
-         let last_ticks: TimeInterval? = storeInfo.object(forKey: (item.UUID.uuidString + device_LastIdentify_Ticks_Suffix)) as? TimeInterval ?? 0
-         
-         let diff_ticks:Int = Int(curr_ticks - last_ticks!)
-         
-         print("(\(idx)) name: \(item.name), isUsed = \(isUsed), curr = \(item.current_level), expect = \(String(describing: expect_level)), last_ticks = \(String(describing: last_ticks)), diff = \(diff_ticks)")
-         */
-        //if((diff_ticks >= 6) && (item.current_level <= expect_level!)) {
-        //if((diff_ticks >= 6)) {
-        //   autoMode_SelectedDeviceInfo = item
-        
-        //Assign Device
-        /// target_SelectedDeviceInfo = autoMode_SelectedDeviceInfo;
-        
-        //act(.open)
-        // act(.bgAuto)
-        
-        //    print("Do BG-Auto Open: [\(item.name)] ")
-        
-        //  break;
-        // }
-        
-        // idx += 1
-        // }
-        
-        // }
-        }
+      
+        }else if (!isOpenDoor){
+           Config.bleManager.ScanBLE()
+           checkDeviceAlive()
+         }
     }
 
     func isExistTarget(targetUUID:String)->Bool{
@@ -929,6 +934,7 @@ class HomeViewController: BLE_ViewController{
         var need_Check_Alive: Bool = true;
         
         if(Config.bleManager.isScanBLE()) {
+           
             need_Check_Alive = true;
         }
         else {
