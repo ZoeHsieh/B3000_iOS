@@ -61,6 +61,7 @@ class HomeViewController: BLE_ViewController{
     var ScanningTimerflag = false
     var bgAutoTimerFlag = false
     var isMotion = false
+    var isConnected = false
     var selectSetDevice:CBPeripheral!
     var forceDevice:CBPeripheral!
     @IBAction func didEnroll(_ sender: Any) {
@@ -115,6 +116,7 @@ class HomeViewController: BLE_ViewController{
         openDoorButton.setBackgroundImage(R.image.btnGreen(), for: .normal)
         openDoorButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
         settingsButton.adjustButtonEdgeInsets()
+        enrollButon.adjustButtonEdgeInsets()
          Config.bleManager.Init(delegate: self)
         
         deviceFoundStatus = .DeviceNotFound
@@ -219,7 +221,7 @@ class HomeViewController: BLE_ViewController{
         
         if((RSSI.intValue <= 0) && (RSSI.intValue >= Config.BLE_RSSI_MIN)) {
             
-            var tmp: DeviceInfo = DeviceInfo(UUID: uuid, name: name, peripheral: peripheral, rssi: RSSI.intValue, current_level: Convert_RSSI_to_LEVEL(RSSI.intValue), expect_level: 0, alive: 3)
+            var tmp: DeviceInfo = DeviceInfo(UUID: uuid, name: name, peripheral: peripheral, rssi: RSSI.intValue, current_level: Convert_RSSI_to_LEVEL(RSSI.intValue), expect_level: 0, alive: 8)
             
             if( deviceInfoList.contains(tmp)) {
                 
@@ -395,17 +397,18 @@ class HomeViewController: BLE_ViewController{
         
         if !isAutoMode {
         StopScanningTimer()
-        if deviceInfoList.count > 0 {
+        
+        if deviceInfoList.count > 0 && !isOpenDoor{
         isOpenDoor = true
         let target = GetTargetDevice()
         
             
-        let isAdmin = Config.saveParam.bool(forKey: (target.identifier.uuidString))
-        if isAdmin || checkConTimeLimit(target: target)
-        {
+        //let isAdmin = Config.saveParam.bool(forKey: (target.identifier.uuidString))
+        //if isAdmin || checkConTimeLimit(target: target)
+       // {
             Config.bleManager.connect(bleDevice: target)
             StartConnectTimer()
-        }
+        //}
             
         switch deviceFoundStatus
         {
@@ -654,8 +657,12 @@ class HomeViewController: BLE_ViewController{
         selectSetDevice.delegate = self
 
         if disTimer == nil {
-            
-            disTimer = Timer.scheduledTimer(timeInterval: Config.disConTimeOut, target: self, selector: #selector(disconnectTask), userInfo: nil, repeats: false)
+            if isKeepOpen{
+                
+                disTimer = Timer.scheduledTimer(timeInterval: Config.keepDisConTimeOut, target: self, selector: #selector(disconnectTask), userInfo: nil, repeats: false)
+            }else{
+                disTimer = Timer.scheduledTimer(timeInterval: Config.disConTimeOut, target: self, selector: #selector(disconnectTask), userInfo: nil, repeats: false)
+            }
             
             
         }
