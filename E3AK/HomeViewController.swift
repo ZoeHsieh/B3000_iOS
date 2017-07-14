@@ -116,6 +116,7 @@ class HomeViewController: BLE_ViewController{
         openDoorButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
         settingsButton.adjustButtonEdgeInsets()
          Config.bleManager.Init(delegate: self)
+        
         deviceFoundStatus = .DeviceNotFound
         changeViewContentSettings()
         deviceNameLabel.text = ""
@@ -134,19 +135,23 @@ class HomeViewController: BLE_ViewController{
                     if acc > 0.5{
                         self.shakeTime += 1
                         print("ShakeTIme: \(self.shakeTime)")
-                        if !self.isOpenDoor {
-                            print("open door in auto mode")
-                         self.isMotion  =  true
-                        }
+                       
                         self.delayOnMainQueue(delay: 1, closure: {
                             self.shakeTime = 0
                         })
                         
+                        if self.isAutoMode {
+                        
+                            if !self.isOpenDoor {
+                            print("open door in auto mode")
+                            self.isMotion  =  true
+                        }
                         if self.bgAutoTimer.isValid{
                             //print("bg alive")
                             
                         }else if self.isBackground{
                             self.StartBgAutoTimer()
+                            }
                         }
                         
                         //if self.shakeTime == 3{
@@ -166,6 +171,7 @@ class HomeViewController: BLE_ViewController{
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.isNavigationBarHidden = true
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
+       
     }
     
     public override func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -251,10 +257,40 @@ class HomeViewController: BLE_ViewController{
                 self.backCount = 0
                 
                
-                
+                self.motionManager.deviceMotionUpdateInterval = 0.02
+                self.motionManager.startDeviceMotionUpdates(to: OperationQueue.current!, withHandler: { (data, error) in
+                    if let acc = data?.userAcceleration.z{
+                        if acc > 0.5{
+                            self.shakeTime += 1
+                            print("ShakeTIme: \(self.shakeTime)")
+                            
+                            self.delayOnMainQueue(delay: 1, closure: {
+                                self.shakeTime = 0
+                            })
+                            
+                            if self.isAutoMode {
+                                
+                                if !self.isOpenDoor {
+                                    print("open door in auto mode")
+                                    self.isMotion  =  true
+                                }
+                                if self.bgAutoTimer.isValid{
+                                    //print("bg alive")
+                                    
+                                }else if self.isBackground{
+                                    self.StartBgAutoTimer()
+                                }
+                            }
+                            
+                            //if self.shakeTime == 3{
+                            //self.openTheDoor(true)
+                            //}
+                        }
+                    }
+                })
                 //MARK: NEED TODO
                 //self.act(.expire)
-                UIApplication.shared.endBackgroundTask(self.bgTaskID!)
+               // UIApplication.shared.endBackgroundTask(self.bgTaskID!)
             })
             
             //Start Timer
@@ -270,7 +306,7 @@ class HomeViewController: BLE_ViewController{
         
         isBackground = false
         //Start Timer
-        //StartScanningTimer();
+        StartScanningTimer();
         
         guard isAutoMode else{ return }
         for timer in backgroundTimers{
@@ -280,7 +316,7 @@ class HomeViewController: BLE_ViewController{
         
         //Stop Timer
         bgAutoTimer.invalidate()
-        StartScanningTimer()
+       
     }
     
     func didTapChooseDevice() {
@@ -931,7 +967,7 @@ class HomeViewController: BLE_ViewController{
     
     func updateScanningTimer() {
         if ScanningTimerflag{
-            Config.bleManager.ScanBLE()
+            //Config.bleManager.ScanBLE()
             checkDeviceAlive()
             if !(deviceInfoList.count > 0) {
                 deviceFoundStatus = .DeviceSearching

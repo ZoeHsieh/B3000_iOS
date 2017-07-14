@@ -16,6 +16,7 @@ class Intro_NOUsersViewController: UIViewController {
         super.viewDidLoad()
 
         noUsersLabel.text = GetSimpleLocalizedString("There's no users, add now?")
+        
     }
 
     override func didReceiveMemoryWarning() {

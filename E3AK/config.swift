@@ -33,7 +33,7 @@ class Config{
     public static let bp_addr = "00:12:A1"
     public static let user_limit_def:UInt8 = 0x00
     public static let user_keypad_unlock_def:UInt8 = 0x00
-    public static let disConTimeOut:Double = 6
+    public static let disConTimeOut:Double = 5
     public static let ConTimeOut:Double = 6
     public static let userIndexTag:String = "userIndex"
     public static let saveParam  = UserDefaults.standard

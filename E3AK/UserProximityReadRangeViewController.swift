@@ -24,6 +24,10 @@ class UserProximityReadRangeViewController: UIViewController {
     @IBOutlet weak var deviceDistanceView: UIView!
     @IBOutlet weak var distanceSettingView: UIView!
     @IBOutlet weak var deviceSettingSliderValueLabel: UILabel!
+    @IBOutlet weak var deviceDistanceTitle: UILabel!
+    @IBOutlet weak var proximityReadRangeTitle: UILabel!
+    
+    @IBOutlet weak var deviceNameTitle: UILabel!
     
     @IBOutlet weak var Label_CurrentRSSILevel: UILabel!
     
@@ -39,8 +43,11 @@ class UserProximityReadRangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = GetSimpleLocalizedString("感應距離")
-        
+        title = GetSimpleLocalizedString("Proximity Read Range")
+        deviceDistanceTitle.text = GetSimpleLocalizedString("Device Distance")
+        proximityReadRangeTitle.text = GetSimpleLocalizedString("Proximity Read Range Settings")
+        deviceNameTitle.text = GetSimpleLocalizedString("Device Name") + ":"
+
         deviceDistanceView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         distanceSettingView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         deviceNameView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)

@@ -114,8 +114,8 @@ class Intro_WelcomeViewController: BLE_ViewController {
     
     func didTapChooseDevice() {
         var deviceList:[String] = []
-        
-        for i in 0 ... deviceList.count{
+        if deviceInfoList.count > 0 {
+        for i in 0 ... deviceInfoList.count - 1{
             
          deviceList.append(deviceInfoList[i].name)
         }
@@ -146,7 +146,8 @@ class Intro_WelcomeViewController: BLE_ViewController {
                     
                   }
                
-              }
+            }
+        }
     }
     
     func changeRightButtonStatus() {
@@ -169,11 +170,19 @@ class Intro_WelcomeViewController: BLE_ViewController {
             nextButton.setBackgroundImage(R.image.btnGreen(), for: .normal)
             nextButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
             Config.bleManager.ScanBLEStop()
+             pleasePressNextLabel.text = self.GetSimpleLocalizedString("Please press Next to continue")
             if deviceInfoList.count == 0{
+
+                deviceNameLabel.text = "  "
+                pleasePressNextLabel.text = GetSimpleLocalizedString("Can't find device")
                 
-                deviceNameLabel.text = GetSimpleLocalizedString("Can't find device")
+                nextButton.isUserInteractionEnabled = false
+                nextButton.setBackgroundImage(R.image.btnGray(), for: .normal)
+                nextButton.setShadowWithColor(color: HexColor("a4aab3"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
+                
+            }else{
+                deviceNameLabel.text =  deviceInfoList[0].name
             }
-            deviceNameLabel.text =  deviceInfoList[0].name
         case .Finished:// start BLE scan
             
             rightButton.removeTarget(nil, action: nil, for: .allEvents)

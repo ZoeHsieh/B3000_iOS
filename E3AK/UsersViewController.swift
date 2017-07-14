@@ -92,7 +92,7 @@ class UsersViewController: BLE_ViewController {
              localUserArr = Config.userListArr
             tableView.reloadData()
         }
-        
+        UsersViewController.status = userViewStatesCase.userNone.rawValue
         
     }
     override func viewWillAppear(_ animated: Bool) {

@@ -137,7 +137,9 @@ class SettingsTableViewController: BLE_tableViewController {
     var isRestore = false
     var isErase = false
     var isCancel = false
+     var dateFormatter = DateFormatter()
     static var  settingStatus:Int = 0
+     var connectTimer:Timer? = nil
     @IBOutlet weak var deviceTimeLabel: UILabel!
     
     @IBOutlet weak var backButton: UIBarButtonItem!
@@ -194,7 +196,8 @@ class SettingsTableViewController: BLE_tableViewController {
         backupButton.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         restoreButton.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
        
-    
+        dateFormatter.dateStyle = .medium // show short-style date format
+        dateFormatter.timeStyle = .short
             tableView.register(R.nib.settingsTableViewSectionFooter)
         
             setUIVisable(enable: false)
@@ -203,6 +206,7 @@ class SettingsTableViewController: BLE_tableViewController {
         
         delayOnMainQueue(delay: 1, closure: {
              Config.bleManager.connect(bleDevice: self.selectedDevice)
+            self.StartConnectTimer()
             self.deviceNameLabel.text = self.selectedDevice.name
             Config.deviceName =  self.deviceNameLabel.text!
         })
@@ -295,27 +299,16 @@ class SettingsTableViewController: BLE_tableViewController {
     
     @IBAction func didTapRestore(_ sender: Any) {
         
-        UIAlertController.showAlert(
-            in: self,
-            withTitle: self.GetSimpleLocalizedString("Restore all data now?"),
-            message: nil,
-            cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
-            destructiveButtonTitle: nil,
-            otherButtonTitles: [self.GetSimpleLocalizedString("Confirm")],
-            tap: {(controller, action, buttonIndex) in
-                if (buttonIndex == controller.cancelButtonIndex) {
-                    print("Cancel Tapped")
-                } else if (buttonIndex == controller.destructiveButtonIndex) {
-                    print("Delete Tapped")
-                } else if (buttonIndex >= controller.firstOtherButtonIndex) {
-                    print("Other Button Index \(buttonIndex - controller.firstOtherButtonIndex)")
-                    let alertController = UIAlertController(title: self.GetSimpleLocalizedString("restore_check_dialog_title"), message: "", preferredStyle: .alert)
+     
+        
+         let isBackupDone:Bool = UserDefaults.standard.bool(forKey: Config.backupOK)
+        
+
+          if isBackupDone{
+                    let alertController = UIAlertController(title: self.GetSimpleLocalizedString("Restore all data now?"), message: "", preferredStyle: .alert)
                     
                     let enableAction = UIAlertAction(title: self.GetSimpleLocalizedString("Confirm"), style: .default, handler: { action in
-                        
-                        let isBackupDone = (UserDefaults.standard.object(forKey: Config.backupOK) as? Bool)!
-                        
-                        if isBackupDone{
+                       
                             self.isRestore = true
                             self.restoreCount = 0
                             
@@ -338,10 +331,8 @@ class SettingsTableViewController: BLE_tableViewController {
                             let cmd = Config.bpProtocol.setDeviceConfig(door_option: Config.doorSensor! , lockType: Config.doorLockType!, delayTime: Int16(Config.doorOpenTime!), G_sensor_option: Config.TamperSensor!)
                             Config.bleManager.writeData(cmd: cmd, characteristic: self.bpChar!)
                             
-                        }else{
-                            alertController.message = self.GetSimpleLocalizedString("restore_status_file_not_found")
-                        }
                         
+                       
                         
                     })
                     
@@ -350,8 +341,13 @@ class SettingsTableViewController: BLE_tableViewController {
                     alertController.addAction(cancelAction)
                     alertController.addAction(enableAction)
                     self.present(alertController, animated: true, completion: nil)
-                }
-        })
+          }
+          else{
+            
+           self.showMessageDialog(Title: "", Message: self.GetSimpleLocalizedString("restore_status_file_not_found"))
+            
+        }
+    
     }
     
     override func didReceiveMemoryWarning() {
@@ -584,11 +580,13 @@ class SettingsTableViewController: BLE_tableViewController {
     
     public override func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
             Config.bleManager.connect(bleDevice: selectedDevice)
+        StartConnectTimer()
         
     }
     
     public override func peripheral(_ peripheral: CBPeripheral, didDiscoverCharacteristicsFor service: CBService, error: Error?) {
-        
+        connectTimer?.invalidate()
+        connectTimer = nil
         super.peripheral(peripheral, didDiscoverCharacteristicsFor: service, error: error)
         
         var cmd = Data()
@@ -941,17 +939,27 @@ class SettingsTableViewController: BLE_tableViewController {
                     for i in 4 ... cmd.count - 1{
                         data.append(cmd[i])
                     }
-                    let y = UInt16(data[0]) * 256 + UInt16(data[1])
-                    let m = data[2].toTimeString()
-                    let d = data[3].toTimeString()
-                    let hh = data[4].toTimeString()
-                    let mm = data[5].toTimeString()
-                    let ss = data[6].toTimeString()
-                    let timeText = "\(y)-\(m)-\(d) \(hh):\(mm):\(ss)"
+                   
              
                     SettingsTableViewController.startTimeArr = [Int(UInt16(data[0]) * 256 + UInt16(data[1])), Int(data[2]), Int(data[3]), Int(data[4]), Int(data[5]), Int(data[6])]
+                    let calendar = Calendar.current
+                    let currentdate = Date()
+                    var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from:  currentdate)
+                    print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
+                    
+                    
+                    dateComponents.year = SettingsTableViewController.startTimeArr[0]
                    
-                   deviceTimeLabel.text = "\(d)-\(m)-\(y) \(hh):\(mm):\(ss)"
+                    dateComponents.month = SettingsTableViewController.startTimeArr[1]
+                    dateComponents.day = SettingsTableViewController.startTimeArr[2]
+                    dateComponents.hour = SettingsTableViewController.startTimeArr[3]
+                    dateComponents.minute = SettingsTableViewController.startTimeArr[4]
+                    dateComponents.second = SettingsTableViewController.startTimeArr[5]
+                    
+                    deviceTimeLabel.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
+                    
+
+                    //"\(d)-\(m)-\(y) \(hh):\(mm):\(ss)"
                    
                     
                     let cmd = Config.bpProtocol.getDeviceConfig()
@@ -975,8 +983,22 @@ class SettingsTableViewController: BLE_tableViewController {
                         let mm = data[5].toTimeString()
                         let ss = data[6].toTimeString()
                         let timeText = "\(y)-\(m)-\(d) \(hh):\(mm):\(ss)"
+                        let calendar = Calendar.current
+                        let currentdate = Date()
+                        var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from:  currentdate)
+                        print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
                         
-                         deviceTimeLabel.text = timeText
+                        
+                        dateComponents.year = SettingsTableViewController.startTimeArr[0]
+                        
+                        dateComponents.month = SettingsTableViewController.startTimeArr[1]
+                        dateComponents.day = SettingsTableViewController.startTimeArr[2]
+                        dateComponents.hour = SettingsTableViewController.startTimeArr[3]
+                        dateComponents.minute = SettingsTableViewController.startTimeArr[4]
+                        dateComponents.second = SettingsTableViewController.startTimeArr[5]
+                        
+                        deviceTimeLabel.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
+                         //deviceTimeLabel.text = timeText
                         showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
                        
                     }else{
@@ -1107,6 +1129,23 @@ class SettingsTableViewController: BLE_tableViewController {
         }
         
         
+        
+    }
+    func connectTimeOutTask(){
+        print("connect time out");
+        Config.bleManager.disconnect()
+        connectTimer = nil
+        backToMainPage()
+        
+    }
+
+    func StartConnectTimer(){
+        if connectTimer == nil {
+            
+            connectTimer = Timer.scheduledTimer(timeInterval: Config.ConTimeOut, target: self, selector: #selector(connectTimeOutTask), userInfo: nil, repeats: false)
+            
+            
+        }
         
     }
 

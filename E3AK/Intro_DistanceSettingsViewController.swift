@@ -8,8 +8,9 @@
 
 import UIKit
 import ChameleonFramework
+import CoreBluetooth
 
-class Intro_DistanceSettingsViewController: UIViewController {
+class Intro_DistanceSettingsViewController: BLE_ViewController {
 
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var deviceDistanceView: UIView!
@@ -20,9 +21,18 @@ class Intro_DistanceSettingsViewController: UIViewController {
     @IBOutlet weak var settingProximityReadRangeLabel: UILabel!
     @IBOutlet weak var deviceDistanceLabel: UILabel!
     
+    @IBOutlet weak var levelSlider: UISlider!
+    @IBOutlet weak var deviceNameTitle: UILabel!
+    
+    @IBOutlet weak var currentDeviceLevel: UILabel!
+    
+    var selectedDevice:CBPeripheral!
+    var rssiCurrentLevel = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        deviceNameTitle.text = selectedDevice.name
         rightButton.setTitle(self.GetSimpleLocalizedString("Skip"), for: .normal)
         deviceDistanceLabel.text = self.GetSimpleLocalizedString("Device Distance")
         proximityReadRangeLabel.text = self.GetSimpleLocalizedString("Proximity Read Range Settings")
@@ -35,6 +45,18 @@ class Intro_DistanceSettingsViewController: UIViewController {
         nextButton.setShadowWithColor(color: HexColor("00b900"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
         deviceDistanceView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         distanceSettingView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+       
+        let setupRSSILevel = readExpectLevelFromDbByUUID(selectedDevice.identifier.uuidString)
+        
+
+        deviceSettingSliderValueLabel.text = String(format:"%d",setupRSSILevel)
+        
+        let defSliderValue = Float(setupRSSILevel) / 100 / 0.2
+        
+        //  / 0.2)
+        levelSlider.setValue(defSliderValue, animated: true)
+        
+
         
     }
     
@@ -42,6 +64,7 @@ class Intro_DistanceSettingsViewController: UIViewController {
     
         let currentValue = Int(sender.value * 100 * 0.2)
         deviceSettingSliderValueLabel.text = "\(currentValue)"
+          saveExpectLevelToDbByUUID(selectedDevice.identifier.uuidString, currentValue)
     }
     
     override func didReceiveMemoryWarning() {

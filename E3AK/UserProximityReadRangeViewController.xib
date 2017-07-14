@@ -12,12 +12,15 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserProximityReadRangeViewController" customModule="E3AK" customModuleProvider="target">
             <connections>
                 <outlet property="Label_CurrentRSSILevel" destination="rIA-4o-gjN" id="zbL-dm-zg6"/>
+                <outlet property="deviceDistanceTitle" destination="3uw-Qt-R5F" id="lDf-rg-Ghc"/>
                 <outlet property="deviceDistanceView" destination="Sva-gs-yHs" id="Qk1-YD-gPK"/>
+                <outlet property="deviceNameTitle" destination="LRd-4H-b9n" id="Kvy-IF-cAE"/>
                 <outlet property="deviceNameView" destination="vaG-y7-mLI" id="AvA-ie-hLv"/>
                 <outlet property="deviceSettingSliderValueLabel" destination="3rd-sU-DwQ" id="SPi-kZ-BFA"/>
                 <outlet property="distanceSettingView" destination="2Bj-4h-R5d" id="ce4-fx-4Fm"/>
                 <outlet property="label_DeviceName" destination="hd2-Ej-QKV" id="Gh3-dW-tOx"/>
                 <outlet property="levelSlider" destination="zqy-tq-fDV" id="DOl-iq-5v5"/>
+                <outlet property="proximityReadRangeTitle" destination="6Js-IH-fc0" id="XXC-GP-y3G"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="kth-tn-wtm"/>
             </connections>
         </placeholder>

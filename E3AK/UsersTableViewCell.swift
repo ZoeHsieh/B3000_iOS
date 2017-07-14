@@ -35,4 +35,9 @@ class UsersTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+   public func setArrowHide(_ isHide: Bool) {
+        
+        disclosureImageView.isHidden = isHide
+    }
+    
 }

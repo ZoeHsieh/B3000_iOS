@@ -7,16 +7,17 @@
 //
 
 import UIKit
+import CoreBluetooth
 
-class Intro_AddMoreUserViewController: UIViewController {
+class Intro_AddMoreUserViewController: BLE_ViewController {
 
     @IBOutlet weak var tableView: UITableView!
-    let  accountArr = ["Chris"]
+   
     @IBOutlet weak var IDLabel: UILabel!
     @IBOutlet weak var passwordLabel: UILabel!
     @IBOutlet weak var userLabel: UILabel!
-    
-    
+    var selectedDevice:CBPeripheral!
+     var localUserArr:[[String:Any]] = []
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let footerView = R.nib.intro_AddMoreUserFooterView.firstView(owner: nil)
@@ -32,13 +33,21 @@ class Intro_AddMoreUserViewController: UIViewController {
         super.viewDidLoad()
 
         tableView.register(R.nib.usersTableViewCell)
+        localUserArr = Config.userListArr
+        tableView.reloadData()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-    
+    override func viewWillAppear(_ animated: Bool) {
+        localUserArr = Config.userListArr
+        tableView.reloadData()
+       
+        
+    }
+
 
     /*
     // MARK: - Navigation
@@ -68,15 +77,22 @@ extension Intro_AddMoreUserViewController: UITableViewDataSource, UITableViewDel
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return accountArr.count
+        return Config.userListArr
+.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: R.nib.usersTableViewCell.identifier, for: indexPath) as! UsersTableViewCell
-        cell.accountLabel.text = "\(accountArr[indexPath.row])"
-        cell.disclosureImageView.isHidden = true
-        //cell.deviceLabel.text = "\(deviceArr[indexPath.row])"
-        
+        cell.setArrowHide(true)
+        if localUserArr.count > indexPath.row {
+            guard localUserArr[indexPath.row]["name"] != nil else{
+                return cell
+            }
+            cell.accountLabel.text = "\(localUserArr[indexPath.row]["name"] as! String)"
+            
+            
+            cell.passwordLabel.text = "\(localUserArr[indexPath.row]["pw"] as! String)"
+        }
         return cell
     }
     

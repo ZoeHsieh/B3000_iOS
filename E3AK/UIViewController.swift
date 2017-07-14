@@ -63,7 +63,7 @@ extension UIViewController: StoryboardIdentifiable{
 //        guard let rootViewController = window.rootViewController else {
 //            return
 //        }
-        
+        Config.bleManager.disconnect()
         let storyboard = UIStoryboard(storyboard: .Main)
         let vc: HomeNavigationController = storyboard.instantiateViewController()
 //        vc.view.frame = rootViewController.view.frame

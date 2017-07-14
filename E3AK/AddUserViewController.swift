@@ -83,7 +83,7 @@ class AddUserViewController: BLE_ViewController {
                     
                     Config.userListArr.append(["pw": tmpPassword, "name":tmpID,"index":userIndex])
                     
-                    
+                   delegate?.didTapAdd()
                     
                 }
                 else{

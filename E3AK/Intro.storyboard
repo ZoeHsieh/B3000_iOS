@@ -19,7 +19,7 @@
         <scene sceneID="OQl-dU-S3H">
             <objects>
                 <navigationController storyboardIdentifier="IntroNavigationController" navigationBarHidden="YES" id="VKk-f2-pJ9" customClass="IntroNavigationController" customModule="E3AK" customModuleProvider="target" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QRb-Rm-t2U">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="QRb-Rm-t2U">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -160,7 +160,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E3AK001" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="18" translatesAutoresizingMaskIntoConstraints="NO" id="tsl-t9-Xre">
-                                        <rect key="frame" x="107.5" y="22.5" width="161" height="44"/>
+                                        <rect key="frame" x="107" y="22.5" width="161" height="44"/>
                                         <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="36"/>
                                         <color key="textColor" red="0.64313725489999995" green="0.66666666669999997" blue="0.70196078429999997" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -176,7 +176,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="triangle" translatesAutoresizingMaskIntoConstraints="NO" id="DcG-Ig-hss">
-                                        <rect key="frame" x="277.5" y="41.5" width="9" height="6"/>
+                                        <rect key="frame" x="277" y="41.5" width="9" height="6"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -303,6 +303,9 @@
                                             <action selector="next:" destination="YFy-D3-AsR" eventType="touchUpInside" id="Dvm-g4-Fif"/>
                                         </connections>
                                     </button>
+                                    <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="loading-white" translatesAutoresizingMaskIntoConstraints="NO" id="7WX-5R-BOj">
+                                        <rect key="frame" x="172" y="288" width="30" height="30"/>
+                                    </imageView>
                                     <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PfL-fW-ppM">
                                         <rect key="frame" x="309" y="43" width="46" height="30"/>
                                         <state key="normal" title="已註冊"/>
@@ -335,9 +338,11 @@
                                     <constraint firstItem="du9-um-Pwz" firstAttribute="top" secondItem="ibg-QF-hIG" secondAttribute="bottom" constant="8" id="fzA-d2-F5k"/>
                                     <constraint firstItem="ibg-QF-hIG" firstAttribute="top" secondItem="pDu-BG-q10" secondAttribute="bottom" constant="8" id="isC-uU-J11"/>
                                     <constraint firstAttribute="trailing" secondItem="PfL-fW-ppM" secondAttribute="trailing" constant="20" id="jxw-lY-kLb"/>
+                                    <constraint firstItem="7WX-5R-BOj" firstAttribute="centerY" secondItem="tn5-Ih-UQq" secondAttribute="centerY" id="l6o-Y8-wiC"/>
                                     <constraint firstItem="tn5-Ih-UQq" firstAttribute="centerX" secondItem="3rA-lP-7OU" secondAttribute="centerX" id="pav-g0-JSA"/>
                                     <constraint firstItem="gej-gx-drL" firstAttribute="top" secondItem="pDu-BG-q10" secondAttribute="bottom" id="rc0-LR-TDf"/>
                                     <constraint firstItem="pDu-BG-q10" firstAttribute="top" secondItem="3rA-lP-7OU" secondAttribute="top" constant="36" id="t3R-38-F3V"/>
+                                    <constraint firstItem="7WX-5R-BOj" firstAttribute="centerX" secondItem="tn5-Ih-UQq" secondAttribute="centerX" id="ta3-qf-wHB"/>
                                     <constraint firstItem="Nvg-D1-yLQ" firstAttribute="leading" secondItem="3rA-lP-7OU" secondAttribute="leading" constant="20" id="xVU-8e-YCI"/>
                                 </constraints>
                             </scrollView>
@@ -361,6 +366,7 @@
                         <outlet property="accountTextField" destination="ibg-QF-hIG" id="ZM4-bX-F5f"/>
                         <outlet property="deviceNameLabel" destination="PcS-Ld-oWe" id="xNw-cD-eGm"/>
                         <outlet property="helloLabel" destination="pDu-BG-q10" id="QbE-Gu-weV"/>
+                        <outlet property="loadingView" destination="7WX-5R-BOj" id="5ud-br-bh5"/>
                         <outlet property="nextButton" destination="tn5-Ih-UQq" id="BCM-Ue-zuZ"/>
                         <outlet property="noteLabel" destination="Nvg-D1-yLQ" id="SM3-Le-f3p"/>
                         <outlet property="passwordTextField" destination="du9-um-Pwz" id="yH1-tr-hH7"/>
@@ -454,6 +460,7 @@
                     </view>
                     <connections>
                         <outlet property="containerView" destination="SFH-vf-54i" id="aFZ-Vr-vzP"/>
+                        <outlet property="deviceNameTitle" destination="G5Y-Z1-4Cu" id="Hh8-RZ-4bg"/>
                         <outlet property="nextButton" destination="1dl-mg-dz1" id="Ydl-1i-srz"/>
                         <outlet property="rightButton" destination="VOM-S6-joX" id="weG-Dx-8aB"/>
                         <segue destination="5Pf-ed-0lL" kind="show" identifier="showIntro_DistanceSettingsViewController" id="wrE-jm-X15"/>
@@ -626,10 +633,13 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="currentDeviceLevel" destination="deR-yL-Rij" id="ZWt-Ed-Nu5"/>
                         <outlet property="deviceDistanceLabel" destination="eLf-ek-qbp" id="HQe-yw-ZQb"/>
                         <outlet property="deviceDistanceView" destination="aTi-XJ-tOd" id="qhn-5b-moQ"/>
+                        <outlet property="deviceNameTitle" destination="Q77-7f-Gu2" id="9KN-6L-BbU"/>
                         <outlet property="deviceSettingSliderValueLabel" destination="Y0K-8I-enp" id="XR7-4l-MAD"/>
                         <outlet property="distanceSettingView" destination="iSN-zv-rVF" id="7kD-EE-wZk"/>
+                        <outlet property="levelSlider" destination="djs-uM-gTf" id="GNj-73-zNl"/>
                         <outlet property="nextButton" destination="WLC-Ti-vne" id="iRK-LG-KDO"/>
                         <outlet property="proximityReadRangeLabel" destination="YZh-69-Ai8" id="ozt-20-j9h"/>
                         <outlet property="rightButton" destination="M6e-Rb-Fn5" id="7yt-Ec-d6b"/>
@@ -647,6 +657,7 @@
         <image name="btn-green" width="301" height="60"/>
         <image name="green-dot" width="10" height="10"/>
         <image name="loading-green" width="30" height="30"/>
+        <image name="loading-white" width="30" height="30"/>
         <image name="plants" width="76" height="54"/>
         <image name="slid-dot-1" width="70" height="10"/>
         <image name="slid-dot-3" width="70" height="10"/>

@@ -147,7 +147,8 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
             
             
-                dateComponents.year = SettingsTableViewController.startTimeArr[0]
+                //dateComponents.year = SettingsTableViewController.startTimeArr[0]
+               SettingsTableViewController.startTimeArr[0] = dateComponents.year!
                 dateComponents.month = SettingsTableViewController.startTimeArr[1]
                 dateComponents.day = SettingsTableViewController.startTimeArr[2]
                 dateComponents.hour = SettingsTableViewController.startTimeArr[3]
@@ -179,7 +180,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             print(String(format:"index=%d",indexPath.row))
             
             print("update start arr")
-            dateComponents.year = SettingsTableViewController.startTimeArr[0]
+         //   dateComponents.year = SettingsTableViewController.startTimeArr[0]
             dateComponents.month = SettingsTableViewController.startTimeArr[1]
             dateComponents.day = SettingsTableViewController.startTimeArr[2]
             dateComponents.hour = SettingsTableViewController.startTimeArr[3]

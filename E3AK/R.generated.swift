@@ -2365,6 +2365,7 @@ struct _R: Rswift.Validatable {
         if UIKit.UIImage(named: "btn-green") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Intro', but couldn't be loaded.") }
         if UIKit.UIImage(named: "green-dot") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Intro', but couldn't be loaded.") }
         if UIKit.UIImage(named: "slid-dot-4") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-4' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "loading-white") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Intro', but couldn't be loaded.") }
         if UIKit.UIImage(named: "btn-gray") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-gray' is used in storyboard 'Intro', but couldn't be loaded.") }
         if UIKit.UIImage(named: "plants") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Intro', but couldn't be loaded.") }
         if _R.storyboard.intro().intro_UserViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_UserViewController' could not be loaded from storyboard 'Intro' as 'Intro_UserViewController'.") }
