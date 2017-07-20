@@ -29,6 +29,7 @@ class Config{
     public static let serviceUUID = "0000E0FF-3C17-D293-8E48-14FE2E4DA212"
     public static let charUUID = "0000FFE1-0000-1000-8000-00805F9B34FB"
     public static let AdminID = "ADMIN."
+    public static let AdminID_ENROLL = "ADMIN"
     public static let AdminPWDDef = "12345"
     public static let bp_addr = "00:12:A1"
     public static let user_limit_def:UInt8 = 0x00
@@ -79,5 +80,6 @@ class Config{
     public static let ConfigADMIN_MACTag:String = "adminMac"
     public static let backupOK = "backupOK"
     public static let firstOpen = "FirstOpen"
+    public static let APPversion = "2.1"
     //public static let SCAN_TIME_INTRO:Int = 10
 }

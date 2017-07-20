@@ -69,11 +69,11 @@ Schedule = "Schedule";
 "Access Times" = "Access Times";
 "Please enter access times" = "Please enter access times";
 Recurrent = "Recurrent";
-Start = "Start";
-End = "End";
+Start = "Start Time";
+End = "End Time";
 Repeat = "Repeat";
-Start = "Start";
-End = "End";
+Start = "Start Time";
+End = "End Time";
 "Repeat Select" = "Repeat";
 Monday = "Monday";
 Tuesday = "Tuesday";
@@ -113,7 +113,7 @@ Date = "Date";
 
 
 /*settings result toast*/
-"program_success" = "Sucess";
+"program_success" = "Success";
 "program_fail" = "Fail";
 
 /*restore dialog*/
@@ -157,3 +157,9 @@ Date = "Date";
 "weekly_Thu" = "[THU]";
 "weekly_Fri" = "[FRI]";
 "weekly_Sat" = "[SAT]";
+"openType_Button" = "Button";
+"openType_Alarm" = "Alarm";
+"openType_Keypad" = "Keypad";
+"Device Model" = "Device Model:";
+"APP version" = "APP version:";
+

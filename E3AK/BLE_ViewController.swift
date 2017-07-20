@@ -32,7 +32,7 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         Config.isUserListOK = false
         Config.isHistoryDataOK = false
 
-        delayOnMainQueue(delay: 0.2, closure: {
+        delayOnMainQueue(delay: 0.5, closure: {
             peripheral.discoverServices([CBUUID(string:Config.serviceUUID)])
         })
         

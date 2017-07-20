@@ -613,7 +613,7 @@ struct R: Rswift.Validatable {
   
   /// This `R.string` struct is generated, and contains static references to 1 localization tables.
   struct string {
-    /// This `R.string.localizable` struct is generated, and contains static references to 127 localization keys.
+    /// This `R.string.localizable` struct is generated, and contains static references to 132 localization keys.
     struct localizable {
       /// Base translation:  History List
       /// 
@@ -627,6 +627,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let digits = Rswift.StringResource(key: "4~8 digits", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: APP version:
+      /// 
+      /// Locales: zh-Hant, Base
+      static let aPPVersion = Rswift.StringResource(key: "APP version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: About Us
       /// 
       /// Locales: zh-Hant, Base
@@ -663,6 +667,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let settings_Admin_pwd_Edit = Rswift.StringResource(key: "settings_Admin_pwd_Edit", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: Alarm
+      /// 
+      /// Locales: zh-Hant, Base
+      static let openType_Alarm = Rswift.StringResource(key: "openType_Alarm", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: Always Locked
       /// 
       /// Locales: zh-Hant, Base
@@ -711,6 +719,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let backup_dialog_message = Rswift.StringResource(key: "backup_dialog_message", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: Button
+      /// 
+      /// Locales: zh-Hant, Base
+      static let openType_Button = Rswift.StringResource(key: "openType_Button", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: CANCEL
       /// 
       /// Locales: zh-Hant, Base
@@ -743,6 +755,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let deviceDistance = Rswift.StringResource(key: "Device Distance", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: Device Model:
+      /// 
+      /// Locales: zh-Hant, Base
+      static let deviceModel = Rswift.StringResource(key: "Device Model", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: Device Name
       /// 
       /// Locales: zh-Hant, Base
@@ -795,7 +811,7 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let enableKeypadPINCodeToAccess = Rswift.StringResource(key: "Enable Keypad PIN Code to Access", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
-      /// Base translation: End
+      /// Base translation: End Time
       /// 
       /// Locales: zh-Hant, Base
       static let end = Rswift.StringResource(key: "End", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
@@ -855,6 +871,10 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let users_manage_edit_status_Admin_pwd = Rswift.StringResource(key: "users_manage_edit_status_Admin_pwd", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
+      /// Base translation: Keypad
+      /// 
+      /// Locales: zh-Hant, Base
+      static let openType_Keypad = Rswift.StringResource(key: "openType_Keypad", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
       /// Base translation: Keypad Access
       /// 
       /// Locales: zh-Hant, Base
@@ -1011,11 +1031,11 @@ struct R: Rswift.Validatable {
       /// 
       /// Locales: zh-Hant, Base
       static let skip = Rswift.StringResource(key: "Skip", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
-      /// Base translation: Start
+      /// Base translation: Start Time
       /// 
       /// Locales: zh-Hant, Base
       static let start = Rswift.StringResource(key: "Start", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
-      /// Base translation: Sucess
+      /// Base translation: Success
       /// 
       /// Locales: zh-Hant, Base
       static let program_success = Rswift.StringResource(key: "program_success", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base"], comment: nil)
@@ -1145,6 +1165,13 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("4~8 digits", bundle: R.hostingBundle, value: "4~8 digits", comment: "")
       }
       
+      /// Base translation: APP version:
+      /// 
+      /// Locales: zh-Hant, Base
+      static func aPPVersion(_: Void = ()) -> String {
+        return NSLocalizedString("APP version", bundle: R.hostingBundle, value: "APP version:", comment: "")
+      }
+      
       /// Base translation: About Us
       /// 
       /// Locales: zh-Hant, Base
@@ -1206,6 +1233,13 @@ struct R: Rswift.Validatable {
       /// Locales: zh-Hant, Base
       static func settings_Admin_pwd_Edit(_: Void = ()) -> String {
         return NSLocalizedString("settings_Admin_pwd_Edit", bundle: R.hostingBundle, value: "Admin Password Edit", comment: "")
+      }
+      
+      /// Base translation: Alarm
+      /// 
+      /// Locales: zh-Hant, Base
+      static func openType_Alarm(_: Void = ()) -> String {
+        return NSLocalizedString("openType_Alarm", bundle: R.hostingBundle, value: "Alarm", comment: "")
       }
       
       /// Base translation: Always Locked
@@ -1292,6 +1326,13 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("backup_dialog_message", bundle: R.hostingBundle, value: "Backup...", comment: "")
       }
       
+      /// Base translation: Button
+      /// 
+      /// Locales: zh-Hant, Base
+      static func openType_Button(_: Void = ()) -> String {
+        return NSLocalizedString("openType_Button", bundle: R.hostingBundle, value: "Button", comment: "")
+      }
+      
       /// Base translation: CANCEL
       /// 
       /// Locales: zh-Hant, Base
@@ -1346,6 +1387,13 @@ struct R: Rswift.Validatable {
       /// Locales: zh-Hant, Base
       static func deviceDistance(_: Void = ()) -> String {
         return NSLocalizedString("Device Distance", bundle: R.hostingBundle, value: "Device Distance", comment: "")
+      }
+      
+      /// Base translation: Device Model:
+      /// 
+      /// Locales: zh-Hant, Base
+      static func deviceModel(_: Void = ()) -> String {
+        return NSLocalizedString("Device Model", bundle: R.hostingBundle, value: "Device Model:", comment: "")
       }
       
       /// Base translation: Device Name
@@ -1439,11 +1487,11 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("Enable Keypad PIN Code to Access", bundle: R.hostingBundle, value: "Enable Keypad PIN Code to Access", comment: "")
       }
       
-      /// Base translation: End
+      /// Base translation: End Time
       /// 
       /// Locales: zh-Hant, Base
       static func end(_: Void = ()) -> String {
-        return NSLocalizedString("End", bundle: R.hostingBundle, value: "End", comment: "")
+        return NSLocalizedString("End", bundle: R.hostingBundle, value: "End Time", comment: "")
       }
       
       /// Base translation: Enroll
@@ -1542,6 +1590,13 @@ struct R: Rswift.Validatable {
       /// Locales: zh-Hant, Base
       static func users_manage_edit_status_Admin_pwd(_: Void = ()) -> String {
         return NSLocalizedString("users_manage_edit_status_Admin_pwd", bundle: R.hostingBundle, value: "Invalid Password!!", comment: "")
+      }
+      
+      /// Base translation: Keypad
+      /// 
+      /// Locales: zh-Hant, Base
+      static func openType_Keypad(_: Void = ()) -> String {
+        return NSLocalizedString("openType_Keypad", bundle: R.hostingBundle, value: "Keypad", comment: "")
       }
       
       /// Base translation: Keypad Access
@@ -1817,18 +1872,18 @@ struct R: Rswift.Validatable {
         return NSLocalizedString("Skip", bundle: R.hostingBundle, value: "Skip", comment: "")
       }
       
-      /// Base translation: Start
+      /// Base translation: Start Time
       /// 
       /// Locales: zh-Hant, Base
       static func start(_: Void = ()) -> String {
-        return NSLocalizedString("Start", bundle: R.hostingBundle, value: "Start", comment: "")
+        return NSLocalizedString("Start", bundle: R.hostingBundle, value: "Start Time", comment: "")
       }
       
-      /// Base translation: Sucess
+      /// Base translation: Success
       /// 
       /// Locales: zh-Hant, Base
       static func program_success(_: Void = ()) -> String {
-        return NSLocalizedString("program_success", bundle: R.hostingBundle, value: "Sucess", comment: "")
+        return NSLocalizedString("program_success", bundle: R.hostingBundle, value: "Success", comment: "")
       }
       
       /// Base translation: Sunday

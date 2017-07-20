@@ -5,7 +5,6 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -32,8 +31,8 @@
                                     <constraint firstAttribute="width" constant="8" id="EKI-tw-IZ2"/>
                                 </constraints>
                             </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="ID:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBG-Eg-7DJ">
-                                <rect key="frame" x="27" y="8" width="21" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="帳號:" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PBG-Eg-7DJ">
+                                <rect key="frame" x="10" y="8" width="40" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -45,7 +44,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="deo-vx-tUp">
-                                <rect key="frame" x="54" y="5" width="245" height="30"/>
+                                <rect key="frame" x="54" y="5" width="43" height="30"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
                                 <color key="textColor" red="0.0" green="0.72549019609999998" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
@@ -53,7 +52,7 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12345" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5B6-nX-4Un">
                                 <rect key="frame" x="54" y="36" width="44" height="20"/>
                                 <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="16"/>
-                                <color key="textColor" red="0.64313725490196072" green="0.66666666666666663" blue="0.70196078431372544" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.42049715443824259" green="0.43347921479132329" blue="0.45164415740966801" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -69,6 +68,7 @@
                             <constraint firstAttribute="height" constant="60" id="eaA-UY-51i"/>
                             <constraint firstAttribute="trailing" secondItem="Hof-Vl-dtg" secondAttribute="trailing" constant="12" id="kPu-IP-Lxy"/>
                             <constraint firstAttribute="bottom" secondItem="5B6-nX-4Un" secondAttribute="bottom" constant="4.3333333333333357" id="lRx-5t-HtN"/>
+                            <constraint firstItem="PBG-Eg-7DJ" firstAttribute="leading" secondItem="SVh-SP-mqS" secondAttribute="leading" constant="10" id="qUU-zR-9SC"/>
                             <constraint firstItem="prZ-W8-4FZ" firstAttribute="top" secondItem="PBG-Eg-7DJ" secondAttribute="bottom" constant="6" id="rge-wZ-X7C"/>
                             <constraint firstItem="deo-vx-tUp" firstAttribute="top" secondItem="SVh-SP-mqS" secondAttribute="top" constant="5" id="sWw-wV-hg0"/>
                             <constraint firstAttribute="bottom" secondItem="prZ-W8-4FZ" secondAttribute="bottom" constant="4" id="tWS-IG-ge3"/>
@@ -77,7 +77,6 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="SVh-SP-mqS" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="26" id="RX4-L5-AgN"/>
-                    <constraint firstItem="PBG-Eg-7DJ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="45" id="UpY-Gx-MZ5"/>
                     <constraint firstItem="SVh-SP-mqS" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="1" id="sQp-d4-mF0"/>
                     <constraint firstAttribute="trailing" secondItem="SVh-SP-mqS" secondAttribute="trailing" constant="26" id="wIU-Ea-wCS"/>
                 </constraints>

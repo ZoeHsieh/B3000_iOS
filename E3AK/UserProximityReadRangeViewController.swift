@@ -16,6 +16,7 @@ import Foundation
 //
 
 import UIKit
+
 import CoreBluetooth
 
 class UserProximityReadRangeViewController: UIViewController {
@@ -23,10 +24,15 @@ class UserProximityReadRangeViewController: UIViewController {
     @IBOutlet weak var deviceNameView: UIView!
     @IBOutlet weak var deviceDistanceView: UIView!
     @IBOutlet weak var distanceSettingView: UIView!
+    
+    @IBOutlet weak var deviceModelView: UIView!
+    
     @IBOutlet weak var deviceSettingSliderValueLabel: UILabel!
     @IBOutlet weak var deviceDistanceTitle: UILabel!
     @IBOutlet weak var proximityReadRangeTitle: UILabel!
+    @IBOutlet weak var deviceModelTitle: UILabel!
     
+    @IBOutlet weak var deviceModelValue: UILabel!
     @IBOutlet weak var deviceNameTitle: UILabel!
     
     @IBOutlet weak var Label_CurrentRSSILevel: UILabel!
@@ -47,10 +53,13 @@ class UserProximityReadRangeViewController: UIViewController {
         deviceDistanceTitle.text = GetSimpleLocalizedString("Device Distance")
         proximityReadRangeTitle.text = GetSimpleLocalizedString("Proximity Read Range Settings")
         deviceNameTitle.text = GetSimpleLocalizedString("Device Name") + ":"
-
+        deviceModelTitle.text = GetSimpleLocalizedString("Device Model")
+        deviceModelValue.text = "E3AK"
         deviceDistanceView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         distanceSettingView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         deviceNameView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+        deviceModelView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+        
         label_DeviceName.text = selectedDevice.name
         let setupRSSILevel = readExpectLevelFromDbByUUID(selectedDevice.identifier.uuidString)
         

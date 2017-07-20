@@ -131,12 +131,14 @@ class ActivityHistoryViewController: BLE_ViewController {
             case 2:
                 osStr = "iOS"
             case 3:
-                osStr = "Keypad"
+                osStr = GetSimpleLocalizedString("openType_Keypad")
             case 0x30:
-                userID = GetSimpleLocalizedString("Tamper Alarm")
-                osStr = "Alarm"
+                osStr = GetSimpleLocalizedString("openType_Alarm")
+            case 0x31:
+                osStr = GetSimpleLocalizedString("openType_Button")
             default:
-                osStr = "Alarm"
+                
+                osStr = "unKnown"
             }
             print("userID = \(userID)")
             text += "\"\(count)\",\"\(userID)\",\"\(timeText)\",\"\(osStr)\"\n"
@@ -167,6 +169,8 @@ class ActivityHistoryViewController: BLE_ViewController {
                 let fileURL = URL(fileURLWithPath: path)
                 let object = [fileURL]
                 let actVC = UIActivityViewController(activityItems: object, applicationActivities: nil)
+                actVC.popoverPresentationController?.sourceView = self.view
+                actVC.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 1.0,y :1.0), size: CGSize(width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0))
                 self.present(actVC, animated: true, completion: nil)
             }catch{
                 //showAlert(message: "Failed to export csv")
@@ -209,10 +213,19 @@ class ActivityHistoryViewController: BLE_ViewController {
             }
         }
         
-        let userId = String(bytes: userIDArray, encoding: .utf8) ?? "No Name"
-        let openType = historyData[historyData.count - 1]
-        historyCount += 1
+        var userId = String(bytes: userIDArray, encoding: .utf8) ?? "No Name"
+        if userId == Config.AdminID{
+            userId = Config.AdminID_ENROLL
+        }
         
+        let openType = historyData[historyData.count - 1]
+        if openType == 0x31{
+            userId = GetSimpleLocalizedString("openType_Button")
+        }else if openType == 0x30{
+          userId = GetSimpleLocalizedString("Tamper Sensor")
+        }
+        historyCount += 1
+        print("userid =\(userId)")
         Config.historyListArr.append(["userID":userId, "openType":openType, "timeText":timeText])
         
        
@@ -363,6 +376,8 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                 let openType = cellData["openType"] as? UInt8{
                 
                 var osStr = ""
+                print("history opentype=\(openType)")
+                
                 switch openType{
                 case 0:
                     osStr = "Not Available"
@@ -371,17 +386,40 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                 case 2:
                     osStr = "iOS"
                 case 3:
-                    osStr = "Keypad"
+                    osStr = GetSimpleLocalizedString("openType_Keypad")
                 case 0x30:
-                    osStr = "Alarm"
+                    osStr = GetSimpleLocalizedString("openType_Alarm")
+                case 0x31:
+                   osStr = GetSimpleLocalizedString("openType_Button")
                 default:
+                    
                     osStr = "unKnown"
                 }
-                if openType == 0x30{
+               /* if openType == 0x30{
                     cell.nameLabel.text = GetSimpleLocalizedString("Tamper Alarm")
+                }else{*/
+                
+                if openType == 0x30{
+                    cell.nameLabel.textColor = UIColor.red
+                    
+                    
+                    cell.dateLabel.textColor = UIColor.red
+
+                    cell.deviceLabel.textColor = UIColor.red
+
+                }else if openType == 0x31{
+                    cell.nameLabel.textColor = UIColor.blue
+                    
+                    cell.dateLabel.textColor = UIColor.blue
+                    cell.deviceLabel.textColor = UIColor.blue
                 }else{
-                    cell.nameLabel.text = name
+                
+                    cell.nameLabel.textColor = UIColor.flatGreenDark
+                    cell.dateLabel.textColor = UIColor.flatGray
+                    cell.deviceLabel.textColor = UIColor.black
                 }
+                cell.nameLabel.text = name
+                
                 
                 cell.dateLabel.text = time
                 cell.deviceLabel.text = osStr

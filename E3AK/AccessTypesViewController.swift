@@ -137,7 +137,10 @@ extension AccessTypesViewController: UITableViewDataSource, UITableViewDelegate 
         return 44
         }
     }
-    
+     func tableView(_ tableView: UITableView, willDisplayHeaderView view:UIView, forSection: Int) {
+        if let headerTitle = view as? UITableViewHeaderFooterView {
+            headerTitle.textLabel?.textColor = UIColor.black        }
+    }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         switch section

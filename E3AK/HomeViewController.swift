@@ -72,14 +72,18 @@ class HomeViewController: BLE_ViewController{
         self.loginAlert(title:self.GetSimpleLocalizedString("enroll_dialog_title") , subTitle: "", placeHolder1: self.GetSimpleLocalizedString("Please Provide Up to 16 characters"), placeHolder2: self.GetSimpleLocalizedString("4~8 digits"), keyboard1: .default, keyboard2: .numberPad, handler: { (input1, input2) in
             
            // print("user input2: \(input1) & \(input2)")
-            let userID:[UInt8] = Util.StringtoUINT8(data: input1!, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
-            let userPWD:[UInt8] = Util.StringtoUINT8(data: input2!, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
+           
             if !input1!.isEmpty {
                 self.isEnroll = true
                // print(input1);
-                if input1! == Config.AdminID{
+                let userID:[UInt8] = Util.StringtoUINT8(data: input1!, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
+                let userPWD:[UInt8] = Util.StringtoUINT8(data: input2!, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
+                
+                if input1! == Config.AdminID_ENROLL{
                     //print("admin enroll");
-                    self.adminEnrollData = Config.bpProtocol.setAdminEnroll(UserID: userID,Password: userPWD)
+                    
+                    let AdminID:[UInt8] = Util.StringtoUINT8(data: Config.AdminID, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
+                    self.adminEnrollData = Config.bpProtocol.setAdminEnroll(UserID: AdminID,Password: userPWD)
                     self.isAdminEnroll = true
                     
                 }
@@ -95,7 +99,7 @@ class HomeViewController: BLE_ViewController{
         })
         }else{
             StartScanningTimer()
-            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+            //showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
             }
             
         }else{
@@ -181,8 +185,10 @@ class HomeViewController: BLE_ViewController{
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        
         navigationController?.isNavigationBarHidden = true
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
+        StartScanningTimer()
        
     }
     
@@ -221,7 +227,7 @@ class HomeViewController: BLE_ViewController{
         
         if((RSSI.intValue <= 0) && (RSSI.intValue >= Config.BLE_RSSI_MIN)) {
             
-            var tmp: DeviceInfo = DeviceInfo(UUID: uuid, name: name, peripheral: peripheral, rssi: RSSI.intValue, current_level: Convert_RSSI_to_LEVEL(RSSI.intValue), expect_level: 0, alive: 8)
+            var tmp: DeviceInfo = DeviceInfo(UUID: uuid, name: name, peripheral: peripheral, rssi: RSSI.intValue, current_level: Convert_RSSI_to_LEVEL(RSSI.intValue), expect_level: 0, alive: 18)
             
             if( deviceInfoList.contains(tmp)) {
                 
@@ -347,10 +353,92 @@ class HomeViewController: BLE_ViewController{
             deviceOBJ.append(deviceInfoList[i].peripheral)
             deviceList.append(deviceInfoList[i].name)
         }
+        let alertController = UIAlertController(title: self.GetSimpleLocalizedString("Please Choose"), message: nil, preferredStyle: .actionSheet)
+        for i in 0 ... deviceList.count - 1{
+            
+            var button = UIAlertAction(title: deviceList[i], style: .default, handler: { (action: UIAlertAction!) in
+                
+                if self.deviceInfoList.count > 0{
+                    print("action.title=\(action.title)")
+                    if  self.isForce{
+                        print("action.title=\(action.title)")
+                        print("forceDevice.name=\(self.forceDevice.name)")
+                        if action.title == self.forceDevice.name {
+                        self.selectDeviceIndex = 0
+                        self.deviceNameLabel.text = self.deviceInfoList[0].name
+                        self.deviceNameLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                            self.isForce = false
+                        }else{
+                            for index in 0 ... deviceList.count - 1
+                            {
+                                if deviceList[index] == action.title{
+                                    self.deviceNameLabel.text = action.title
+                                    
+                                    self.isForce = true
+                                    if self.isForce {
+                                        self.forceDevice = deviceOBJ[index]
+                                        self.deviceNameLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                                    }
+                                   break
+                                    
+                                }
+                                
+                            }
+
+                        }
+                    }else{
+                        
+                        
+                        for index in 0 ... deviceList.count - 1
+                        {
+                            if deviceList[index] == action.title{
+                             self.deviceNameLabel.text = action.title
+                                
+                                 self.isForce = true
+                                if self.isForce {
+                                    self.forceDevice = deviceOBJ[index]
+                                
+                            print("select.title=\(self.forceDevice.name)")
+                                    self.deviceNameLabel.textColor = #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1)
+                                }
+                                break
+                            }
+                            
+                        }
+                     
+
+                    }
+                    
+                
+                }
+               self.StartScanningTimer()
+            })
+            
+           
+              alertController.addAction(button)
         
-        UIAlertController.showActionSheet(
+        }
+        
+        let cancelButton = UIAlertAction(title: self.GetSimpleLocalizedString("Cancel"), style: .cancel, handler: { actuion in
+            self.updateScanningTimer()
+            self.StartScanningTimer()
+         }
+        )
+        
+        
+     
+        alertController.addAction(cancelButton)
+        if alertController.popoverPresentationController != nil {
+            alertController.popoverPresentationController?.sourceView = self.view
+            alertController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 1.0,y :1.0), size: CGSize(width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0))
+        }
+        
+        
+        self.navigationController!.present(alertController, animated: true, completion: nil)
+        
+       /* UIAlertController.showActionSheet(
             in: self,
-            withTitle: self.GetSimpleLocalizedString("Please Choose"),
+            withTitle: ,
             message: nil,
             cancelButtonTitle: self.GetSimpleLocalizedString("Cancel"),
             destructiveButtonTitle: nil,
@@ -390,12 +478,14 @@ class HomeViewController: BLE_ViewController{
                     self.StartScanningTimer()
                 }
             }
-        }
+        }*/
     }
     
     @IBAction func didTapOpenDoor(_ sender: Any) {
-        
+    
+  
         if !isAutoMode {
+      if !isOpenDoor{
         StopScanningTimer()
         
         if deviceInfoList.count > 0 && !isOpenDoor{
@@ -430,8 +520,9 @@ class HomeViewController: BLE_ViewController{
             break
         }
         }else{
-            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+            //showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
             StartScanningTimer()
+        }
             }
         }else{
             showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
@@ -463,7 +554,7 @@ class HomeViewController: BLE_ViewController{
         
         case .DeviceSearching:
         
-            deviceNameLabel.text = GetSimpleLocalizedString("Searching…")
+            //deviceNameLabel.text = GetSimpleLocalizedString("Searching…")
             deviceNameLabel.isUserInteractionEnabled = false
              deviceNameLabel.textColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
             deviceTypeLabel.text = GetSimpleLocalizedString("Please wait a moment…")
@@ -542,7 +633,7 @@ class HomeViewController: BLE_ViewController{
             }
         }else{
             StartScanningTimer()
-            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+           // showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
         }
         }else{
             showToastDialog(title:"",message:GetSimpleLocalizedString("AUTO_ENABLE_CONFLICT" ));
@@ -583,6 +674,9 @@ class HomeViewController: BLE_ViewController{
             return false;
         }
         
+        if(isEnroll){
+          return false
+        }
         
         if deviceInfoList.count > 0{
             selectSetDevice = GetTargetDevice()
@@ -608,7 +702,7 @@ class HomeViewController: BLE_ViewController{
             
         }else{
             
-            showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
+           // showToastDialog(title:"",message:GetSimpleLocalizedString("Can't find device"));
             StartScanningTimer()
             
 
@@ -639,7 +733,8 @@ class HomeViewController: BLE_ViewController{
             cmd = Config.bpProtocol.setAdminIndentify()
                
             }else{
-                let userIndex = Config.saveParam.integer(forKey: Config.userIndexTag)
+                let userIndex = Config.saveParam.integer(forKey:selectSetDevice.identifier.uuidString + Config.userIndexTag)
+                print("userIndex=\(userIndex)")
                 cmd = Config.bpProtocol.setUserIndentify(UserIndex: userIndex)
 
             }
@@ -652,8 +747,8 @@ class HomeViewController: BLE_ViewController{
         
        
        // isOpenDoor = false
-        isAdminEnroll = false
-        isEnroll = false
+        //isAdminEnroll = false
+        //isEnroll = false
         selectSetDevice.delegate = self
 
         if disTimer == nil {
@@ -762,10 +857,13 @@ class HomeViewController: BLE_ViewController{
                     
 
                     isOpenDoor = false
-                   
+                    isAdminEnroll = false
+                    isEnroll = false
                     if isAutoMode{
                        bgAutoTimerFlag = true
                     }else{
+                        print("start scanning timer")
+                        
                      StartScanningTimer()
                     }
                     //isMotion = false
@@ -804,6 +902,7 @@ class HomeViewController: BLE_ViewController{
         isKeepOpen = false
         isOpenDoor = false
         isEnroll = false
+        isAdminEnroll = false
         print("connect time out");
         Config.bleManager.disconnect()
         connectTimer = nil
@@ -814,6 +913,7 @@ class HomeViewController: BLE_ViewController{
        
         deviceFoundStatus = .DeviceSearching
         changeViewContentSettings()
+            
             StartScanningTimer()
         }
     }
@@ -822,13 +922,14 @@ class HomeViewController: BLE_ViewController{
         var targetDevice:CBPeripheral?
         
         if isForce{
-            if selectDeviceIndex < deviceInfoList.count{
+            /*if selectDeviceIndex < deviceInfoList.count{
                 if isExistTarget(targetUUID: forceDevice.identifier.uuidString){
                     targetDevice = forceDevice
                 }
             }else{
                targetDevice = deviceInfoList[selectDeviceIndex].peripheral
-            }
+            }*/
+            targetDevice = forceDevice
         }else{
             
             var current_level = deviceInfoList[0].current_level
@@ -912,8 +1013,9 @@ class HomeViewController: BLE_ViewController{
     
     func StartScanningTimer() {
         //Create Timer
+        Config.bleManager.ScanBLE()
         ScanningTimerflag = true
-        scanningTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateScanningTimer), userInfo: nil, repeats: true)
+        scanningTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(updateScanningTimer), userInfo: nil, repeats: true)
     }
     func StopScanningTimer(){
        ScanningTimerflag = false
@@ -955,6 +1057,8 @@ class HomeViewController: BLE_ViewController{
         if( need_Check_Alive) {
             
             for index in 0..<deviceInfoList.count  {
+                 //print(" [\(deviceInfoList[index].name)]")
+                 //print(" alive=[\(deviceInfoList[index].alive)]")
                 deviceInfoList[index].alive -= 1;
                
                 if(deviceInfoList[index].alive <= 0) {
@@ -1051,7 +1155,9 @@ class HomeViewController: BLE_ViewController{
         //Update Device Name
         update_target_and_device_name(false)*/
     }
+    
 
+    
     func checkConTimeLimit(target:CBPeripheral)->Bool{
         var res:Bool = false
         let date = Date()

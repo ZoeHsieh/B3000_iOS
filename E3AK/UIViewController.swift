@@ -11,7 +11,7 @@ import UIKit
 import ChameleonFramework
 import CoreBluetooth
 
-extension UIViewController: StoryboardIdentifiable{
+extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     
 
     public func openBlueTooth_Setting() {
@@ -158,9 +158,19 @@ extension UIViewController: StoryboardIdentifiable{
         
         let alertController = UIAlertController(title: title, message: subTitle, preferredStyle: .alert)
         alertController.addTextField(configurationHandler: { (textField) in
-            textField.placeholder = placeHolder
+            var PlaceHolder = NSMutableAttributedString()
+                        // Set the Font
+            PlaceHolder = NSMutableAttributedString(string: placeHolder, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 15.0)!])
+            
+            // Set the color
+            PlaceHolder.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range:NSRange(location:0,length:placeHolder.characters.count))
+            
+            // Add attribute        
+            
+           textField.attributedPlaceholder = PlaceHolder
             textField.keyboardType = keyboard
             textField.tag = Tag;
+            textField.textColor = UIColor.black
             textField.addTarget(self, action: #selector(self.editAlertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
         })
         
@@ -175,7 +185,8 @@ extension UIViewController: StoryboardIdentifiable{
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 1.0,y :1.0), size: CGSize(width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0))
         self.present(alertController, animated: true, completion: nil)
     }
        
@@ -233,6 +244,7 @@ extension UIViewController: StoryboardIdentifiable{
             textField.placeholder = placeHolder1
             textField.keyboardType = keyboard1
             textField.tag = 0;
+            textField.textColor = UIColor.black
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
         })
         /*alertController.addTextField(configurationHandler: { (textField) in
@@ -244,6 +256,7 @@ extension UIViewController: StoryboardIdentifiable{
             textField.placeholder = placeHolder2
             textField.keyboardType = keyboard2
             textField.tag = 1;
+            textField.textColor = UIColor.black
             textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
         })
         
@@ -261,7 +274,8 @@ extension UIViewController: StoryboardIdentifiable{
         
         alertController.addAction(confirmAction)
         alertController.addAction(cancelAction)
-        
+        alertController.popoverPresentationController?.sourceView = self.view
+        alertController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 1.0,y :1.0), size: CGSize(width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0))
         self.present(alertController, animated: true, completion: nil)
     }
     
@@ -282,6 +296,7 @@ extension UIViewController: StoryboardIdentifiable{
         }
         
         addAction.isEnabled = ((textField_id.text?.characters.count)! >= 1 ) && ((textField_password.text?.characters.count)! >= 4 );
+        
     }
 
    

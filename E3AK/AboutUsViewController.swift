@@ -10,10 +10,21 @@ import UIKit
 
 class AboutUsViewController: UIViewController {
 
+    @IBOutlet weak var appversionButton: UIButton!
+    
+    @IBOutlet weak var DeviceModelTitle: UILabel!
+    
+    @IBOutlet weak var DeviceModelValue: UILabel!
+    
+    var deviceModel:String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "About Us"
+        title = GetSimpleLocalizedString("About Us")
+        DeviceModelTitle.text = GetSimpleLocalizedString("Device Model")
+        DeviceModelValue.text = "E3AK"//deviceModel
+        appversionButton.setTitle(GetSimpleLocalizedString("APP version") + Config.APPversion, for: .normal)
     }
 
     override func didReceiveMemoryWarning() {

@@ -33,8 +33,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isfirst = Config.saveParam.bool(forKey: Config.firstOpen)
         var storyboard:UIStoryboard!
         
-        
-        if !isfirst{
+        storyboard = UIStoryboard(storyboard: .Main)
+        let vc:HomeNavigationController =  storyboard.instantiateViewController()
+        window?.rootViewController = vc
+
+       /* if !isfirst{
           storyboard = UIStoryboard(storyboard: .Intro)
             let vc:IntroNavigationController = storyboard.instantiateViewController()
            Config.saveParam.set(true, forKey: Config.firstOpen)
@@ -43,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             storyboard = UIStoryboard(storyboard: .Main)
            let vc:HomeNavigationController =  storyboard.instantiateViewController()
            window?.rootViewController = vc
-       }
+       }*/
        
        
         window?.makeKeyAndVisible()
