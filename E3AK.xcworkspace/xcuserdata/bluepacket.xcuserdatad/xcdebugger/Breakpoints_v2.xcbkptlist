@@ -90,11 +90,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521702973.071976"
+            timestampString = "524733638.234779"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1160"
-            endingLineNumber = "1160"
+            startingLineNumber = "1185"
+            endingLineNumber = "1185"
             landmarkName = "UI_updateDevConfig(data:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -106,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521702973.071976"
+            timestampString = "524478893.672861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "701"
-            endingLineNumber = "701"
+            startingLineNumber = "702"
+            endingLineNumber = "702"
             landmarkName = "cmdAnalysis(cmd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -122,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521702973.071976"
+            timestampString = "524478893.672861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "916"
-            endingLineNumber = "916"
+            startingLineNumber = "932"
+            endingLineNumber = "932"
             landmarkName = "cmdAnalysis(cmd:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -138,11 +138,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521702973.071976"
+            timestampString = "524480469.182754"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "552"
-            endingLineNumber = "552"
+            startingLineNumber = "553"
+            endingLineNumber = "553"
             landmarkName = "tableView(_:didSelectRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -154,7 +154,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521702973.071976"
+            timestampString = "524477574.996341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "415"
@@ -186,7 +186,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521699967.384518"
+            timestampString = "524477574.996341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "234"
@@ -202,7 +202,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/SettingsTableViewController.swift"
-            timestampString = "521699967.384518"
+            timestampString = "524477574.996341"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "237"
@@ -314,11 +314,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/HomeViewController.swift"
-            timestampString = "522208341.73566"
+            timestampString = "524728126.603641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113"
+            startingLineNumber = "114"
+            endingLineNumber = "114"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -330,11 +330,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/HomeViewController.swift"
-            timestampString = "522208341.73566"
+            timestampString = "524728126.603641"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "115"
-            endingLineNumber = "115"
+            startingLineNumber = "116"
+            endingLineNumber = "116"
             landmarkName = "viewDidLoad()"
             landmarkType = "7">
          </BreakpointContent>
@@ -346,11 +346,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/HomeViewController.swift"
-            timestampString = "522232005.291988"
+            timestampString = "526273696.026913"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "1018"
-            endingLineNumber = "1018"
+            startingLineNumber = "1019"
+            endingLineNumber = "1019"
             landmarkName = "StartScanningTimer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -362,11 +362,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/ActivityHistoryViewController.swift"
-            timestampString = "522232616.202741"
+            timestampString = "524627599.493743"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "399"
-            endingLineNumber = "399"
+            startingLineNumber = "401"
+            endingLineNumber = "401"
             landmarkName = "tableView(_:cellForRowAt:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -410,11 +410,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/AppDelegate.swift"
-            timestampString = "522207857.854434"
+            timestampString = "524474738.973845"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
             landmarkName = "application(_:didFinishLaunchingWithOptions:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -442,13 +442,197 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "E3AK/HomeViewController.swift"
-            timestampString = "522231358.877052"
+            timestampString = "526273696.026913"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "359"
-            endingLineNumber = "359"
+            startingLineNumber = "387"
+            endingLineNumber = "387"
             landmarkName = "didTapChooseDevice()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "E3AK/UserSetttingsTableViewController.swift"
+            timestampString = "524470090.719827"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "2"
+            endingLineNumber = "2">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.__deallocating_deinit"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.296464"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.__ivar_destroyer"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.299573"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "24">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.init (style : __C.UITableViewStyle) -&gt; E3AK.UserSettingsTableViewController"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.303252"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "64">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.__allocating_init (style : __C.UITableViewStyle) -&gt; E3AK.UserSettingsTableViewController"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.306016"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; E3AK.UserSettingsTableViewController"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.308772"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.__allocating_init (nibName : Swift.Optional&lt;Swift.String&gt;, bundle : Swift.Optional&lt;__ObjC.Bundle&gt;) -&gt; E3AK.UserSettingsTableViewController"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.314002"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.__allocating_init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;E3AK.UserSettingsTableViewController&gt;"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.316759"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "E3AK.UserSettingsTableViewController.init (coder : __ObjC.NSCoder) -&gt; Swift.Optional&lt;E3AK.UserSettingsTableViewController&gt;"
+                  moduleName = "E3AK"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/bluepacket/Desktop/E3AK_BP_20170720%202/E3AK_BP/E3AK/UserSetttingsTableViewController.swift"
+                  timestampString = "524730485.319664"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "64">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "E3AK/SettingsTableViewController.swift"
+            timestampString = "524733638.234779"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "978"
+            endingLineNumber = "978"
+            landmarkName = "cmdAnalysis(cmd:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "E3AK/HomeViewController.swift"
+            timestampString = "526273696.026913"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "794"
+            endingLineNumber = "794"
+            landmarkName = "cmdAnalysis(cmd:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "E3AK/HomeViewController.swift"
+            timestampString = "524730397.469991"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
+            landmarkName = "HomeViewController"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

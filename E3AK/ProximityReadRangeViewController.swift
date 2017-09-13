@@ -2,8 +2,8 @@
 //  ProximityReadRangeViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/12.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/12.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -49,7 +49,13 @@ class ProximityReadRangeViewController: BLE_ViewController {
     
     @IBAction func deviceSettingSliderValueChanged(_ sender: UISlider) {
         
-        let currentValue = Int(sender.value * 100 * 0.2)
+        var currentValue = Int(sender.value * 100 * 0.2)
+        if currentValue <= 1{
+         currentValue = 1
+            levelSlider.setValue(Float(currentValue) / 100 / 0.2
+, animated: true)
+
+        }
         deviceSettingSliderValueLabel.text = "\(currentValue)"
         saveExpectLevelToDbByUUID(selectedDevice.identifier.uuidString, currentValue)
     }
@@ -63,7 +69,7 @@ class ProximityReadRangeViewController: BLE_ViewController {
                              didReadRSSI RSSI: NSNumber,
                              error: Error?) {
         let rssi = RSSI.intValue
-        
+       
         print("rssi = \(rssi)")
         Label_CurrentRSSILevel.text = String(format:"%d",Convert_RSSI_to_LEVEL(rssi))
     }

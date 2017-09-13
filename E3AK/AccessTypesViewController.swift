@@ -2,8 +2,8 @@
 //  AccessTypesViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/15.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/15.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -71,9 +71,9 @@ class AccessTypesViewController: UIViewController{
         //dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String
        
         //dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: itemData[kDateKey] as! Date)
-        dateFormatter.dateStyle = .medium // show short-style date format
-        dateFormatter.timeStyle = .short
-        
+        //dateFormatter.dateStyle = .medium // show short-style date format
+        //dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         // if the locale changes while in the background, we need to be notified so we can update the date
         // format in the table view cells
         //

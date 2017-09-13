@@ -3,7 +3,7 @@
 //  E3AK
 //
 //  Created by BluePacket on 2017/7/3.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation
@@ -106,10 +106,10 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
         
         if (characteristic.value != nil) {
             var rawData = characteristic.value
-           /* for j in 0 ... (rawData?.count)! - 1 {
+            for j in 0 ... (rawData?.count)! - 1 {
              
              print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
-             }*/
+             }
             
             
             tmpBuff = tmpBuff + rawData!

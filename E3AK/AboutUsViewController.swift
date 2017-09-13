@@ -2,8 +2,8 @@
 //  AboutUsViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/21.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/21.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -14,7 +14,7 @@ class AboutUsViewController: UIViewController {
     
     @IBOutlet weak var DeviceModelTitle: UILabel!
     
-    @IBOutlet weak var DeviceModelValue: UILabel!
+    //@IBOutlet weak var DeviceModelValue: UILabel!
     
     var deviceModel:String = ""
     
@@ -22,8 +22,8 @@ class AboutUsViewController: UIViewController {
         super.viewDidLoad()
 
         title = GetSimpleLocalizedString("About Us")
-        DeviceModelTitle.text = GetSimpleLocalizedString("Device Model")
-        DeviceModelValue.text = "E3AK"//deviceModel
+        DeviceModelTitle.text = GetSimpleLocalizedString("Device Model") + "E3AK"
+        //DeviceModelValue.text = "E3AK"//deviceModel
         appversionButton.setTitle(GetSimpleLocalizedString("APP version") + Config.APPversion, for: .normal)
     }
 

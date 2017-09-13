@@ -2,8 +2,8 @@
 //  SettingsTableViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/12.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/12.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -121,7 +121,7 @@ class SettingsTableViewController: BLE_tableViewController {
     var selectedDevice:CBPeripheral!
     var tmpDeviceName:String?
     //var fwVersion:String = ""
-    var newFwVersion:String?
+    var newFwVersion:String? =  ""
     var tmpAdminPWD:String?
     static var startTimeArr: Array<Int>!
     static var tmpConfig = Data()
@@ -396,7 +396,7 @@ class SettingsTableViewController: BLE_tableViewController {
 //        return footerView
         
         let footerView = R.nib.settingsTableViewSectionFooter.firstView(owner: nil)
-        
+        footerView?.setVersion(version: newFwVersion!)
         return footerView
 
     }
@@ -412,7 +412,7 @@ class SettingsTableViewController: BLE_tableViewController {
         switch indexPath.row
         {
         case 0:
-            alertWithTextField(title: self.GetSimpleLocalizedString("Edit Device Name"), subTitle: self.GetSimpleLocalizedString("Up to 16 characters"), placeHolder: deviceNameLabel.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
+            alertWithTextField(title: self.GetSimpleLocalizedString("Edit Device Name"), subTitle: "", placeHolder: self.GetSimpleLocalizedString("Up to 16 characters"), keyboard: .default, defaultValue: deviceNameLabel.text! ,Tag: 0,handler: { (inputText) in
                 
                 guard var newName: String = inputText else{
                     self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("Wrong format!"))
@@ -460,7 +460,7 @@ class SettingsTableViewController: BLE_tableViewController {
                 checkFlag = true
             }
             if Config.isUserListOK || checkFlag {
-                alertWithTextField(title: self.GetSimpleLocalizedString("settings_Admin_pwd_Edit"), subTitle: self.GetSimpleLocalizedString("4~8 digits"), placeHolder: adminPWDLabel.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
+                alertWithTextField(title: self.GetSimpleLocalizedString("settings_Admin_pwd_Edit"), subTitle: "", placeHolder: self.GetSimpleLocalizedString("4~8 digits"), keyboard: .numberPad, defaultValue: adminPWDLabel.text!, Tag: 1, handler: { (inputText) in
                     guard let newPWD: String = inputText else{
                         
                         //self.showAlert(message: "Wrong format!")
@@ -534,7 +534,7 @@ class SettingsTableViewController: BLE_tableViewController {
             let vc = DoorRe_lockTimeViewController(nib: R.nib.doorReLockTimeViewController)
             navigationController?.pushViewController(vc, animated: true)*/
             
-             alertWithTextField(title:self.GetSimpleLocalizedString( "Edit Door Re-lock Time (1~1800 seconds)"), subTitle: "", placeHolder: delayTimeLabel.text!, keyboard: .numberPad, Tag: 2, handler: { (inputText) in
+             alertWithTextField(title:self.GetSimpleLocalizedString( "Edit Door Re-lock Time (1~1800 seconds)"), subTitle: "", placeHolder: "1~1800", keyboard: .numberPad, defaultValue: delayTimeLabel.text!, Tag: 2, handler: { (inputText) in
                 guard let newDelayTime: String = inputText else{
                     
                     //self.showAlert(message: "Wrong format!")
@@ -545,12 +545,12 @@ class SettingsTableViewController: BLE_tableViewController {
                     
                   
                     let delayTime = Int16(newDelayTime)
-                    
+                    if delayTime! > 0 && delayTime! <= 1800 {
                     let cmd = Config.bpProtocol.setDeviceConfig(door_option: self.currConfig[0], lockType: self.currConfig[1], delayTime: delayTime!, G_sensor_option: self.currConfig[4])
                     Config.bleManager
                         .writeData(cmd: cmd, characteristic: self.bpChar!)
-                    SettingsTableViewController.tmpConfig = cmd
-                    
+                        SettingsTableViewController.tmpConfig = cmd
+                    }
                     
                 }else{
                     self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("wrong format!"))
@@ -626,6 +626,7 @@ class SettingsTableViewController: BLE_tableViewController {
                     isRestore = false
                     isErase = false
                 }else{
+                    Config.saveParam.set(false, forKey: selectedDevice.identifier.uuidString)
                     Config.bleManager.disconnect()
                     Config.userDataArr.removeAll()
                     Config.userListArr.removeAll()
@@ -699,9 +700,9 @@ class SettingsTableViewController: BLE_tableViewController {
                         tmpData.append(SettingsTableViewController.tmpConfig[i])
                     }
                     UI_updateDevConfig(data: tmpData)
-                    showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
+                   // showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
                 }else{
-                    showToastDialog(title:"",message: GetSimpleLocalizedString("program_fail"))
+                    //showToastDialog(title:"",message: GetSimpleLocalizedString("program_fail"))
                 }
 
                     }
@@ -748,6 +749,21 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                     }
                     Config.deviceName =  deviceNameLabel.text!
+                }else if cmd[1] == BPprotocol.type_read{
+                    var deviceName_Arr = [UInt8]()
+                    
+                    for j in 4 ... Int(datalen) + 3{
+                        if cmd[j] != 0xFF && cmd[j] != 0x00{
+                            deviceName_Arr .append(cmd[j])
+                        }
+                    }
+                    
+                    let deviceName = String(bytes: deviceName_Arr, encoding: .utf8) ?? "unKnown"
+                 deviceNameLabel.text = deviceName
+                 Config.deviceName =  deviceNameLabel.text!
+                    
+                    let cmd = Config.bpProtocol.getDeviceConfig()
+                    Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                 }
                 
                 break
@@ -915,8 +931,7 @@ class SettingsTableViewController: BLE_tableViewController {
                     let minor = data[1]
                     fwVersionInt = Float(major) + (Float(minor) * 0.01)
                     newFwVersion = String(format:"V%d.%02d",major,minor)
-                   let footerView = R.nib.settingsTableViewSectionFooter.firstView(owner: nil)
-                    footerView?.setVersion(version: newFwVersion!)
+                  
                     tableView.reloadData()
                    /* if major == 1 && minor >= 6{
                         isCmdDisCon = true
@@ -948,21 +963,30 @@ class SettingsTableViewController: BLE_tableViewController {
                     print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
                     
                     
-                    dateComponents.year = SettingsTableViewController.startTimeArr[0]
+                    //dateComponents.year = SettingsTableViewController.startTimeArr[0]
                    
                     dateComponents.month = SettingsTableViewController.startTimeArr[1]
                     dateComponents.day = SettingsTableViewController.startTimeArr[2]
                     dateComponents.hour = SettingsTableViewController.startTimeArr[3]
                     dateComponents.minute = SettingsTableViewController.startTimeArr[4]
                     dateComponents.second = SettingsTableViewController.startTimeArr[5]
+                     let formatter = DateFormatter()
+                        formatter.dateFormat = "yyyy/MM/dd HH:mm"
                     
-                    deviceTimeLabel.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
+                     //let currentTime = formatter.string(from: currentdate)
+                    deviceTimeLabel.text = String(format:"%04d/%02d/%02d %02d:%02d",dateComponents.year!
+                                  ,dateComponents.month!
+                                  ,dateComponents.day!
+                                  ,dateComponents.hour!
+                                  ,dateComponents.minute!)
+                        //self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
                     
 
                     //"\(d)-\(m)-\(y) \(hh):\(mm):\(ss)"
                    
                     
-                    let cmd = Config.bpProtocol.getDeviceConfig()
+                    let cmd = Config.bpProtocol.getDeviceName()
+                        //Config.bpProtocol.getDeviceConfig()
                     Config.bleManager.writeData(cmd: cmd, characteristic: bpChar!)
                 }else{
                  
@@ -986,6 +1010,7 @@ class SettingsTableViewController: BLE_tableViewController {
                         let calendar = Calendar.current
                         let currentdate = Date()
                         var dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from:  currentdate)
+                       dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
                         print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
                         
                         
@@ -999,11 +1024,11 @@ class SettingsTableViewController: BLE_tableViewController {
                         
                         deviceTimeLabel.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
                          //deviceTimeLabel.text = timeText
-                        showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
+                        //showToastDialog(title:"",message:GetSimpleLocalizedString("program_success"))
                        
-                    }else{
+                    }/*else{
                         showToastDialog(title:"",message:GetSimpleLocalizedString("program_fail"))
-                    }
+                    }*/
                     
                 }
                 

@@ -2,8 +2,8 @@
 //  ActivityHistoryViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/12.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/12.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -214,7 +214,9 @@ class ActivityHistoryViewController: BLE_ViewController {
         }
         
         var userId = String(bytes: userIDArray, encoding: .utf8) ?? "No Name"
+        
         if userId == Config.AdminID{
+            
             userId = Config.AdminID_ENROLL
         }
         

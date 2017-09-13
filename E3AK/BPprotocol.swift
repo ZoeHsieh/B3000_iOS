@@ -3,7 +3,7 @@
 //  CBDoorLock
 //
 //  Created by BluePacket on 2017/3/30.
-//  Copyright © 2017年 鄭詠元. All rights reserved.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation

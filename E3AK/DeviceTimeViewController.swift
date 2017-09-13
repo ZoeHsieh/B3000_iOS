@@ -2,8 +2,8 @@
 //  DeviceTimeViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/21.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/21.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -47,9 +47,9 @@ class DeviceTimeViewController: UIViewController {
         let itemEnd = [kTitleKey : GetSimpleLocalizedString("Device Time"), kDateKey : Date()] as [String : Any]
         dataArray = [itemEnd as Dictionary<String, AnyObject>]
        
-        dateFormatter.dateStyle = .medium // show short-style date format
-        dateFormatter.timeStyle = .short
-        
+       // dateFormatter.dateStyle = .medium // show short-style date format
+       // dateFormatter.timeStyle = .short
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         // if the locale changes while in the background, we need to be notified so we can update the date
         // format in the table view cells
         //

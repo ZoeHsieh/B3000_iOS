@@ -3,7 +3,7 @@
 //  E3AK
 //
 //  Created by BluePacket on 2017/7/11.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation

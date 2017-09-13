@@ -1,9 +1,9 @@
 //
 //  Util.swift
-//  CBDoorLock
+//  E3AK
 //
 //  Created by BluePacket on 2017/3/31.
-//  Copyright © 2017年 鄭詠元. All rights reserved.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation
@@ -25,6 +25,28 @@ class Util{
         
         for j in 0 ... dataUInt8.count-1{
             tmpData[j] = dataUInt8[j]
+        }
+        
+        return tmpData
+    }
+    
+    public static func StringtoUINT8ForID(data: String, len: Int, fillData: UInt8) -> [UInt8]{
+        var tmpData = [UInt8]()
+        
+        for _ in 0 ... len-1{
+            tmpData.append(fillData)
+        }
+        
+        //let dataUInt8: [UInt8] = data.unicodeScalars.map{ UInt8($0.value) }
+        
+        let dataUInt8: [UInt8] = Array(data.utf8)
+        
+        for j in 0 ... dataUInt8.count-1{
+            tmpData[j] = dataUInt8[j]
+        }
+        
+        if tmpData[dataUInt8.count-1] == 0x20{
+           tmpData[dataUInt8.count-1] = 0xFF
         }
         
         return tmpData

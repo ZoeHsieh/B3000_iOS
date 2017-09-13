@@ -2,8 +2,8 @@
 //  UserInfoTableViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/15.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/15.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -68,7 +68,7 @@ class UserInfoTableViewController: BLE_tableViewController {
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         if UserInfoTableViewController.isSettingAccess{
             let cmd = UserInfoTableViewController.tmpCMD
-            print(String(format:"cmd cnt=%d", cmd.count))
+            print(String(format:"cmd1 cnt=%d", cmd.count))
                 
             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
             UserInfoTableViewController.isSettingAccess = false
@@ -207,7 +207,7 @@ class UserInfoTableViewController: BLE_tableViewController {
     
     func didTapID() {
         
-        alertWithTextField(title: self.GetSimpleLocalizedString("users_id_edit_dialog_title"), subTitle: "", placeHolder: accountTextField.text!, keyboard: .default ,Tag: 0,handler: { (inputText) in
+        alertWithTextField(title: self.GetSimpleLocalizedString("users_id_edit_dialog_title"), subTitle: "",  placeHolder: self.GetSimpleLocalizedString("Up to 16 characters"), keyboard: .default, defaultValue: accountTextField.text! ,Tag: 0,handler: { (inputText) in
             
             guard var newName: String = inputText else{
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("Wrong format!"))
@@ -233,15 +233,15 @@ class UserInfoTableViewController: BLE_tableViewController {
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_duplication_name"))
                 return
             }
-            
-            if self.accountTextField?.text == Config.AdminID || self.accountTextField?.text == "ADMIN"{
-                
+             print("user name =\(newName)")
+            if newName.localizedUppercase == Config.AdminID || newName.localizedUppercase == "ADMIN"{
+            print("revise id fail")
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_Admin_name"))
                 return
             }
-            
+            print("123")
 
-            let nameUint8 = Util.StringtoUINT8(data: newName, len: 16, fillData: BPprotocol.nullData)
+            let nameUint8 = Util.StringtoUINT8ForID(data: newName, len: 16, fillData: BPprotocol.nullData)
             
                        
             let cmd = Config.bpProtocol.setUserID(UserIndex: Int16(self.userIndex), ID: nameUint8)
@@ -253,7 +253,7 @@ class UserInfoTableViewController: BLE_tableViewController {
     }
     
     func didTapPWD() {
-        alertWithTextField(title: self.GetSimpleLocalizedString("users_pwd_edit_dialog_title"), subTitle: "", placeHolder: passwordTextField.text!, keyboard: .numberPad, Tag: 1, handler: { (inputText) in
+        alertWithTextField(title: self.GetSimpleLocalizedString("users_pwd_edit_dialog_title"), subTitle: "", placeHolder: self.GetSimpleLocalizedString("4~8 digits"), keyboard: .numberPad, defaultValue: passwordTextField.text!, Tag: 1, handler: { (inputText) in
             guard let newPWD: String = inputText else{
                 
                 //self.showAlert(message: "Wrong format!")
@@ -327,11 +327,11 @@ class UserInfoTableViewController: BLE_tableViewController {
                     accountTextField.text = userId
                     
                     
-                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                    //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
                 }else{
                     UserInfoTableViewController.tmpCMD.removeAll()
                     
-                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                    //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
                     
                 }
                 break
@@ -355,14 +355,14 @@ class UserInfoTableViewController: BLE_tableViewController {
                     
                     passwordTextField.text = pwdStr
                     
-                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                    //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
                     
                     
                     
                 }else{
                     UserInfoTableViewController.tmpCMD.removeAll()
                     
-                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                   // self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
                 }
                 
                 break
@@ -373,7 +373,7 @@ class UserInfoTableViewController: BLE_tableViewController {
                 
                     _ = self.navigationController?.popViewController(animated: true)
                 } else{
-                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                // self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
                 }
                 break
                 
@@ -384,7 +384,10 @@ class UserInfoTableViewController: BLE_tableViewController {
                     for i in 4 ... cmd.count - 1{
                         data.append(cmd[i])
                     }
-                    
+                    for i in 0 ... data.count - 1{
+                       
+                        print(String(format:"R-data[%d]=%02x",(i), data[i]))
+                    }
                     updateUserProperty(propertyData: data)
                     
                 }else{
@@ -393,17 +396,17 @@ class UserInfoTableViewController: BLE_tableViewController {
                         print(String(format:"tmpbuff len=%d\r\n",UserInfoTableViewController.tmpCMD.count))
                         for i in 7 ... UserInfoTableViewController.tmpCMD.count - 1{
                             data.append(UserInfoTableViewController.tmpCMD[i])
-                            print(String(format:"w-data[%d]=%02x",(i - 7), data[i-7]))
+                            print(String(format:"wP-data[%d]=%02x",(i - 7), data[i-7]))
                         }
                         
                         updateUserProperty(propertyData: data)
                         
-                        self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                      //  self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
                         UserInfoTableViewController.tmpCMD.removeAll()
                     }else{
                         
                         
-                        self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                      //  self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
                         UserInfoTableViewController.tmpCMD.removeAll()
                     }
                 }
@@ -443,10 +446,11 @@ class UserInfoTableViewController: BLE_tableViewController {
         
         
         var endTime = Array(propertyData[9...15])
+        let date = Date()
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
         if isFirstSetupUser == 7{
-            let date = Date()
-            let calendar = Calendar.current
-            let year = calendar.component(.year, from: date)
+            
             let month = calendar.component(.month, from: date)
             let day = calendar.component(.day, from: date)
             let hour = calendar.component(.hour, from: date)
@@ -477,6 +481,13 @@ class UserInfoTableViewController: BLE_tableViewController {
         startTimeArr = [Int(UInt16(startTime[0]) * 256 + UInt16(startTime[1])), Int(startTime[2]), Int(startTime[3]), Int(startTime[4]), Int(startTime[5]), Int(startTime[6])]
         
         endTimeArr = [Int(UInt16(endTime[0]) * 256 + UInt16(endTime[1])), Int(endTime[2]), Int(endTime[3]), Int(endTime[4]), Int(endTime[5]), Int(endTime[6])]
+        if startTimeArr[0] < year{
+           startTimeArr[0] = year
+        }
+        
+        if endTimeArr[0] < year{
+            endTimeArr[0] = year
+        }
         updateFooterAccessTypeText()
         
         /*
@@ -542,7 +553,7 @@ class UserInfoTableViewController: BLE_tableViewController {
             UserInfoTableViewController.titleForFooter =  startTimerStr + "~" + endTimerStr + "\n"
             
         case 0x02://.AccessTimes:
-            UserInfoTableViewController.titleForFooter = GetSimpleLocalizedString("users_edit_access_control_dialog_type_times_mark") + "\((String(format:"%02d",openTimes)))" + "\n"
+            UserInfoTableViewController.titleForFooter = GetSimpleLocalizedString("users_edit_access_control_dialog_type_times_mark") + "\((String(format:"%d",openTimes)))" + "\n"
             
         case 0x03://.Recurrent:
             let weekString = [GetSimpleLocalizedString("weekly_Sun"), GetSimpleLocalizedString("weekly_Mon"), GetSimpleLocalizedString("weekly_Tue"), GetSimpleLocalizedString("weekly_Wed"), GetSimpleLocalizedString("weekly_Thu"), GetSimpleLocalizedString("weekly_Fri"), GetSimpleLocalizedString("weekly_Sat")]

@@ -2,8 +2,8 @@
 //  AccessTimesTableViewCell.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/16.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/16.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -59,6 +59,7 @@ class AccessTimesTableViewCell: UITableViewCell {
             accessTimesTextField.textColor = UIColor.red
             
         }else{
+            accessTimesTextField.textColor = UIColor.darkGray
                 UserInfoTableViewController.tmpCMD[8] = 0x02
              UserInfoTableViewController.tmpCMD[23] = UInt8(accessTimesTextField.text!)!
             AccessTypesViewController.openTimes = Int(accessTimesTextField.text!)!

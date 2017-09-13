@@ -1,9 +1,9 @@
 //
 //  config.swift
-//  CBDoorLock
+//  E3AK
 //
 //  Created by BluePacket on 2017/3/30.
-//  Copyright © 2017年 鄭詠元. All rights reserved.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation
@@ -15,7 +15,7 @@ class Config{
     public static let BLE_RSSI_MIN = -115;
     public static let BLE_RSSI_SCALE = BLE_RSSI_MAX - BLE_RSSI_MIN;
     public static let BLE_RSSI_LEVEL_MAX = 20;
-    public static let BLE_RSSI_LEVEL_DEFAULT = 10;
+    public static let BLE_RSSI_LEVEL_DEFAULT = 20 //10;
     public static let BLE_RSSI_LEVEL_MIN = 0;
     public static let BLE_RSSI_LEVEL_SCALE = BLE_RSSI_LEVEL_MAX - BLE_RSSI_LEVEL_MIN;
     public static let BLE_RSSI_LEVEL_CONVERT_BASE = BLE_RSSI_SCALE / BLE_RSSI_LEVEL_SCALE;
@@ -35,6 +35,7 @@ class Config{
     public static let user_limit_def:UInt8 = 0x00
     public static let user_keypad_unlock_def:UInt8 = 0x00
     public static let disConTimeOut:Double = 1
+    public static let auto_disConTimeOut:Double = 6
     public static let keepDisConTimeOut:Double = 6
     public static let ConTimeOut:Double = 6
     public static let userIndexTag:String = "userIndex"
@@ -78,8 +79,10 @@ class Config{
     public static let ConfigDoorOpenTimeTag:String = "doorOpenTime"
     public static let ConfigGSensorTag:String = "GSensor"
     public static let ConfigADMIN_MACTag:String = "adminMac"
+    public static let isAutoTag = "isAutoTag"
     public static let backupOK = "backupOK"
     public static let firstOpen = "FirstOpen"
-    public static let APPversion = "2.1"
+    public static let APPversion = "2.4.1"
     //public static let SCAN_TIME_INTRO:Int = 10
+
 }

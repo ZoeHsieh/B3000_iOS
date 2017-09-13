@@ -2,8 +2,8 @@
 //  UIViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/7.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/7.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation
@@ -154,7 +154,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         })
             }
 
-    func alertWithTextField(title: String, subTitle: String, placeHolder: String, keyboard: UIKeyboardType, Tag:Int,handler: @escaping ((_ inputText: String?) -> Void)){
+    func alertWithTextField(title: String, subTitle: String, placeHolder: String, keyboard: UIKeyboardType, defaultValue: String,Tag:Int,handler: @escaping ((_ inputText: String?) -> Void)){
         
         let alertController = UIAlertController(title: title, message: subTitle, preferredStyle: .alert)
         alertController.addTextField(configurationHandler: { (textField) in
@@ -163,14 +163,15 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             PlaceHolder = NSMutableAttributedString(string: placeHolder, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 15.0)!])
             
             // Set the color
-            PlaceHolder.addAttribute(NSForegroundColorAttributeName, value: UIColor.black, range:NSRange(location:0,length:placeHolder.characters.count))
+            PlaceHolder.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range:NSRange(location:0,length:placeHolder.characters.count))
             
             // Add attribute        
             
            textField.attributedPlaceholder = PlaceHolder
             textField.keyboardType = keyboard
-            textField.tag = Tag;
-            textField.textColor = UIColor.black
+            textField.tag = Tag
+            textField.text = defaultValue
+            //textField.textColor = UIColor.gray
             textField.addTarget(self, action: #selector(self.editAlertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
         })
         
@@ -214,7 +215,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
                 textField.deleteBackward();
             }
             if (textField.text?.utf8.count)! > 0{
-                addAction.isEnabled = ((textField.text?.characters.count)! <= 4 ) && (Int16((textField.text!))! <= Config.DOOR_DELAY_TIME_LIMIT)
+                addAction.isEnabled = ((textField.text?.characters.count)! <= 4 ) &&  (Int16((textField.text!))! <= Config.DOOR_DELAY_TIME_LIMIT) &&  (Int16((textField.text!))! > 0)
             }else{
                 addAction.isEnabled = false
             }

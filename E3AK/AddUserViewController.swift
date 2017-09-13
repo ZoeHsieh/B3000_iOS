@@ -2,8 +2,8 @@
 //  AddUserViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/14.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/14.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -152,7 +152,7 @@ class AddUserViewController: BLE_ViewController {
                 return
             }
             
-            if accountTextField?.text == Config.AdminID || accountTextField?.text == "ADMIN"{
+            if (accountTextField?.text?.localizedUppercase)! == Config.AdminID || (accountTextField?.text?.localizedUppercase)! == "ADMIN"{
                 
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_Admin_name"))
                 return
@@ -176,7 +176,7 @@ class AddUserViewController: BLE_ViewController {
             print("tmp id= \(tmpID)")
             print("tmp pwd= \(tmpPassword)")
             
-            let userID:[UInt8] = Util.StringtoUINT8(data: tmpID, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
+            let userID:[UInt8] = Util.StringtoUINT8ForID(data: tmpID, len: BPprotocol.userID_maxLen, fillData: BPprotocol.nullData)
             
             let userPWD:[UInt8] = Util.StringtoUINT8(data: tmpPassword, len: BPprotocol.userPD_maxLen, fillData: BPprotocol.nullData)
             

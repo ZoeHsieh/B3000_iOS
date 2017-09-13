@@ -1,9 +1,9 @@
 //
 //  StoreDeviceInfo.swift
-//  CBDoorLock
+//  E3AK
 //
-//  Created by NekkiLiao on 2017/3/28.
-//  Copyright © 2017年 鄭詠元. All rights reserved.
+//  Created by BluePacket on 2017/3/28.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import Foundation
@@ -22,6 +22,7 @@ struct DeviceInfo {
     var current_level: Int;
     var expect_level: Int;
     var alive: Int;
+
 }
 
 extension DeviceInfo: Equatable {

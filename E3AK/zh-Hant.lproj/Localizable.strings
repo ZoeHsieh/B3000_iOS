@@ -6,6 +6,9 @@
  Copyright © 2017年 com.E3AK. All rights reserved.
  */
 
+"OPEN" = "OPEN";
+"DOOR CLOSED" = "DOOR CLOSED";
+"DOOR OPENED" = "DOOR OPENED";
 Welcome = "歡迎使用 E3AK";
 "Searching" = "搜尋中請稍候";
 "AUTO_ENABLE_CONFLICT" = "請先取消AUTO";
@@ -66,7 +69,7 @@ TYPES = "請選擇模式";
 Permanent = "永久開門的權限";
 Schedule = "起迄時間";
 "Access Times" = "限制開門次數";
-"Please enter access times" = "請輸入次數";
+"Please enter access times" = "請輸入次數(0~255)";
 Recurrent = "週期排程";
 Start = "開始";
 End = "結束";
@@ -156,8 +159,10 @@ Date = "日期";
 "weekly_Thu" = "[四]";
 "weekly_Fri" = "[五]";
 "weekly_Sat" = "[六]";
+"Every Week" = "每週";
 "openType_Button" = "按鈕";
 "openType_Alarm" = "警報";
 "openType_Keypad" = "鍵盤";
 "Device Model" = "裝置型號:";
 "APP version" = "APP 版本:";
+"no_user_note" = "目前沒有使用者！！";

@@ -2,8 +2,8 @@
 //  UsersViewController.swift
 //  E3AK
 //
-//  Created by nsdi36 on 2017/6/13.
-//  Copyright © 2017年 com.E3AK. All rights reserved.
+//  Created by BluePacket on 2017/6/13.
+//  Copyright © 2017年 BluePacket. All rights reserved.
 //
 
 import UIKit
@@ -31,7 +31,13 @@ class UsersViewController: BLE_ViewController {
     @IBOutlet weak var SearchBar: UISearchBar!
     @IBOutlet weak var progress_count: UILabel!
     @IBOutlet weak var addItem: UIBarButtonItem!
+    @IBOutlet var msgView: UIView!
     
+    @IBOutlet weak var label_msg_dg_title: UILabel!
+    
+    @IBOutlet weak var label_msg_dg_msg: UILabel!
+    
+
     
     static var status:Int = 0
     static var result_userAction:Int = 0
@@ -55,7 +61,13 @@ class UsersViewController: BLE_ViewController {
         self.downloadView.removeFromSuperview();
          _ = self.navigationController?.popViewController(animated: true)
     }
-   
+    @IBAction func msg_dg_okAction(_ sender: Any) {
+        
+        self.msgView.removeFromSuperview();
+              
+        
+    }
+    
     @IBAction func backBefore(_ sender: Any) {
          isback = true
         print("backBefore")
@@ -89,6 +101,9 @@ class UsersViewController: BLE_ViewController {
             
         }else{
             print("Userload")
+            if userMax == 0 && (Config.userListArr.count == 0) || (Config.userListArr.count == 0) {
+              showMessageDialog(Title:"" , Message: GetSimpleLocalizedString("no_user_note"))
+            }
              localUserArr = Config.userListArr
             tableView.reloadData()
         }
@@ -103,10 +118,10 @@ class UsersViewController: BLE_ViewController {
 
         case userViewStatesCase.userAction.rawValue:
             if UsersViewController.result_userAction == 0{
-            self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+            //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
             
             }else{
-            self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+            //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
             
             }
             break
@@ -159,12 +174,12 @@ class UsersViewController: BLE_ViewController {
                         Config.userListArr.remove(at: tmpUserIndexPath.row)
                         localUserArr = Config.userListArr
                         tableView.reloadData()
-                        self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                      //  self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
                     }
                 }
                 else{
                     
-                    self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                    //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
                 }
                 isDelelate = false
                 break
@@ -359,7 +374,7 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        let moreRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: "刪除", handler:{action, indexpath in
+        let moreRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: GetSimpleLocalizedString("Delete"), handler:{action, indexpath in
             print("delete");
             if let userIndex = self.localUserArr[indexPath.row]["index"] as? Int16{
                 print("del0")
@@ -376,6 +391,20 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         
         return [moreRowAction];
 
+    }
+    
+    func showMessageDialog(Title:String, Message:String) {
+        
+        
+        //Set Initial Value
+        label_msg_dg_title.text = Title
+        label_msg_dg_msg.text = Message
+        
+        msgView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
+        
+        UIApplication.shared.keyWindow?.addSubview(self.msgView);
+        
+        
     }
     
     
