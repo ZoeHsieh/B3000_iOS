@@ -31,9 +31,11 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         Config.historyListArr.removeAll()
         Config.isUserListOK = false
         Config.isHistoryDataOK = false
-
-        delayOnMainQueue(delay: 0.5, closure: {
+        
+        delayOnMainQueue(delay: 0.1, closure: {
+            
             peripheral.discoverServices([CBUUID(string:Config.serviceUUID)])
+            
         })
         
     }
@@ -57,9 +59,10 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         if error != nil {
             print("Error discovering services: \(error?.localizedDescription)")
             
-           // dismiss(animated: true, completion: nil)
+            // dismiss(animated: true, completion: nil)
             return
         }
+        print("Discovered service")
         
         if let services = peripheral.services {
             
@@ -110,9 +113,9 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
         if (characteristic.value != nil) {
             var rawData = characteristic.value
             for j in 0 ... (rawData?.count)! - 1 {
-             
-             print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
-             }
+                
+                print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
+            }
             
             
             tmpBuff = tmpBuff + rawData!
@@ -175,13 +178,14 @@ class BLE_ViewController: UIViewController,CBCentralManagerDelegate, CBPeriphera
             }
         }
         
-    
+        
     }
-   
+    
     func cmdAnalysis(cmd:[UInt8]){
-    
+        
     }
     
     
-     
+    
 }
+

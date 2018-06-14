@@ -13,7 +13,7 @@ import CoreBluetooth
 
 extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     
-
+    
     public func openBlueTooth_Setting() {
         let url = URL(string: "APP-Prefs:root=Bluetooth") //for Bluetooth Setting
         let app = UIApplication.shared
@@ -33,7 +33,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         
         //app.openURL(url!)
     }
-
+    
     func setNavigationBarItemWithImage(imageName: String) {
         let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: (UIImage(named: imageName)), style: .plain, target: self, action: #selector(self.didTapItem))
         rightBarButtonItem.tintColor = HexColor("00B900")
@@ -52,6 +52,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     }
     
     public func didTapItem() {
+        
         _ = navigationController?.popViewController(animated: true)
     }
     
@@ -60,14 +61,14 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             return
         }
         
-//        guard let rootViewController = window.rootViewController else {
-//            return
-//        }
+        //        guard let rootViewController = window.rootViewController else {
+        //            return
+        //        }
         Config.bleManager.disconnect()
         let storyboard = UIStoryboard(storyboard: .Main)
         let vc: HomeNavigationController = storyboard.instantiateViewController()
-//        vc.view.frame = rootViewController.view.frame
-//        vc.view.layoutIfNeeded()
+        //        vc.view.frame = rootViewController.view.frame
+        //        vc.view.layoutIfNeeded()
         
         UIView.transition(with: window, duration: 0.3, options: .transitionCrossDissolve, animations: {
             window.rootViewController = vc
@@ -95,13 +96,13 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     }
     
     func saveExpectLevelToDbByUUID(_ uuidString: String, _ expect_level: Int) {
-     
-       //Save to DB
+        
+        //Save to DB
         Config.saveParam.setValue(expect_level, forKey: (uuidString + Config.RSSI_LEVEL_Tag))
         Config.saveParam.set(true, forKey: (uuidString + Config.RSSI_DB_EXIST))
         Config.saveParam.synchronize()
         
-       
+        
     }
     
     func readExpectLevelFromDbByUUID(_ uuidString: String) -> Int {
@@ -116,7 +117,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             expect_level = Config.BLE_RSSI_LEVEL_DEFAULT
         }
         
-       // print("expect_level = \(expect_level)")
+        // print("expect_level = \(expect_level)")
         
         return expect_level!
     }
@@ -131,7 +132,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         
         let messageDailog = UIAlertController(title: title, message: message, preferredStyle: .alert)
         
-        delayOnMainQueue(delay: 1, closure: {
+        delayOnMainQueue(delay: 3, closure: {
             messageDailog.dismiss(animated: true, completion: nil)
             
         })
@@ -146,28 +147,39 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     }
     
     func backToMainPage(){
-       
+        
         delayOnMainQueue(delay: 0.5, closure: {
-            self.dismiss(animated: true, completion: nil)
-            self.navigationController?.popViewController(animated: true)
-            self.dismiss(animated: true, completion: nil)
-        })
+            
+            for vc in (self.navigationController?.viewControllers ?? []){
+                
+                
+                if (vc is HomeViewController){
+                    
+                    self.navigationController?.popToViewController(vc, animated: false)
+                    
+                }
+                
             }
-
+            self.dismiss(animated: true, completion: nil)
+            
+        })
+        
+    }
+    
     func alertWithTextField(title: String, subTitle: String, placeHolder: String, keyboard: UIKeyboardType, defaultValue: String,Tag:Int,handler: @escaping ((_ inputText: String?) -> Void)){
         
         let alertController = UIAlertController(title: title, message: subTitle, preferredStyle: .alert)
         alertController.addTextField(configurationHandler: { (textField) in
             var PlaceHolder = NSMutableAttributedString()
-                        // Set the Font
+            // Set the Font
             PlaceHolder = NSMutableAttributedString(string: placeHolder, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 15.0)!])
             
             // Set the color
             PlaceHolder.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range:NSRange(location:0,length:placeHolder.characters.count))
             
-            // Add attribute        
+            // Add attribute
             
-           textField.attributedPlaceholder = PlaceHolder
+            textField.attributedPlaceholder = PlaceHolder
             textField.keyboardType = keyboard
             textField.tag = Tag
             textField.text = defaultValue
@@ -190,7 +202,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         alertController.popoverPresentationController?.sourceRect = CGRect(origin: CGPoint(x: 1.0,y :1.0), size: CGSize(width: self.view.bounds.size.width / 2.0, height: self.view.bounds.size.height / 2.0))
         self.present(alertController, animated: true, completion: nil)
     }
-       
+    
     func editAlertTextFieldDidChange(field: UITextField){
         let alertController: UIAlertController = self.presentedViewController as! UIAlertController
         let textField: UITextField = alertController.textFields![0];
@@ -205,11 +217,55 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             addAction.isEnabled = ((textField.text?.utf8.count)! >= 1 )
         }else if textField.tag == 1{ // for user pwd
             
+            field.text = field.text?.replacingOccurrences(of: "٠", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "١", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٢", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٣", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٤", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٥", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٦", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٧", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٨", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٩", with: "9", options: .literal, range: nil)
+            
+            field.text = field.text?.replacingOccurrences(of: "۰", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۱", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۲", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۳", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۴", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۵", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۶", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۷", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۸", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۹", with: "9", options: .literal, range: nil)
+            
             if ( (textField.text?.utf8.count)! > BPprotocol.userPD_maxLen ) {
                 textField.deleteBackward();
             }
             addAction.isEnabled = ((textField.text?.characters.count)! >= 4 );
         }else if textField.tag == 2{ // for door delay time
+            
+            field.text = field.text?.replacingOccurrences(of: "٠", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "١", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٢", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٣", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٤", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٥", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٦", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٧", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٨", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٩", with: "9", options: .literal, range: nil)
+            
+            field.text = field.text?.replacingOccurrences(of: "۰", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۱", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۲", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۳", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۴", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۵", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۶", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۷", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۸", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۹", with: "9", options: .literal, range: nil)
             
             if ( (textField.text?.utf8.count)! > 4) {
                 textField.deleteBackward();
@@ -235,7 +291,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         
         
     }
-   
+    
     func loginAlert(title: String, subTitle: String, placeHolder1: String, placeHolder2: String, keyboard1: UIKeyboardType, keyboard2: UIKeyboardType, handler: @escaping ((_ inputText1: String?, _ inputText2: String?) -> Void)){
         
         
@@ -280,12 +336,36 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         self.present(alertController, animated: true, completion: nil)
     }
     
-
+    
     func alertTextFieldDidChange(field: UITextField){
         let alertController: UIAlertController = self.presentedViewController as! UIAlertController
         let textField_id: UITextField = alertController.textFields![0];
         let textField_password: UITextField = alertController.textFields![1];
         let addAction: UIAlertAction = alertController.actions[0];
+        
+        
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٠", with: "0", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "١", with: "1", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٢", with: "2", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٣", with: "3", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٤", with: "4", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٥", with: "5", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٦", with: "6", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٧", with: "7", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٨", with: "8", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "٩", with: "9", options: .literal, range: nil)
+        
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۰", with: "0", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۱", with: "1", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۲", with: "2", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۳", with: "3", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۴", with: "4", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۵", with: "5", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۶", with: "6", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۷", with: "7", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۸", with: "8", options: .literal, range: nil)
+        textField_password.text = textField_password.text?.replacingOccurrences(of: "۹", with: "9", options: .literal, range: nil)
+        
         
         //Check Length
         if ( (textField_id.text?.utf8.count)! > BPprotocol.userID_maxLen ) {
@@ -299,6 +379,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         addAction.isEnabled = ((textField_id.text?.characters.count)! >= 1 ) && ((textField_password.text?.characters.count)! >= 4 );
         
     }
-
-   
+    
+    
 }
+

@@ -37,6 +37,7 @@ class BPprotocol{
     public static let cmd_erase_users:UInt8 = 0x19
     public static let cmd_history_next_Index:UInt8 = 0x1A
     public static let cmd_force_disconnect:UInt8 = 0x1B
+    public static let cmd_set_advertising_data:UInt8 = 0x1F
     //cmd data len define
     public static let len_user_enroll:Int = 30
     public static let len_user_identify:Int = 16
@@ -73,19 +74,25 @@ class BPprotocol{
     public static let userDataSize:Int = 50
     public static let door_status_delayTime:UInt8 = 0x00
     public static let door_status_KeepOpen:UInt8 = 0x01
+    public static let open_fail_PD:UInt8 = 0x01 //Permission denied
+    public static let open_fail_no_eroll:UInt8 = 0x02
+    
+    
+    
     private let openType:UInt8 = 0x02
     private let openTypeKeep:UInt8 = 0x12
+    
     
     private func getCmdWrite(cmdType:UInt8, data:[UInt8],datalen:Int)->[UInt8]
     {    var cmd = [UInt8] ()
         
-            cmd.append(cmdType)
-            cmd.append(BPprotocol.type_write)
-            cmd.append((UInt8)(datalen >> 8))
-            cmd.append((UInt8)(datalen & 0xFF))
+        cmd.append(cmdType)
+        cmd.append(BPprotocol.type_write)
+        cmd.append((UInt8)(datalen >> 8))
+        cmd.append((UInt8)(datalen & 0xFF))
         if datalen > 0 {
-        for i in 0...Int(datalen) - 1{
-            cmd.append(data[i])
+            for i in 0...Int(datalen) - 1{
+                cmd.append(data[i])
             }
         }
         
@@ -98,8 +105,8 @@ class BPprotocol{
         cmd.append(BPprotocol.type_read)
         cmd.append(0x00)
         cmd.append(0x00)
-    
-
+        
+        
         return cmd
     }
     
@@ -114,7 +121,7 @@ class BPprotocol{
         for i in 0...Int(datalen)-1 {
             cmd.append(data[i])
         }
-
+        
         
         return cmd
     }
@@ -126,13 +133,13 @@ class BPprotocol{
         packet.append(BPprotocol.packetHead_Tail)
         
         for i in 0 ... len - 1 {
-           packet.append(data[i])
+            packet.append(data[i])
         }
-       
+        
         packet.append(BPprotocol.packetHead_Tail)
         
         return packet
-    
+        
     }
     
     public func setUserEnroll(UserID:[UInt8] , Password:[UInt8]) -> Data{
@@ -152,7 +159,7 @@ class BPprotocol{
         let Time = [ UInt8(Year >> 8), UInt8(Year & 0x00ff),UInt8(components.month!), UInt8(components.day!),  UInt8(components.hour!), UInt8(components.minute!), UInt8(components.second!)]
         let typeAndIndex = [openType, UInt8(UserIndex >> 8) , UInt8(UserIndex & 0x00ff)]
         print(String(format:"typeAndIndex[%d]=%02x",1,typeAndIndex[1] ))
-          print(String(format:"typeAndIndex[%d]=%02x",2,typeAndIndex[2] ))
+        print(String(format:"typeAndIndex[%d]=%02x",2,typeAndIndex[2] ))
         
         let cmdData = Time + Config.userMac + typeAndIndex
         
@@ -177,7 +184,7 @@ class BPprotocol{
     }
     
     public func setDeviceTime(deviceTime:[UInt8]) -> Data{
-      
+        
         
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_device_time, data: deviceTime, datalen: 7)
         
@@ -195,9 +202,9 @@ class BPprotocol{
     
     public func setDeviceConfig(door_option:UInt8, lockType:UInt8, delayTime:Int16, G_sensor_option:UInt8) -> Data{
         print("door=%02x",door_option)
-          print("locktype=%02x",lockType)
-          print("delayTime=%d",delayTime)
-          print("g=%02x",G_sensor_option)
+        print("locktype=%02x",lockType)
+        print("delayTime=%d",delayTime)
+        print("g=%02x",G_sensor_option)
         
         let cmdData = [ door_option, lockType, UInt8(delayTime >> 8), UInt8(delayTime & 0x00FF), G_sensor_option]
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_device_config, data: cmdData, datalen: cmdData.count)
@@ -207,7 +214,7 @@ class BPprotocol{
     
     public func getDeviceConfig() -> Data{
         
-         let cmd = getCmdRead(cmdType: BPprotocol.cmd_device_config)
+        let cmd = getCmdRead(cmdType: BPprotocol.cmd_device_config)
         
         return Data(bytes: slipEncode(data: cmd, len: cmd.count))
     }
@@ -233,7 +240,7 @@ class BPprotocol{
         
         return Data(bytes: slipEncode(data: cmd, len: cmd.count))
     }
-
+    
     public func getFW_version() -> Data{
         
         let cmd = getCmdRead(cmdType: BPprotocol.cmd_fw_version)
@@ -255,7 +262,7 @@ class BPprotocol{
         let components = calendar.dateComponents([.year, .month, .day, .hour,.minute,.second], from: Date())
         let Year: UInt16 = UInt16(components.year!)
         let Time = [ UInt8(Year >> 8), UInt8(Year & 0x00ff),UInt8(components.month!), UInt8(components.day!),  UInt8(components.hour!), UInt8(components.minute!), UInt8(components.second!)]
-    
+        
         let cmdData = Time + Config.userMac + [openType]
         
         let cmd = getCmdRead(cmdType: BPprotocol.cmd_admin_identify, data: cmdData, datalen: cmdData.count)
@@ -280,12 +287,20 @@ class BPprotocol{
     }
     
     public func setAdminPWD(Password:[UInt8]) -> Data{
-    
+        
         
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_set_admin_pwd, data:  Password,datalen:  Password.count)
         
         return Data(bytes:slipEncode(data:cmd,len:cmd.count))
     }
+    
+    public func setAdvertisingData(AD:[UInt8]) -> Data{
+        
+        let cmd = getCmdWrite(cmdType: BPprotocol.cmd_set_advertising_data, data:  AD,datalen:  8)
+        
+        return Data(bytes:slipEncode(data:cmd,len:cmd.count))
+    }
+    
     
     public func getAdminPWD() -> Data{
         
@@ -297,7 +312,7 @@ class BPprotocol{
     public func setUserProperty(UserIndex:Int16, Keypadunlock:UInt8, LimitType:UInt8, startTime:[UInt8], endTime:[UInt8], Times:UInt8, weekly:UInt8) -> Data{
         
         var cmdData:[UInt8] = [UInt8(UserIndex >> 8)] + [UInt8(UserIndex & 0x00FF)]
-       
+        
         cmdData = cmdData + [Keypadunlock] + [LimitType]
         
         cmdData = cmdData + startTime + endTime
@@ -344,7 +359,7 @@ class BPprotocol{
     
     public func setUserID(UserIndex:Int16, ID:[UInt8]) -> Data{
         
-    let cmdData:[UInt8] = [UInt8(UserIndex >> 8)] + [UInt8(UserIndex & 0x00FF)] + ID
+        let cmdData:[UInt8] = [UInt8(UserIndex >> 8)] + [UInt8(UserIndex & 0x00FF)] + ID
         
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_set_user_id, data: cmdData,datalen: cmdData.count)
         
@@ -419,9 +434,9 @@ class BPprotocol{
         let cmd = getCmdWrite(cmdType: BPprotocol.cmd_erase_users, data: cmdData,datalen: 0)
         
         return Data(bytes:slipEncode(data:cmd,len:cmd.count))
-    
+        
     }
-
+    
     public func getHistoryNextCount() -> Data{
         
         let cmd = getCmdRead(cmdType: BPprotocol.cmd_history_next_Index)
@@ -429,11 +444,12 @@ class BPprotocol{
     }
     
     public func excuteForceDisconnect() ->Data{
-    
-     let cmd = getCmdRead(cmdType: BPprotocol.cmd_force_disconnect)
-     return Data(bytes:slipEncode(data:cmd,len:cmd.count))
-    
+        
+        let cmd = getCmdRead(cmdType: BPprotocol.cmd_force_disconnect)
+        return Data(bytes:slipEncode(data:cmd,len:cmd.count))
+        
     }
-
+    
     
 }
+

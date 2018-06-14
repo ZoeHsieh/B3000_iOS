@@ -69,12 +69,15 @@ class UserInfoTableViewController: BLE_tableViewController {
         if UserInfoTableViewController.isSettingAccess{
             let cmd = UserInfoTableViewController.tmpCMD
             print(String(format:"cmd1 cnt=%d", cmd.count))
-                
+            for i in 0 ... cmd.count - 1{
+            print(String(format:"cmd[%d]=%02x",i, cmd[i]))
+           }
             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
             UserInfoTableViewController.isSettingAccess = false
+            tableView.reloadData()
         }
         
-        tableView.reloadData()
+        
         
     }
 
@@ -136,7 +139,7 @@ class UserInfoTableViewController: BLE_tableViewController {
         
         switch section {
         case 0:
-            return GetSimpleLocalizedString("ID")            
+            return GetSimpleLocalizedString("ID")
         case 1:
             return GetSimpleLocalizedString("Password/PIN Code (4~8 Digits)")
             
@@ -581,3 +584,4 @@ class UserInfoTableViewController: BLE_tableViewController {
 
 
 }
+

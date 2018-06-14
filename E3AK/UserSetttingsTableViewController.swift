@@ -23,52 +23,78 @@ class UserSettingsTableViewController: BLE_tableViewController {
     
     @IBOutlet weak var rssiLabel: UILabel!
     
-  
+    
     
     @IBOutlet weak var aboutTitle: UILabel!
     
     
     
-
+    
     var selectedDevice:DeviceInfo!
-
+    
     var tmpDeviceName:String?
-
-
-
+    
+    
+    
     var isbackup = false
     var current_level_RSSI:Int = 0
+    
+    
+    
     
     
     @IBOutlet weak var backButton: UIBarButtonItem!
     @IBAction func backPageListener(_ sender: Any) {
         
         
-            backToMainPage()
-            
-            
-            
-               
+        backToMainPage()
+        
+        
+        
+        
     }
+    
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let userLanguages = UserDefaults.standard.object(forKey: "AppleLanguages") as! [String]
+        if let userLanguage = userLanguages.first
+        {
+            print(userLanguage)
+            let startIndex = userLanguage.index(userLanguage.startIndex, offsetBy: 0)
+            let endIndex = userLanguage.index(userLanguage.startIndex, offsetBy: 1)
+            let subStr = userLanguage[startIndex...endIndex]
+            
+            if (subStr == "en" || subStr == "it" || subStr == "fr" || subStr == "ja" || subStr == "es")
+            {
+                let img = UIImage(named: "instruction")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
+                let bar_item_bt_instruction : UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.plain, target: self, action: #selector(showUserFAQ))
+                
+                //        bar_item_bt_instruction.imageInsets = UIEdgeInsetsMake(0, 32, 0, -32)
+                self.navigationItem.rightBarButtonItem = bar_item_bt_instruction
+                //        self.navigationItem.rightBarButtonItems = [flexible,bar_item_bt_instruction]
+            }
+        }
+        
+        
+        
+        
+        
+        
+        
         
         title = GetSimpleLocalizedString("Settings")
         
         deviceNameTitle.text = GetSimpleLocalizedString("Device Name")
         deviceNameLabel.text = selectedDevice.name
-       
+        
         rssiTitle.text = GetSimpleLocalizedString("Proximity Read Range")
         
-       
+        
         aboutTitle.text = GetSimpleLocalizedString("About Us")
         
-     
-        
-      
-        
-       
     }
     
     
@@ -111,10 +137,10 @@ class UserSettingsTableViewController: BLE_tableViewController {
         
         switch indexPath.row
         {
-       
+            
             
         case 1:
-            let vc = ProximityReadRangeViewController(nib: R.nib.proximityReadRangeViewController)
+            let vc = UserProximityReadRangeViewController(nib: R.nib.proximityReadRangeViewController)
             vc.selectedDevice = selectedDevice.peripheral
             vc.current_level_RSSI = current_level_RSSI
             navigationController?.pushViewController(vc, animated: true)
@@ -129,7 +155,16 @@ class UserSettingsTableViewController: BLE_tableViewController {
     }
     
     
+    
+    
+    func showUserFAQ() {
+        let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        let vc = mainStoryboard.instantiateViewController(withIdentifier: "UserFAQ") as! UserFAQ
+        self.navigationController?.pushViewController(vc, animated: true)
         
+    }
+    
+    
     
 }
 

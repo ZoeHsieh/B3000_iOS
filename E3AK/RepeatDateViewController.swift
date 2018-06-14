@@ -8,10 +8,10 @@
 
 import UIKit
 
-class RepeatDateViewController: UIViewController {
-
+class RepeatDateViewController: BLE_ViewController{
+    
     @IBOutlet weak var tableView: UITableView!
-   
+    
     var selectedDateArray = [Bool](repeating: false, count: 7)
     
     override func viewDidLoad() {
@@ -21,31 +21,31 @@ class RepeatDateViewController: UIViewController {
         
         for n: UInt8 in 0...6{
             if (AccessTypesViewController.weekly & (0x1 << n)) != 0{
-                 selectedDateArray[Int(n)] = true
+                selectedDateArray[Int(n)] = true
             }else{
                 selectedDateArray[Int(n)] = false
             }
         }
-
+        
         title = GetSimpleLocalizedString("Repeat Select")
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
@@ -63,7 +63,7 @@ extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
         cell.selectionStyle = .none
         cell.textLabel?.text = Config.weekArr[indexPath.row]
         cell.imageView?.image = selectedDateArray[indexPath.row] ? R.image.tickGreen() : R.image.tickWhiteS()
-
+        
         return cell
     }
     
@@ -73,11 +73,11 @@ extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
         var n = UInt8(indexPath.row)
         n = (0x1 << n)
         if selectedDateArray[indexPath.row]{
-           
-          AccessTypesViewController.weekly? += n
+            
+            AccessTypesViewController.weekly? += n
             
         }else{
-          AccessTypesViewController.weekly? -= n
+            AccessTypesViewController.weekly? -= n
             
         }
         UserInfoTableViewController.tmpCMD[24] = AccessTypesViewController.weekly
@@ -85,3 +85,4 @@ extension RepeatDateViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.reloadRows(at: [indexPath], with: .none)
     }
 }
+

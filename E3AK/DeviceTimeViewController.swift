@@ -9,8 +9,8 @@
 import UIKit
 import ChameleonFramework
 
-class DeviceTimeViewController: UIViewController {
-
+class DeviceTimeViewController: BLE_ViewController {
+    
     let kPickerAnimationDuration = 0.40 // duration for the animation to slide the date picker into view
     let kDatePickerTag           = 99   // view tag identifiying the date picker view
     
@@ -37,7 +37,7 @@ class DeviceTimeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         title = GetSimpleLocalizedString("Device Time")
         //tableView.register(R.nib.deviceTimeSwitchTableViewCell)
         tableView.register(R.nib.datePickerTableViewCell)
@@ -46,20 +46,20 @@ class DeviceTimeViewController: UIViewController {
         //let itemStart = [kTitleKey : "automatic setting", kDateKey : Date()] as [String : Any]
         let itemEnd = [kTitleKey : GetSimpleLocalizedString("Device Time"), kDateKey : Date()] as [String : Any]
         dataArray = [itemEnd as Dictionary<String, AnyObject>]
-       
-       // dateFormatter.dateStyle = .medium // show short-style date format
-       // dateFormatter.timeStyle = .short
+        
+        // dateFormatter.dateStyle = .medium // show short-style date format
+        // dateFormatter.timeStyle = .short
         dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
         // if the locale changes while in the background, we need to be notified so we can update the date
         // format in the table view cells
         //
         NotificationCenter.default.addObserver(self, selector: #selector(DeviceTimeViewController.localeChanged(_:)), name: NSLocale.currentLocaleDidChangeNotification, object: nil)
         displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
-         SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
-       
+        SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
+        
         
     }
-
+    
     func localeChanged(_ notif: Notification) {
         // the user changed the locale (region format) in Settings, so we are notified here to
         // update the date format in the table view cells
@@ -72,17 +72,17 @@ class DeviceTimeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
@@ -106,7 +106,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         var cell: UITableViewCell?
         
         var cellID = kDateCellID
@@ -120,11 +120,11 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         cell = tableView.dequeueReusableCell(withIdentifier: cellID)
-
         
-//        if indexPath.row == 0 {
-//            // we decide here that first cell in the table is not selectable (it's just an indicator)
-//        }
+        
+        //        if indexPath.row == 0 {
+        //            // we decide here that first cell in the table is not selectable (it's just an indicator)
+        //        }
         
         // if we have a date picker open whose cell is above the cell we want to update,
         // then we have one more cell than the model allows
@@ -147,22 +147,22 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             print(String(format:" text before Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
             
             
-                //dateComponents.year = SettingsTableViewController.startTimeArr[0]
-               SettingsTableViewController.startTimeArr[0] = dateComponents.year!
-                dateComponents.month = SettingsTableViewController.startTimeArr[1]
-                dateComponents.day = SettingsTableViewController.startTimeArr[2]
-                dateComponents.hour = SettingsTableViewController.startTimeArr[3]
-                dateComponents.minute = SettingsTableViewController.startTimeArr[4]
-                dateComponents.second = SettingsTableViewController.startTimeArr[5]
+            //dateComponents.year = SettingsTableViewController.startTimeArr[0]
+            SettingsTableViewController.startTimeArr[0] = dateComponents.year!
+            dateComponents.month = SettingsTableViewController.startTimeArr[1]
+            dateComponents.day = SettingsTableViewController.startTimeArr[2]
+            dateComponents.hour = SettingsTableViewController.startTimeArr[3]
+            dateComponents.minute = SettingsTableViewController.startTimeArr[4]
+            dateComponents.second = SettingsTableViewController.startTimeArr[5]
             
             print(String(format:"text after Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
             dateTableViewCell.textLabel?.text = itemData[kTitleKey] as? String
             
             dateTableViewCell.detailTextLabel?.textColor = HexColor("4a4a4a")
-           
+            
             
             dateTableViewCell.detailTextLabel?.text = self.dateFormatter.string(from: calendar.date(from: dateComponents)!)
-           
+            
             dateTableViewCell.detailTextLabel?.font = .systemFont(ofSize: 15)
             cell = dateTableViewCell
             
@@ -180,7 +180,7 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
             print(String(format:"index=%d",indexPath.row))
             
             print("update start arr")
-         //   dateComponents.year = SettingsTableViewController.startTimeArr[0]
+            //   dateComponents.year = SettingsTableViewController.startTimeArr[0]
             dateComponents.month = SettingsTableViewController.startTimeArr[1]
             dateComponents.day = SettingsTableViewController.startTimeArr[2]
             dateComponents.hour = SettingsTableViewController.startTimeArr[3]
@@ -195,12 +195,12 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
         }
         /*else if cellID == deviceTimeSwitchCellID {
          
-            let deviceTimeSwitchCell = tableView.dequeueReusableCell(withIdentifier: R.nib.deviceTimeSwitchTableViewCell.identifier, for: indexPath) as! DeviceTimeSwitchTableViewCell
-            deviceTimeSwitchCell.delegate = self
-            deviceTimeSwitchCell.indexPath = indexPath
-            deviceTimeSwitchCell.titleLabel.text = itemData[kTitleKey] as? String
-            cell = deviceTimeSwitchCell
-        }*/
+         let deviceTimeSwitchCell = tableView.dequeueReusableCell(withIdentifier: R.nib.deviceTimeSwitchTableViewCell.identifier, for: indexPath) as! DeviceTimeSwitchTableViewCell
+         deviceTimeSwitchCell.delegate = self
+         deviceTimeSwitchCell.indexPath = indexPath
+         deviceTimeSwitchCell.titleLabel.text = itemData[kTitleKey] as? String
+         cell = deviceTimeSwitchCell
+         }*/
         
         cell?.selectionStyle = .none;
         return cell!
@@ -208,12 +208,12 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-//        let cell = tableView.cellForRow(at: indexPath)
-//        if cell?.reuseIdentifier == deviceTimeSwitchCellID {
-//            displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
-//        } else {
-//            tableView.deselectRow(at: indexPath, animated: true)
-//        }
+        //        let cell = tableView.cellForRow(at: indexPath)
+        //        if cell?.reuseIdentifier == deviceTimeSwitchCellID {
+        //            displayInlineDatePickerForRowAtIndexPath(IndexPath(row: 1, section: 0))
+        //        } else {
+        //            tableView.deselectRow(at: indexPath, animated: true)
+        //        }
     }
     
     /*! Determines if the given indexPath has a cell below it with a UIDatePicker.
@@ -235,18 +235,18 @@ extension DeviceTimeViewController: UITableViewDataSource, UITableViewDelegate {
     /*! Updates the UIDatePicker's value to match with the date of the cell above it.
      */
     func updateDatePicker() {
-       print("indexPath= \(datePickerIndexPath?.row)")
+        print("indexPath= \(datePickerIndexPath?.row)")
         if let indexPath = datePickerIndexPath {
             
             let associatedDatePickerCell = tableView.cellForRow(at: indexPath)
-             if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as! UIDatePicker?
+            if let targetedDatePicker = associatedDatePickerCell?.viewWithTag(kDatePickerTag) as! UIDatePicker?
             {
-            
-               
-
+                
+                
+                
                 //let itemData = dataArray[self.datePickerIndexPath!.row - 1]
-               // targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)
-           }
+                // targetedDatePicker.setDate(itemData[kDateKey] as! Date, animated: false)
+            }
             
         }
     }
@@ -363,16 +363,16 @@ extension DeviceTimeViewController: DatePickerTableViewCellDelegate{
         let calendar = Calendar.current
         // update the cell's date string
         cell?.detailTextLabel?.text = dateFormatter.string(from: targetedDatePicker.date)
-       
+        
         let dateComponents = calendar.dateComponents([.year,.month, .day, .hour,.minute,.second], from: targetedDatePicker.date )
         print(String(format:"Y=%d\r\nM=%d\r\nD=%d\r\nH=%d\r\nm=%d\r\ns=%d\r\n",dateComponents.year!,dateComponents.month!,dateComponents.day!,dateComponents.hour!,dateComponents.minute!,dateComponents.second!))
-            SettingsTableViewController.startTimeArr[0] = dateComponents.year!
+        SettingsTableViewController.startTimeArr[0] = dateComponents.year!
         SettingsTableViewController.startTimeArr[1] = dateComponents.month!
-         SettingsTableViewController.startTimeArr[2] = dateComponents.day!
+        SettingsTableViewController.startTimeArr[2] = dateComponents.day!
         SettingsTableViewController.startTimeArr[3] = dateComponents.hour!
         SettingsTableViewController.startTimeArr[4] = dateComponents.minute!
         SettingsTableViewController.startTimeArr[5] = dateComponents.second!
-             
+        
         print("device Time= \(cell?.detailTextLabel?.text)")
         SettingsTableViewController.settingStatus = settingStatesCase.config_deviceTime.rawValue
     }
@@ -384,7 +384,7 @@ extension DeviceTimeViewController: DeviceTimeSwitchTableViewCellDelegate{
         
         let cell = tableView.cellForRow(at: indexPath)
         if cell?.reuseIdentifier == deviceTimeSwitchCellID {
-         
+            
         }else {
             tableView.deselectRow(at: indexPath, animated: true)
         }

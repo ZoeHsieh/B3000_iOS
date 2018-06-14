@@ -19,7 +19,14 @@ import UIKit
 
 import CoreBluetooth
 
-class UserProximityReadRangeViewController: UIViewController {
+class UserProximityReadRangeViewController: UIViewController, CBCentralManagerDelegate, CBPeripheralDelegate {
+    
+    func centralManagerDidUpdateState(_ central: CBCentralManager) {
+        if central.state == .poweredOn
+        {
+            myCentralManager.scanForPeripherals(withServices: [CBUUID(string:"0000E0FF-3C17-D293-8E48-14FE2E4DA212")], options: [CBCentralManagerScanOptionAllowDuplicatesKey:true])
+        }
+    }
     
     @IBOutlet weak var deviceNameView: UIView!
     @IBOutlet weak var deviceDistanceView: UIView!
@@ -42,6 +49,8 @@ class UserProximityReadRangeViewController: UIViewController {
     
     @IBOutlet weak var levelSlider: UISlider!
     
+    var myCentralManager:CBCentralManager!
+    
     
      var selectedDevice:CBPeripheral!
     var current_level_RSSI:Int = 0
@@ -49,18 +58,21 @@ class UserProximityReadRangeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        myCentralManager = CBCentralManager()
+        myCentralManager.delegate = self
+        
         title = GetSimpleLocalizedString("Proximity Read Range")
         deviceDistanceTitle.text = GetSimpleLocalizedString("Device Distance")
         proximityReadRangeTitle.text = GetSimpleLocalizedString("Proximity Read Range Settings")
-        deviceNameTitle.text = GetSimpleLocalizedString("Device Name") + ":"
-        deviceModelTitle.text = GetSimpleLocalizedString("Device Model")
-        deviceModelValue.text = "E3AK"
+//        deviceNameTitle.text = GetSimpleLocalizedString("Device Name") + ":"
+//        deviceModelTitle.text = GetSimpleLocalizedString("Device Model")
+//        deviceModelValue.text = "E3AK"
         deviceDistanceView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         distanceSettingView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
-        deviceNameView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
-        deviceModelView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+//        deviceNameView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
+//        deviceModelView.setShadowWithColor(color: UIColor.gray, opacity: 0.3, offset: CGSize(width: 0, height: 3), radius: 2, viewCornerRadius: 2.0)
         
-        label_DeviceName.text = selectedDevice.name
+//        label_DeviceName.text = selectedDevice.name
         let setupRSSILevel = readExpectLevelFromDbByUUID(selectedDevice.identifier.uuidString)
         
         Label_CurrentRSSILevel.text = String(format:"%d",current_level_RSSI)
@@ -98,5 +110,18 @@ class UserProximityReadRangeViewController: UIViewController {
      // Pass the selected object to the new view controller.
      }
      */
+    
+    
+    
+    func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral, advertisementData: [String : Any], rssi RSSI: NSNumber) {
+        if peripheral.identifier.uuidString == selectedDevice.identifier.uuidString
+        {
+            Label_CurrentRSSILevel.text = "\(Convert_RSSI_to_LEVEL(Int(RSSI)))"
+            print("RRRRRRRRRRRRRRRRRRRRRRRRR")
+        }
+        
+    }
+    
+    
     
 }

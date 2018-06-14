@@ -7,13 +7,13 @@
  */
 
 "OPEN" = "OPEN";
-"DOOR CLOSED" = "DOOR CLOSED";
-"DOOR OPENED" = "DOOR OPENED";
+"DOOR CLOSED" = "LOCKED";
+"DOOR OPENED" = "UNLOCKED";
 Welcome = "歡迎使用 E3AK";
 "Searching" = "搜尋中請稍候";
 "AUTO_ENABLE_CONFLICT" = "請先取消AUTO";
 "enroll_dialog_title" = "註冊使用者";
- "settings_device_vr" = "韌體版本";
+"settings_device_vr" = "韌體版本";
 
 "Open"= "開啟";
 Next = "下一步";
@@ -42,7 +42,7 @@ Restore = "資料還原";
 "Door Always Unlocked" = "常開";
 "Door Always Locked" = "常閉";
 "Tamper Sensor" = "防拆感應";
-"Proximity Read Range" = "感應距離";
+"Proximity Read Range" = "自動開門感應範圍";
 "Door Re-lock Time" = "延遲上鎖時間";
 "Sec." = "秒";
 "Please choose" = "請選擇";
@@ -51,15 +51,15 @@ Restore = "資料還原";
 "Searching…" = "搜尋中";
 "Please wait a moment…" = "請稍候";
 "Device Distance" = "您目前距離裝置";
-"Proximity Read Range Settings" = "感應距離設定";
+"Proximity Read Range Settings" = "感應範圍設定";
 "Edit Door Re-lock Time (1~1800 seconds)" = "請輸入上鎖時間 (1~1800秒)";
 "Please enter the number of seconds" = "請輸入秒數";
 ID = "帳號";
 "Password/PIN Code" = "密碼";
 "Password" = "密碼";
 "Add Users" = "新增使用者";
-"Please Provide Up to 16 characters" = "請輸入 (最多只能16個字元)";
-"4~8 digits" = "4~8碼";
+"Please Provide Up to 16 characters" = "帳號: 請輸入 (最多只能16個字元)";
+"4~8 digits" = "密碼: 4~8碼";
 "User Info" = "使用者資訊";
 Delete = "刪除";
 "Password/PIN Code (4~8 Digits)" = "密碼(4~8個字元)";
@@ -88,7 +88,7 @@ Date = "日期";
 "Lock Action" = "開鎖方式";
 "Add more" = "新增更多  ";
 "Finish Done" = "完成";
-"Please Setting Proximity Read Range" = "請設定感測距離";
+"Please Setting Proximity Read Range" = "請設定感測範圍";
 "Incorrect password. Please try again" = "密碼錯誤，請重新輸入";
 "Please enter ID" = "請輸入帳號";
 "Please enter password" = "請輸入密碼";
@@ -166,3 +166,40 @@ Date = "日期";
 "Device Model" = "裝置型號:";
 "APP version" = "APP 版本:";
 "no_user_note" = "目前沒有使用者！！";
+"open_fail_permission_denied" = "Access Denied. Please Contact Your Administrator.";
+"open_fail_no_eroll" = "Access Denied. Please Login First to Get Access.";
+"open_fail_unknown" = "Access Denied. Please Contact Your Administrator.";
+"eroll_fail" = "Login Failed. Please Verify Your Login Information Or Contact Your Administrator.";
+"eroll_success" = "You Have Successfully Logged In. You May Now Unlock A Door.";
+
+/*tooltip*/
+"tooltip_FAQ" = "FAQ";
+
+"tooltip_dsc_door_sensor" = "Door Sensor is deactivated by default. To enable Door Sensor when you connect to a closed-circuit magnetic sensors or a monitored door lock that has door sensor (or lock sensor) outputs to monitor the open or closed state of a door.";
+
+"tooltip_dsc_tamper_alarm" = "Tamper Alarm is deactivated by default. Once activated the Tamper Alarm if the keypad/reader has been moved or if burglars or vandals break in, Tamper Alarm will be effectively for deterring potential thieves and vandals. Note that Tamper Alarm only can be switched off by the Administrator.";
+
+"tooltip_dsc_proximity_read_range" = "You can adjust Auto Proximity Range between minimum 1 to maximum 20 for your Auto unlock access. May have different results due to different areas and circumstances with different smartphones.";
+
+"tooltip_dsc_device_time" = "Make sure to set up Device Time precisely as your current time zone of where you are. It helps having correct and precise access data and information.";
+
+"tooltip_dsc_users" = "Up to 1000 users/passcodes available. You can Add/Delete/Edit user information.";
+
+"tooltip_dsc_history" = "Audit Trail is tracking last 1000 event logs, including Tamper Alarm. Audit Trail can be exported in an excel file.";
+
+"tooltip_dsc_backup" = "Backup Data is to backup all data to Administrator's smartphone and can be restored, except Device Name, Audit Trail logs and Device Time.";
+
+"tooltip_dsc_restore" = "Restore Backup is to restore last backup from Administrator’s smartphone to a new Access Control Device.";
+
+"tooltip_dsc_admin_passcode" = "12345 is Admin default passcode. It’s important to change your Admin passcode immediately. Admin passcode must be between 4 to 8 numeric passcodes.";
+
+"tooltip_dsc_reset_title" = "Reset Procedures";
+
+"tooltip_dsc_reset_button_title" = "How to Reset a Bluetooth Keypad with Reset Button on the PC board?";
+
+"tooltup_dsc_reset_button_detail" = "1. Power off Access Control Keypad/Reader.\n2. Press and hold the Reset Button, then power on.\n3. Hear a long beep to complete resetting procedures.\n4. Login as Admin and check all users, audit trail events are all cleared and all data is reset to factory default setting, except device name and device time.";
+
+"tooltip_dsc_reset_pins_title" = "How to Reset a Bluetooth Reader with Reset Pins on the PC board?";
+
+"tooltup_dsc_reset_pins_detail" = "1. Power off Access Control Keypad/Reader.\n2. Short the two Reset Pins, then power on.\n3. Hear a long beep to complete resetting procedures.\n4. Login as Admin and check all users, audit trail events are all cleared and all data is reset to factory default setting, except device name and device time.";
+

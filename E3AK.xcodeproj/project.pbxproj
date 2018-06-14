@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46C9F8F41FB0271F00215C34 /* MasterFAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C9F8F31FB0271F00215C34 /* MasterFAQ.swift */; };
+		46C9F8F61FB0336700215C34 /* UserFAQ.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C9F8F51FB0336700215C34 /* UserFAQ.swift */; };
+		46EC37441FAA1A1000FBD654 /* NSDate+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EC373E1FAA1A1000FBD654 /* NSDate+Extension.m */; };
+		46EC37451FAA1A1000FBD654 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EC37401FAA1A1000FBD654 /* UIView+Extension.m */; };
+		46EC37461FAA1A1000FBD654 /* WSDatePickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46EC37421FAA1A1000FBD654 /* WSDatePickerView.m */; };
+		46EC37471FAA1A1000FBD654 /* WSDatePickerView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46EC37431FAA1A1000FBD654 /* WSDatePickerView.xib */; };
+		46EC374B1FAB15BC00FBD654 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46EC374A1FAB15B900FBD654 /* Assets.xcassets */; };
 		593EB7CCC690CFB4EF041322 /* Pods_E3AK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B171D6CA715EACE4668F19A3 /* Pods_E3AK.framework */; };
 		740AF23B1F0A1AC300958B34 /* BLE_tableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740AF23A1F0A1AC300958B34 /* BLE_tableViewController.swift */; };
 		740AF23D1F0A2FF800958B34 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 740AF23C1F0A2FF800958B34 /* Util.swift */; };
@@ -48,7 +55,6 @@
 		A09BC35E1EE798CC00F38AB8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09BC35D1EE798CC00F38AB8 /* AppDelegate.swift */; };
 		A09BC3601EE798CC00F38AB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09BC35F1EE798CC00F38AB8 /* ViewController.swift */; };
 		A09BC3631EE798CC00F38AB8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A09BC3611EE798CC00F38AB8 /* Main.storyboard */; };
-		A09BC3651EE798CC00F38AB8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A09BC3641EE798CC00F38AB8 /* Assets.xcassets */; };
 		A09BC3681EE798CC00F38AB8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A09BC3661EE798CC00F38AB8 /* LaunchScreen.storyboard */; };
 		A09BC3701EE7C2AD00F38AB8 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A09BC36F1EE7C2AD00F38AB8 /* Intro.storyboard */; };
 		A09BC3731EE7C55C00F38AB8 /* Intro_WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A09BC3711EE7C55C00F38AB8 /* Intro_WelcomeViewController.swift */; };
@@ -87,6 +93,7 @@
 		A0FF10601EF1496A00F30987 /* Intro_AddMoreUserFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FF105F1EF1496A00F30987 /* Intro_AddMoreUserFooterView.swift */; };
 		A0FF10621EF1497F00F30987 /* Intro_AddMoreUserFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A0FF10611EF1497F00F30987 /* Intro_AddMoreUserFooterView.xib */; };
 		A0FF3FAD1EEA7E0900379D37 /* Intro_DistanceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0FF3FAC1EEA7E0900379D37 /* Intro_DistanceSettingsViewController.swift */; };
+		C81DFD6820CE016C00847C2D /* AdvertisingData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C81DFD6720CE016C00847C2D /* AdvertisingData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,9 +106,25 @@
 		462EB1BB1F53CC6C0087493C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		462EB1BC1F53CC6C0087493C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		462EB1BD1F53CC6C0087493C /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = E3AK/es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		464A1A741F675FCA00462E16 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
 		464A1A751F675FCA00462E16 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		464A1A761F675FCA00462E16 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = E3AK/ja.lproj/Localizable.strings; sourceTree = "<group>"; };
+		467CBC93206F6B820055E325 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		467CBC94206F6B830055E325 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = E3AK/ar.lproj/Localizable.strings; sourceTree = "<group>"; };
+		467CBC97206F72AB0055E325 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
+		467CBC99206F72AF0055E325 /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Main.strings"; sourceTree = "<group>"; };
+		467CBC9A206F72B20055E325 /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Main.strings; sourceTree = "<group>"; };
+		467CBC9B206F72B40055E325 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
+		46C9F8F31FB0271F00215C34 /* MasterFAQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterFAQ.swift; sourceTree = "<group>"; };
+		46C9F8F51FB0336700215C34 /* UserFAQ.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserFAQ.swift; sourceTree = "<group>"; };
+		46EC373D1FAA1A1000FBD654 /* NSDate+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extension.h"; sourceTree = "<group>"; };
+		46EC373E1FAA1A1000FBD654 /* NSDate+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extension.m"; sourceTree = "<group>"; };
+		46EC373F1FAA1A1000FBD654 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
+		46EC37401FAA1A1000FBD654 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
+		46EC37411FAA1A1000FBD654 /* WSDatePickerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WSDatePickerView.h; sourceTree = "<group>"; };
+		46EC37421FAA1A1000FBD654 /* WSDatePickerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSDatePickerView.m; sourceTree = "<group>"; };
+		46EC37431FAA1A1000FBD654 /* WSDatePickerView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WSDatePickerView.xib; sourceTree = "<group>"; };
+		46EC37491FAA1A9A00FBD654 /* E3AK-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "E3AK-Bridging-Header.h"; sourceTree = "<group>"; };
+		46EC374A1FAB15B900FBD654 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = E3AK/Assets.xcassets; sourceTree = "<group>"; };
 		740AF23A1F0A1AC300958B34 /* BLE_tableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BLE_tableViewController.swift; sourceTree = "<group>"; };
 		740AF23C1F0A2FF800958B34 /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		740AF23E1F0A41AC00958B34 /* UInt8_Extenstion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UInt8_Extenstion.swift; sourceTree = "<group>"; };
@@ -144,7 +167,6 @@
 		A09BC35D1EE798CC00F38AB8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A09BC35F1EE798CC00F38AB8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A09BC3621EE798CC00F38AB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		A09BC3641EE798CC00F38AB8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A09BC3671EE798CC00F38AB8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A09BC3691EE798CC00F38AB8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A09BC36F1EE7C2AD00F38AB8 /* Intro.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Intro.storyboard; sourceTree = "<group>"; };
@@ -187,6 +209,7 @@
 		A64225D914BD7EDE8E8A1993 /* Pods-E3AK.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E3AK.release.xcconfig"; path = "Pods/Target Support Files/Pods-E3AK/Pods-E3AK.release.xcconfig"; sourceTree = "<group>"; };
 		ACE183542BC52DFF62D58F7F /* Pods-E3AK.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E3AK.debug.xcconfig"; path = "Pods/Target Support Files/Pods-E3AK/Pods-E3AK.debug.xcconfig"; sourceTree = "<group>"; };
 		B171D6CA715EACE4668F19A3 /* Pods_E3AK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_E3AK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C81DFD6720CE016C00847C2D /* AdvertisingData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvertisingData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -202,6 +225,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		46EC373C1FAA1A1000FBD654 /* WSDaePickerView */ = {
+			isa = PBXGroup;
+			children = (
+				46EC373D1FAA1A1000FBD654 /* NSDate+Extension.h */,
+				46EC373E1FAA1A1000FBD654 /* NSDate+Extension.m */,
+				46EC373F1FAA1A1000FBD654 /* UIView+Extension.h */,
+				46EC37401FAA1A1000FBD654 /* UIView+Extension.m */,
+				46EC37411FAA1A1000FBD654 /* WSDatePickerView.h */,
+				46EC37421FAA1A1000FBD654 /* WSDatePickerView.m */,
+				46EC37431FAA1A1000FBD654 /* WSDatePickerView.xib */,
+			);
+			path = WSDaePickerView;
+			sourceTree = "<group>";
+		};
 		74509C661F0245CC003E135A /* Transport */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +249,7 @@
 				74509C681F02468D003E135A /* BPprotocol.swift */,
 				749699DF1F0A149A004F4DA3 /* BLE_ViewController.swift */,
 				740AF23A1F0A1AC300958B34 /* BLE_tableViewController.swift */,
+				C81DFD6720CE016C00847C2D /* AdvertisingData.swift */,
 			);
 			name = Transport;
 			sourceTree = "<group>";
@@ -255,6 +293,8 @@
 				A09BC37C1EE7E0C900F38AB8 /* HomeViewController.swift */,
 				A0CCF7C11EEE8EF100EB1A99 /* SettingsTableViewController.swift */,
 				747A3D4F1F42C73A0024DB48 /* UserSetttingsTableViewController.swift */,
+				46C9F8F31FB0271F00215C34 /* MasterFAQ.swift */,
+				46C9F8F51FB0336700215C34 /* UserFAQ.swift */,
 				A02B1D671EF28EBD009D297F /* Users */,
 				A0CCF7CF1EEEA3B400EB1A99 /* ActivityHistoryViewController.swift */,
 				A0CCF7D01EEEA3B400EB1A99 /* ActivityHistoryViewController.xib */,
@@ -292,6 +332,9 @@
 		A09BC3511EE798CC00F38AB8 = {
 			isa = PBXGroup;
 			children = (
+				46EC374A1FAB15B900FBD654 /* Assets.xcassets */,
+				46EC37491FAA1A9A00FBD654 /* E3AK-Bridging-Header.h */,
+				46EC373C1FAA1A1000FBD654 /* WSDaePickerView */,
 				A09BC35C1EE798CC00F38AB8 /* E3AK */,
 				A09BC35B1EE798CC00F38AB8 /* Products */,
 				98945798C813D012CCD47335 /* Pods */,
@@ -323,7 +366,6 @@
 				A09BC3791EE7DAA100F38AB8 /* Extension */,
 				A09BC3611EE798CC00F38AB8 /* Main.storyboard */,
 				A09BC36F1EE7C2AD00F38AB8 /* Intro.storyboard */,
-				A09BC3641EE798CC00F38AB8 /* Assets.xcassets */,
 				A09BC3661EE798CC00F38AB8 /* LaunchScreen.storyboard */,
 				A09BC3691EE798CC00F38AB8 /* Info.plist */,
 			);
@@ -408,7 +450,7 @@
 				TargetAttributes = {
 					A09BC3591EE798CC00F38AB8 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = G47L65GL49;
+						DevelopmentTeam = B4AMFK6BX4;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -425,6 +467,7 @@
 				fr,
 				es,
 				ja,
+				ar,
 			);
 			mainGroup = A09BC3511EE798CC00F38AB8;
 			productRefGroup = A09BC35B1EE798CC00F38AB8 /* Products */;
@@ -444,7 +487,6 @@
 				74E9B4AB1F164ADD00586B07 /* RepeatTableViewCell.xib in Resources */,
 				A0FF105A1EF12A0C00F30987 /* Intro_NOUsersViewController.xib in Resources */,
 				A09BC3681EE798CC00F38AB8 /* LaunchScreen.storyboard in Resources */,
-				A09BC3651EE798CC00F38AB8 /* Assets.xcassets in Resources */,
 				A0CCF7D21EEEA3B400EB1A99 /* ActivityHistoryViewController.xib in Resources */,
 				A02B1D661EF28EA3009D297F /* AccessTypesViewController.xib in Resources */,
 				A05570AC1EF388C5007D4064 /* AccessTimesTableViewCell.xib in Resources */,
@@ -460,9 +502,11 @@
 				A01EDB4D1EEFDE3A00330CD7 /* ActivityHistoryTableViewCell.xib in Resources */,
 				A0FDECB21EFA403A00B79932 /* AboutUsViewController.xib in Resources */,
 				A09BC3631EE798CC00F38AB8 /* Main.storyboard in Resources */,
+				46EC374B1FAB15BC00FBD654 /* Assets.xcassets in Resources */,
 				A0BC678F1EE937DE0092628C /* Montserrat-Regular.ttf in Resources */,
 				A038794C1EF3E8A10043C7C1 /* DateTableViewCell.xib in Resources */,
 				A0FDECBA1EFA4BAA00B79932 /* DeviceTimeSwitchTableViewCell.xib in Resources */,
+				46EC37471FAA1A1000FBD654 /* WSDatePickerView.xib in Resources */,
 				A09BC3701EE7C2AD00F38AB8 /* Intro.storyboard in Resources */,
 				74BA39FA1F1461850027E195 /* UserProximityReadRangeViewController.xib in Resources */,
 				A03879501EF3E8BF0043C7C1 /* DatePickerTableViewCell.xib in Resources */,
@@ -480,9 +524,22 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-E3AK/Pods-E3AK-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/ChameleonFramework/ChameleonFramework.framework",
+				"${BUILT_PRODUCTS_DIR}/IQDropDownTextField/IQDropDownTextField.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/R.swift.Library/Rswift.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/UIAlertController+Blocks/UIAlertController_Blocks.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ChameleonFramework.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQDropDownTextField.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Rswift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UIAlertController_Blocks.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -508,13 +565,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-E3AK-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		BE9407A20FD39E49CA72651E /* [CP] Copy Pods Resources */ = {
@@ -554,8 +614,10 @@
 				A0FDECB91EFA4BAA00B79932 /* DeviceTimeSwitchTableViewCell.swift in Sources */,
 				A02B1D621EF283BE009D297F /* UserInfoTableViewController.swift in Sources */,
 				A0BC678C1EE9312E0092628C /* UIView.swift in Sources */,
+				46C9F8F61FB0336700215C34 /* UserFAQ.swift in Sources */,
 				A0FF3FAD1EEA7E0900379D37 /* Intro_DistanceSettingsViewController.swift in Sources */,
 				A09BC3761EE7C63D00F38AB8 /* Utilities.swift in Sources */,
+				46C9F8F41FB0271F00215C34 /* MasterFAQ.swift in Sources */,
 				A0FF10601EF1496A00F30987 /* Intro_AddMoreUserFooterView.swift in Sources */,
 				74509C6C1F024720003E135A /* config.swift in Sources */,
 				A0CCF7C91EEEA35D00EB1A99 /* ProximityReadRangeViewController.swift in Sources */,
@@ -563,7 +625,9 @@
 				747A3D501F42C73A0024DB48 /* UserSetttingsTableViewController.swift in Sources */,
 				A01EDB4C1EEFDE3A00330CD7 /* ActivityHistoryTableViewCell.swift in Sources */,
 				A0CCF7C21EEE8EF100EB1A99 /* SettingsTableViewController.swift in Sources */,
+				46EC37441FAA1A1000FBD654 /* NSDate+Extension.m in Sources */,
 				74509C691F02468D003E135A /* BlueToothLEDevice.swift in Sources */,
+				46EC37461FAA1A1000FBD654 /* WSDatePickerView.m in Sources */,
 				74E9B4AA1F164ADD00586B07 /* RepeatTableViewCell.swift in Sources */,
 				A038794F1EF3E8BF0043C7C1 /* DatePickerTableViewCell.swift in Sources */,
 				740AF23F1F0A41AC00958B34 /* UInt8_Extenstion.swift in Sources */,
@@ -588,7 +652,9 @@
 				A00B24141EE8FEEF009B59CD /* R.generated.swift in Sources */,
 				A09BC3811EE7F5CD00F38AB8 /* Intro_PasswordViewController.swift in Sources */,
 				A0CCF7D11EEEA3B400EB1A99 /* ActivityHistoryViewController.swift in Sources */,
+				46EC37451FAA1A1000FBD654 /* UIView+Extension.m in Sources */,
 				A0C6ED841EEA48C500F0AF24 /* Intro_AddUserViewController.swift in Sources */,
+				C81DFD6820CE016C00847C2D /* AdvertisingData.swift in Sources */,
 				A024BA861EF7B0180032C2EC /* UIButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -605,6 +671,7 @@
 				462EB1BA1F53CBCE0087493C /* fr */,
 				462EB1BD1F53CC6C0087493C /* es */,
 				464A1A761F675FCA00462E16 /* ja */,
+				467CBC94206F6B830055E325 /* ar */,
 			);
 			name = Localizable.strings;
 			path = ..;
@@ -617,7 +684,10 @@
 				462EB1B51F53CBB20087493C /* it */,
 				462EB1B81F53CBCD0087493C /* fr */,
 				462EB1BB1F53CC6C0087493C /* es */,
-				464A1A741F675FCA00462E16 /* ja */,
+				467CBC97206F72AB0055E325 /* en */,
+				467CBC99206F72AF0055E325 /* zh-Hant */,
+				467CBC9A206F72B20055E325 /* ja */,
+				467CBC9B206F72B40055E325 /* ar */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -630,6 +700,7 @@
 				462EB1B91F53CBCD0087493C /* fr */,
 				462EB1BC1F53CC6C0087493C /* es */,
 				464A1A751F675FCA00462E16 /* ja */,
+				467CBC93206F6B820055E325 /* ar */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -740,16 +811,17 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = G47L65GL49;
+				DEVELOPMENT_TEAM = B4AMFK6BX4;
 				INFOPLIST_FILE = E3AK/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = G47L65GL49.E3AK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rofu.B3000;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "E3AK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -760,16 +832,17 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = G47L65GL49;
+				DEVELOPMENT_TEAM = B4AMFK6BX4;
 				INFOPLIST_FILE = E3AK/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = G47L65GL49.E3AK;
+				PRODUCT_BUNDLE_IDENTIFIER = com.rofu.B3000;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "E3AK-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

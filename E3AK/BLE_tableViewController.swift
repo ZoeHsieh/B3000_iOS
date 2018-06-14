@@ -30,15 +30,17 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
         Config.historyListArr.removeAll()
         Config.isUserListOK = false
         Config.isHistoryDataOK = false
-
+        
         delayOnMainQueue(delay: 0.2, closure: {
+            
             peripheral.discoverServices([CBUUID(string:Config.serviceUUID)])
+            print("start Discovered service")
         })
     }
     
     public func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
         backToMainPage()
-
+        
     }
     
     public func centralManager(_ central: CBCentralManager, willRestoreState dict: [String : Any]) {
@@ -51,7 +53,7 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
     
     // MARK: - CBPeripheralDelegate
     public func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
-        
+        print("Discovered service")
         if error != nil {
             print("Error discovering services: \(error?.localizedDescription)")
             
@@ -107,9 +109,9 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
         if (characteristic.value != nil) {
             var rawData = characteristic.value
             for j in 0 ... (rawData?.count)! - 1 {
-             
-             print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
-             }
+                
+                print(String(format:"r[%d]=%02X",j,(rawData?[j])!))
+            }
             
             
             tmpBuff = tmpBuff + rawData!
@@ -182,3 +184,4 @@ class BLE_tableViewController: UITableViewController, CBCentralManagerDelegate, 
     
     
 }
+

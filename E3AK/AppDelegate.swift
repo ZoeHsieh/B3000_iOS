@@ -5,7 +5,7 @@
 //  Created by nsdi36 on 2017/6/7.
 //  Copyright © 2017年 com.E3AK. All rights reserved.
 //
-
+////123123123
 import UIKit
 import ChameleonFramework
 import IQKeyboardManagerSwift
@@ -67,6 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        exit(0)
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {

@@ -14,7 +14,7 @@ Welcome = "Welcome";
 "AUTO_ENABLE_CONFLICT" = "Désactiver AUTO avant";
 "enroll_dialog_title" = "Ajouter Usager:";
 "Open"= "Ouvrir";
- "settings_device_vr" = "Version logiciel";
+"settings_device_vr" = "Version logiciel";
 
 Next = "Next";
 Skip = "Skip";
@@ -26,7 +26,7 @@ Password = "Password";
 "There's no users, add now?" = "There's no users, add now?";
 Add = "Ajouter";
 "Confirm" = "Confirmer";
-Cancel = "Effacer";
+Cancel = "Annuler";
 "Please Choose" = "Svp chosir";
 Auto = "Automatique";
 Settings = "Configurations";
@@ -39,8 +39,8 @@ Restore = "Récuperer données";
 "Door Sensor" = "Capteur porte";
 "Door Lock Action" = "Action porte";
 "Use Re-lock Time" = "Temps de refermeture";
-"Door Always Unlocked" = "Porte toujours fermée";
-"Door Always Locked" = "Porte toujours ouverte";
+"Door Always Unlocked" = "Porte toujours ouverte";
+"Door Always Locked" = "Porte toujours fermée";
 "Tamper Sensor" = "Anti-vandalisme";
 "Proximity Read Range" = "Rayon d'action";
 "Door Re-lock Time" = "Temps de fermeture";
@@ -87,7 +87,7 @@ Sunday = "Chaque dimanche";
 Date = "Date";
 "Lock Action" = "Ouvert de";
 "Add more" = "Ajouter autre";
-"Finish Done" = "Fait";
+"Finish Done" = "Confirmer";
 "Please Setting Proximity Read Range" = "Rayon d'action";
 "Incorrect password. Please try again" = "Mot de passe erroné. Réessayer";
 "Please enter ID" = "Insérer nom";
@@ -166,4 +166,40 @@ Date = "Date";
 "Device Model" = "Modèle dispositif:";
 "APP version" = "Version APP:";
 "no_user_note" = "Pas d'usagers présents, les ajouter maintenant?";
+"open_fail_permission_denied" = "accès refusé – contacter l’administrateur";
+"open_fail_no_eroll" = "accès refusé - effectuer avant tout l’enregistrement";
+"open_fail_unknown" = "accès refusé";
+"eroll_fail" = "enregistrement échoué";
+"eroll_success" = "ok, vous êtes enregistrés";
+
+/*tooltip*/
+"tooltip_FAQ" = "FAQ";
+
+"tooltip_dsc_door_sensor" = "Le capteur de porte est désactivé par défaut. Il doit être activé quand le dispositif est branché à un capteur magnétique ou à une serrure avec capteur d’état de la porte.";
+
+"tooltip_dsc_tamper_alarm" = "Le système anti-manipulation est désactivé par défaut. Une fois activé, un buzzer sonnera si le dispositif est déplacé ou ouvert. Uniquement l’administrateur pourra arrêter le buzzer.";
+
+"tooltip_dsc_proximity_read_range" = "Il est possible de régler le rayon d’action entre un minimum de 1 jusqu’à 20 pour la fonction « mains libres ».Cette échelle ne représente pas des unités de mesure linéaires, par ex mètres, mais uniquement une mesure variable et très dépendante du type de Smartphone.";
+
+"tooltip_dsc_device_time" = "S’assurer que l’heure du dispositif soit correcte. Ceci permettra d’avoir des rapports précis sur les accès";
+
+"tooltip_dsc_users" = "Jusqu’à 1000 usagers avec mots de passe différents. Il est possible d’ajouter, effacer ou modifier les informations.";
+
+"tooltip_dsc_history" = "Il s’agit de la liste des 1000 derniers évènements. Elle comprend les alarme anti-manipulation et les accès. Elle peut être exportée dans un fichier Excel.";
+
+"tooltip_dsc_backup" = "Cette fonction permet d’effectuer la sauvegarde des donnés du téléphone au dispositif. Les données peuvent être récupérées en utilisant la fonction Rétablir données. Toutes les données sont récupérables, exception faite pour le nom du dispositif, la liste événements et l’heure du dispositif.";
+
+"tooltip_dsc_restore" = "Avec cette fonction, il est possible de récupérer les données du dispositif sur un Nouveau smartphone de l’Administrateur.";
+
+"tooltip_dsc_admin_passcode" = "Le mot de passe par défaut est 12345. Il est important de modifier le mot de passe immédiatement. Le nouveau mot de passe doit être un numéro de 4 à 8 chiffres.";
+
+"tooltip_dsc_reset_title" = "Procédé de réinitialisation";
+
+"tooltip_dsc_reset_button_title" = "Comment réinitialiser un clavier Bluetooth avec le bouton de réinitialisation sur la carte PC?";
+
+"tooltup_dsc_reset_button_detail" = "1. Enlever le courant au clavier / lecteur de contrôle d'accès.\n2. Appuyez sur le bouton de réinitialisation et maintenez-le enfoncé, puis mettez-le sous tension.\n3. Un long signal bip confirmera que la réinitialisation a été effectuée.\n4. Toutes les données sont remises à celles de fabrication exception faite pour le nom et l’heure du dispositif et le choix du rayon d’action de la fonction automatique.";
+
+"tooltip_dsc_reset_pins_title" = "Comment réinitialiser un lecteur Bluetooth avec le réinitialiser les pins sur la carte PC?";
+
+"tooltup_dsc_reset_pins_detail" = "1. Enlever le courant au dispositif.\n2. Brancher les deux pinces de réinitialisation entre-elles (court-circuiter) et remettre le courant.\n3. Un long signal bip confirmera que la réinitialisation a été effectuée.\n4. Toutes les données sont remises à celles de fabrication exception faite pour le nom et l’heure du dispositif et le choix du rayon d’action de la fonction automatique.";
 

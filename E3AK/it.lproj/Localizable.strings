@@ -14,7 +14,7 @@ Welcome = "Welcome";
 "AUTO_ENABLE_CONFLICT" = "Prima disinserire AUTO";
 "enroll_dialog_title" = "Registra Utente:";
 "Open"= "Apri";
- "settings_device_vr" = "Versione firmware";
+"settings_device_vr" = "Versione firmware";
 
 Next = "Next";
 Skip = "Skip";
@@ -26,7 +26,7 @@ Password = "Password";
 "There's no users, add now?" = "Non ci sono utenti, aggiungerli ora?";
 Add = "Aggiungi";
 "Confirm" = "Conferma";
-Cancel = "Cancella";
+Cancel = "Annulla";
 "Please Choose" = "Prego scegliere";
 Auto = "Auto";
 Settings = "Impostazioni";
@@ -39,8 +39,8 @@ Restore = "Ripristina Dati";
 "Door Sensor" = "Sensore porta";
 "Door Lock Action" = "Azione porta";
 "Use Re-lock Time" = "Usa tempo di chiusura";
-"Door Always Unlocked" = "Porta sempre chiusa";
-"Door Always Locked" = "Porta sempre aperta";
+"Door Always Unlocked" = "Porta sempre aperta";
+"Door Always Locked" = "Porta sempre chiusa";
 "Tamper Sensor" = "Anti-tamper";
 "Proximity Read Range" = "Raggio di azione";
 "Door Re-lock Time" = "Tempo di chiusura";
@@ -87,7 +87,7 @@ Sunday = "Ogni Domenica";
 Date = "Data";
 "Lock Action" = "Aperto da";
 "Add more" = "giungi altro";
-"Finish Done" = "Fatto";
+"Finish Done" = "Conferma";
 "Please Setting Proximity Read Range" = "Raggio di azione";
 "Incorrect password. Please try again" = "Password sbagliata. Riprova";
 "Please enter ID" = "Inserisci nome";
@@ -166,4 +166,40 @@ Date = "Data";
 "Device Model" = "Modello dispositivo:";
 "APP version" = "Versione APP:";
 "no_user_note" = "Non ci sono utenti, aggiungerli ora?";
+"open_fail_permission_denied" = "Accesso negato. Contatta l’Amministratore";
+"open_fail_no_eroll" = "Accesso negato. Fare prima la registrazione";
+"open_fail_unknown" = " Accesso negato";
+"eroll_fail" = "Registrazione fallita";
+"eroll_success" = "Ok sei registrato";
+
+/*tooltip*/
+"tooltip_FAQ" = "FAQ";
+
+"tooltip_dsc_door_sensor" = "Il sensore porta è disattivato di default. Deve essere abilitato quando il dispositivo viene connesso ad un sensore magnetico o ad una serratura con a bordo il sensore di stato porta";
+
+"tooltip_dsc_tamper_alarm" = "L’Anti tamper è disattivato di default. Se attivato, farà suonare un buzzer in caso il dispositivo venga spostato od aperto. Solo l’Amministratore potrà spegnere il buzzer";
+
+"tooltip_dsc_proximity_read_range" = "È possibile regolare il campo di azione tra un minimo di 1 fino a 20 per la funzione “mani libere”. Questa scala non rappresenta unità di misura lineari, es. metri, ma semplicemente una misura variabile e molto dipendente dal tipo di Smartphone";
+
+"tooltip_dsc_device_time" = "Assicurarsi che l’ora del dispositivo sia esatta. Questo permetterà di avere dei report precisi sugli accessi";
+
+"tooltip_dsc_users" = "Fino a 1000 utenti con password diverse. È possibile aggiungere, cancellare o modificare le informazione";
+
+"tooltip_dsc_history" = "Questa è la lista degli ultimi 1000 eventi. Include gli allarmi Anti-Tamper e gli accessi. Può essere esportata in un file Excel";
+
+"tooltip_dsc_backup" = "Questa funzione permette di fare un Backup dei dati dal telefono al dispositivo. I dati possono essere recuperati usando la funzione Ripristina dati. Tutti i dati sono recuperabili, tranne il nome del dispositivo, la lista eventi e l’ora del dispositivo";
+
+"tooltip_dsc_restore" = "Con questa funzione è possibile recuperare i dati dal dispositivo su un Nuovo smartphone dell’Amministratore";
+
+"tooltip_dsc_admin_passcode" = "La password di default è 12345. È importante cambiare la password immediatamente. La nuova password deve essere un numero da 4 a 8 cifre";
+
+"tooltip_dsc_reset_title" = "Procedura di reset";
+
+"tooltip_dsc_reset_button_title" = "Come ripristinare una tastiera Bluetooth con il pulsante resettare sulla scheda PC?";
+
+"tooltup_dsc_reset_button_detail" = "1. Togliere corrente al tastiera / lettore di controllo dell'accesso.\n2. Tenere premuto il pulsante reset e ridare corrente.\n3. Un segnale beep lungo confermerà l’avvenuto reset.\n4. Tutti i dati sono stati riportati a quelli di fabbrica. Tranne il nome e l’ora del dispositivo e la selezione del raggio di azione della funzione automatica.";
+
+"tooltip_dsc_reset_pins_title" = "Come ripristinare una lettore Bluetooth con il ripristina i pin sulla scheda PC?";
+
+"tooltup_dsc_reset_pins_detail" = "1. Togliere corrente al dispositivo.\n2. Collegare i due morsetti di reset tra loro (cortocircuitare) e ridare corrente.\n3. Un segnale beep lungo confermerà l’avvenuto reset.\n4. Tutti i dati sono stati riportati a quelli di fabbrica. Tranne il nome e l’ora del dispositivo e la selezione del raggio di azione della funzione automatica.";
 

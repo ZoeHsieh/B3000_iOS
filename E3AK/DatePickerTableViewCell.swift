@@ -20,6 +20,7 @@ class DatePickerTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
+//        self.datePicker.locale = Locale.init(identifier: "en_GB")
     }
     
     func setUIDate(timeArr: Array<Int>){

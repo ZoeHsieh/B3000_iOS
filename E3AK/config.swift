@@ -19,14 +19,16 @@ class Config{
     public static let BLE_RSSI_LEVEL_MIN = 0;
     public static let BLE_RSSI_LEVEL_SCALE = BLE_RSSI_LEVEL_MAX - BLE_RSSI_LEVEL_MIN;
     public static let BLE_RSSI_LEVEL_CONVERT_BASE = BLE_RSSI_SCALE / BLE_RSSI_LEVEL_SCALE;
-        
+    
     public static let userMac = [UIDevice.current.identifierForVendor!.uuid.10,
-                              UIDevice.current.identifierForVendor!.uuid.11,
-                              UIDevice.current.identifierForVendor!.uuid.12,
-                              UIDevice.current.identifierForVendor!.uuid.13,
-                              UIDevice.current.identifierForVendor!.uuid.14,
-                              UIDevice.current.identifierForVendor!.uuid.15]
-    public static let serviceUUID = "0000E0FF-3C17-D293-8E48-14FE2E4DA212"
+                                 UIDevice.current.identifierForVendor!.uuid.11,
+                                 UIDevice.current.identifierForVendor!.uuid.12,
+                                 UIDevice.current.identifierForVendor!.uuid.13,
+                                 UIDevice.current.identifierForVendor!.uuid.14,
+                                 UIDevice.current.identifierForVendor!.uuid.15]
+    public static let serviceUUID = /*"0000D0FF-3C17-D293-8E48-14FE2E4DA212"*/
+    "0000E0FF-3C17-D293-8E48-14FE2E4DA212"
+    
     public static let charUUID = "0000FFE1-0000-1000-8000-00805F9B34FB"
     public static let AdminID = "ADMIN."
     public static let AdminID_ENROLL = "ADMIN"
@@ -49,13 +51,13 @@ class Config{
     public static let  doorActionItem: Array = [NSLocalizedString("Use Re-lock Time", comment: ""), NSLocalizedString("Door Always Unlocked", comment: ""), NSLocalizedString("Door Always Locked", comment: "")]
     public static let accessTypesArray = [NSLocalizedString("Permanent", comment: ""), NSLocalizedString("Schedule", comment: ""), NSLocalizedString("Access Times", comment: ""),NSLocalizedString("Recurrent", comment: "") ]
     public static let  weekArr = [
-         NSLocalizedString("Sunday", comment: ""),
-         NSLocalizedString("Monday", comment: ""),
-         NSLocalizedString("Tuesday", comment: ""),
-         NSLocalizedString("Wednesday", comment: ""),
-         NSLocalizedString("Thursday", comment: ""),
-         NSLocalizedString("Friday", comment: ""),
-         NSLocalizedString("Saturday", comment: "")]
+        NSLocalizedString("Sunday", comment: ""),
+        NSLocalizedString("Monday", comment: ""),
+        NSLocalizedString("Tuesday", comment: ""),
+        NSLocalizedString("Wednesday", comment: ""),
+        NSLocalizedString("Thursday", comment: ""),
+        NSLocalizedString("Friday", comment: ""),
+        NSLocalizedString("Saturday", comment: "")]
     public static var isUserListOK = false
     public static var isHistoryDataOK = false
     public static var historyListArr: [[String:Any]] = []
@@ -82,7 +84,18 @@ class Config{
     public static let isAutoTag = "isAutoTag"
     public static let backupOK = "backupOK"
     public static let firstOpen = "FirstOpen"
-    public static let APPversion = "2.4.1"
+    
+    
+    public static var deviceType:String = Config.deviceType_Keypad_Card
+    public static let deviceType_Keypad_Card:String = "Keypad_Card"
+    public static var devCategory:String = ""
+    public static var deviceModel:String = "E5AKR"
+    public static var deviceSeries:String = "BK-3000B,BK-3000S" //DG最後要刪除
+    
+    public static let CustomID = AdvertisingData.CUSTOM_IDs[UInt16(0x0001)] //只要找某客戶 ex:GEM
+    
+    
     //public static let SCAN_TIME_INTRO:Int = 10
-
+    
 }
+

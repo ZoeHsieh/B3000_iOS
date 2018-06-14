@@ -16,28 +16,30 @@ enum userViewStatesCase:Int {
     
 }
 class UsersViewController: BLE_ViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet var downloadFrame: UIView!
     @IBOutlet var downloadView: UIView!
     @IBOutlet weak var progress_dialog_title: UILabel!
     
     @IBOutlet weak var progress_dialog_bar: UIProgressView!
     @IBOutlet weak var progress_dialog_message: UILabel!
     
-   
+    
     @IBOutlet weak var progress_percentage: UILabel!
     
     
     @IBOutlet weak var SearchBar: UISearchBar!
     @IBOutlet weak var progress_count: UILabel!
     @IBOutlet weak var addItem: UIBarButtonItem!
+    @IBOutlet var msgFrame: UIView!
     @IBOutlet var msgView: UIView!
     
     @IBOutlet weak var label_msg_dg_title: UILabel!
     
     @IBOutlet weak var label_msg_dg_msg: UILabel!
     
-
+    
     
     static var status:Int = 0
     static var result_userAction:Int = 0
@@ -51,31 +53,31 @@ class UsersViewController: BLE_ViewController {
     var isDelelate = false
     @IBAction func progress_hide_Action(_ sender: Any) {
         isDownloadViewShowing = false
-         self.downloadView.removeFromSuperview();
+        self.downloadFrame.removeFromSuperview();
     }
     @IBAction func progress_cancel_Action(_ sender: Any) {
         userCount = 1
         Config.userListArr.removeAll()
         localUserArr.removeAll()
         isDownloadViewShowing = false
-        self.downloadView.removeFromSuperview();
-         _ = self.navigationController?.popViewController(animated: true)
+        self.downloadFrame.removeFromSuperview()
+        _ = self.navigationController?.popViewController(animated: true)
     }
     @IBAction func msg_dg_okAction(_ sender: Any) {
         
-        self.msgView.removeFromSuperview();
-              
+        self.msgFrame.removeFromSuperview();
+        
         
     }
     
     @IBAction func backBefore(_ sender: Any) {
-         isback = true
+        isback = true
         print("backBefore")
         _ = self.navigationController?.popViewController(animated: true)
         if !Config.isUserListOK{
             Config.userListArr.removeAll()
             localUserArr.removeAll()
-           
+            
         }
         self.dismiss(animated: true, completion: nil)
     }
@@ -87,9 +89,9 @@ class UsersViewController: BLE_ViewController {
         addItem.title = GetSimpleLocalizedString("Add")
         SearchBar.placeholder = GetSimpleLocalizedString("Search")
         
-
+        
         tableView.register(R.nib.usersTableViewCell)
-          userCount = 1
+        userCount = 1
         print(userMax)
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         if !Config.isUserListOK && userMax > 0{
@@ -102,35 +104,35 @@ class UsersViewController: BLE_ViewController {
         }else{
             print("Userload")
             if userMax == 0 && (Config.userListArr.count == 0) || (Config.userListArr.count == 0) {
-              showMessageDialog(Title:"" , Message: GetSimpleLocalizedString("no_user_note"))
+                showMessageDialog(Title:"" , Message: GetSimpleLocalizedString("no_user_note"))
             }
-             localUserArr = Config.userListArr
+            localUserArr = Config.userListArr
             tableView.reloadData()
         }
         UsersViewController.status = userViewStatesCase.userNone.rawValue
         
     }
     override func viewWillAppear(_ animated: Bool) {
-         print("UserAppear")
+        print("UserAppear")
         Config.bleManager.setCentralManagerDelegate(vc_delegate: self)
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         switch UsersViewController.status {
-
+            
         case userViewStatesCase.userAction.rawValue:
             if UsersViewController.result_userAction == 0{
-            //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
-            
+                //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                
             }else{
-            //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
-            
+                //self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_fail"))
+                
             }
             break
             
-       
+            
             
         default:
             break
-        
+            
         }
         localUserArr = Config.userListArr
         tableView.reloadData()
@@ -140,18 +142,18 @@ class UsersViewController: BLE_ViewController {
     @IBAction func didTapAdd(_ sender: Any) {
         
         if Config.isUserListOK{
-        let vc = AddUserViewController(nib: R.nib.addUserViewController)
+            let vc = AddUserViewController(nib: R.nib.addUserViewController)
             vc.bpChar =  self.bpChar
             
-        let navVC: UINavigationController = UINavigationController(rootViewController: vc)
+            let navVC: UINavigationController = UINavigationController(rootViewController: vc)
             present(navVC, animated: true, completion: nil)
         }else{
-        
-            UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame)
             isDownloadViewShowing = true
         }
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -159,9 +161,9 @@ class UsersViewController: BLE_ViewController {
     
     override func cmdAnalysis(cmd:[UInt8]){
         let datalen = Int16( UInt16(cmd[2]) << 8 | UInt16(cmd[3] & 0x00FF))
-         for i in 0 ... cmd.count - 1{
-         print(String(format:"r-cmd[%d]=%02x\r\n",i,cmd[i]))
-         }
+        for i in 0 ... cmd.count - 1{
+            print(String(format:"r-cmd[%d]=%02x\r\n",i,cmd[i]))
+        }
         if datalen == Int16(cmd.count - 4) {
             
             switch cmd[0]{
@@ -170,11 +172,11 @@ class UsersViewController: BLE_ViewController {
                 if cmd[4] == BPprotocol.result_success{
                     
                     if  isDelelate{
-                     
+                        
                         Config.userListArr.remove(at: tmpUserIndexPath.row)
                         localUserArr = Config.userListArr
                         tableView.reloadData()
-                      //  self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
+                        //  self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("program_success"))
                     }
                 }
                 else{
@@ -199,7 +201,7 @@ class UsersViewController: BLE_ViewController {
                             print("download ok")
                             delayOnMainQueue(delay: 0.1, closure: {
                                 self.isDownloadViewShowing = false;
-                                self.downloadView.removeFromSuperview();
+                                self.downloadFrame.removeFromSuperview()
                                 
                             })
                         }
@@ -232,7 +234,7 @@ class UsersViewController: BLE_ViewController {
         }
         
     }
-
+    
     
     func updateUserInfo(userData:[UInt8]){
         var userIDArray = [UInt8]()
@@ -283,31 +285,32 @@ class UsersViewController: BLE_ViewController {
         //Set Initial Value
         progress_dialog_title.text = GetSimpleLocalizedString("download_dialog_title") + GetSimpleLocalizedString("settings_users_manage_list")
         progress_dialog_message.text = GetSimpleLocalizedString("download_dialog_message")
+        downloadFrame.frame = CGRect(origin: CGPoint(x:0 ,y:0), size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         
         downloadView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
         
-        UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+        UIApplication.shared.keyWindow?.addSubview(self.downloadFrame)
         
         isDownloadViewShowing = true;
         progress_dialog_bar.setProgress(0, animated: true)
         progress_percentage.text = "0%"
         progress_count.text = "\(0) / \(userMax)"
-       
+        
         
     }
     
-  
-
+    
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
@@ -322,15 +325,15 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: R.nib.usersTableViewCell.identifier, for: indexPath) as! UsersTableViewCell
-       
+        
         if localUserArr.count > indexPath.row {
-        guard localUserArr[indexPath.row]["name"] != nil else{
-             return cell
-        }
-        cell.accountLabel.text = "\(localUserArr[indexPath.row]["name"] as! String)"
-        
-        
-        cell.passwordLabel.text = "\(localUserArr[indexPath.row]["pw"] as! String)"
+            guard localUserArr[indexPath.row]["name"] != nil else{
+                return cell
+            }
+            cell.accountLabel.text = "\(localUserArr[indexPath.row]["name"] as! String)"
+            
+            
+            cell.passwordLabel.text = "\(localUserArr[indexPath.row]["pw"] as! String)"
         }
         return cell
     }
@@ -338,42 +341,42 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if Config.isUserListOK {
             
-         let vc = R.storyboard.main.userInfoTableViewController()
-             vc?.selectUser = indexPath.row
-             vc?.bpChar = self.bpChar
+            let vc = R.storyboard.main.userInfoTableViewController()
+            vc?.selectUser = indexPath.row
+            vc?.bpChar = self.bpChar
             navigationController?.pushViewController(vc!, animated: true)
         }else{
-             UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame)
             isDownloadViewShowing = true
         }
     }
     
-//    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-//        return true
-//    }
+    //    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+    //        return true
+    //    }
     
-//    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-//        return .delete
-//    }
+    //    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
+    //        return .delete
+    //    }
     
-//    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
-//        return "刪除"
-//    }
-//    
-//    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-//        
-//        if editingStyle == .delete
-//        {
-//            
-//        } else if editingStyle == .insert
-//        {
-//            // Not used in our example, but if you were adding a new row, this is where you would do it.
-//        }
-//    }
+    //    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
+    //        return "刪除"
+    //    }
+    //
+    //    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+    //
+    //        if editingStyle == .delete
+    //        {
+    //
+    //        } else if editingStyle == .insert
+    //        {
+    //            // Not used in our example, but if you were adding a new row, this is where you would do it.
+    //        }
+    //    }
     
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
-
+        
         let moreRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: GetSimpleLocalizedString("Delete"), handler:{action, indexpath in
             print("delete");
             if let userIndex = self.localUserArr[indexPath.row]["index"] as? Int16{
@@ -390,7 +393,7 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         
         
         return [moreRowAction];
-
+        
     }
     
     func showMessageDialog(Title:String, Message:String) {
@@ -399,13 +402,15 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
         //Set Initial Value
         label_msg_dg_title.text = Title
         label_msg_dg_msg.text = Message
+        msgFrame.frame = CGRect(origin: CGPoint(x:0 ,y:0), size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
         
         msgView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
         
-        UIApplication.shared.keyWindow?.addSubview(self.msgView);
+        UIApplication.shared.keyWindow?.addSubview(self.msgFrame);
         
         
     }
     
     
-  }
+}
+

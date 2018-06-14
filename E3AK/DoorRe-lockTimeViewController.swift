@@ -10,7 +10,7 @@ import UIKit
 import ChameleonFramework
 import IQKeyboardManagerSwift
 
-class DoorRe_lockTimeViewController: UIViewController {
+class DoorRe_lockTimeViewController: BLE_ViewController {
     
     @IBOutlet weak var secondsTextField: UITextField!
     
@@ -23,8 +23,8 @@ class DoorRe_lockTimeViewController: UIViewController {
         secondsTextField.layer.borderWidth = 1.0
         secondsTextField.becomeFirstResponder()
         secondsTextField.setTextFieldPaddingView()
-            }
-
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         IQKeyboardManager.sharedManager().enableAutoToolbar = true
     }
@@ -34,15 +34,15 @@ class DoorRe_lockTimeViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }

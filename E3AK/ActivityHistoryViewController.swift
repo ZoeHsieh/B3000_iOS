@@ -11,7 +11,7 @@ import ChameleonFramework
 import CoreBluetooth
 
 class ActivityHistoryViewController: BLE_ViewController {
-
+    
     @IBOutlet weak var tableView: UITableView!
     
     
@@ -31,6 +31,7 @@ class ActivityHistoryViewController: BLE_ViewController {
     @IBOutlet weak var label_progress_dg_count: UILabel!
     
     
+    @IBOutlet weak var downloadFrame: UIView!
     @IBOutlet weak var downloadView: UIView!
     
     @IBOutlet weak var progress_dg_btn_cancel: UIButton!
@@ -44,13 +45,13 @@ class ActivityHistoryViewController: BLE_ViewController {
         Config.historyListArr.removeAll()
         localHistoryArr.removeAll()
         isDownloadViewShowing = false
-        self.downloadView.removeFromSuperview();
+        self.downloadFrame.removeFromSuperview();
         _ = self.navigationController?.popViewController(animated: true)
     }
     
     @IBAction func progress_dg_hide_Action(_ sender: Any) {
         isDownloadViewShowing = false
-        self.downloadView.removeFromSuperview();
+        self.downloadFrame.removeFromSuperview();
         
     }
     var historyMax:Int16 = 0
@@ -61,7 +62,7 @@ class ActivityHistoryViewController: BLE_ViewController {
     var localHistoryArr: [[String:Any]] = []
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+        
         title = GetSimpleLocalizedString("Activity History")
         searchBar.placeholder = GetSimpleLocalizedString("Search")
         userIDTitle.text = GetSimpleLocalizedString("ID")
@@ -72,42 +73,48 @@ class ActivityHistoryViewController: BLE_ViewController {
         progress_dg_btn_hide.setTitle(self.GetSimpleLocalizedString("progress_dialog_hide_btn_title"), for: .normal)
         progress_dg_btn_cancel.setTitle(self.GetSimpleLocalizedString("progress_dialog_cancel_btn_title"), for: .normal)
         tableView.register(R.nib.activityHistoryTableViewCell)
-       
-              
+        
+        
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(image: (R.image.researchGreen()), style: .done, target: self, action: #selector(didTapReloadItem)),
             UIBarButtonItem(image: (R.image.export()), style: .done, target: self, action: #selector(didTapshareItem))]
         searchBar.isHidden = true
         navigationItem.rightBarButtonItem?.tintColor = HexColor("00B900")
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
-        let cmd = Config.bpProtocol.getHistoryCount()
-        Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+        
+        if !Config.isHistoryDataOK
+        {
+            let cmd = Config.bpProtocol.getHistoryCount()
+            Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
+        }
     }
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         print("UserAppear")
-       
+        
         localHistoryArr = Config.historyListArr
         tableView.reloadData()
-       
+        
     }
-
+    
     func didTapReloadItem() {
         
         print("didTapReloadItem")
         if Config.isHistoryDataOK {
-        Config.isHistoryDataOK = false
-        
-        historyCount  = 0
-        historyReadIndex = 0
+            Config.isHistoryDataOK = false
             
-        pg_bar_progress_dg_view.setProgress(0, animated: true)
-        pg_bar_progress_dg_view.progress = Float(0)
+            historyCount  = 0
+            historyReadIndex = 0
+            
+            pg_bar_progress_dg_view.setProgress(0, animated: true)
+            pg_bar_progress_dg_view.progress = Float(0)
             Config.historyListArr.removeAll()
             localHistoryArr.removeAll()
-        let cmd = Config.bpProtocol.getHistoryCount()
+            let cmd = Config.bpProtocol.getHistoryCount()
             Config.bleManager.writeData(cmd: cmd, characteristic: bpChar)
         }else{
-            UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame);
             
             isDownloadViewShowing = true;
         }
@@ -147,7 +154,7 @@ class ActivityHistoryViewController: BLE_ViewController {
         
         return text
     }
-
+    
     
     func didTapshareItem() {
         
@@ -176,16 +183,16 @@ class ActivityHistoryViewController: BLE_ViewController {
                 //showAlert(message: "Failed to export csv")
                 print("Error: \(error.localizedDescription)")
             }
-
-        /*
-        let activityViewController = UIActivityViewController(activityItems: ["分享"], applicationActivities: nil)
-        navigationController?.present(activityViewController, animated: true)
-        {
             
-            }*/
+            /*
+             let activityViewController = UIActivityViewController(activityItems: ["分享"], applicationActivities: nil)
+             navigationController?.present(activityViewController, animated: true)
+             {
+             
+             }*/
         }else{
-        
-            UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame);
             
             isDownloadViewShowing = true;
         }
@@ -224,26 +231,26 @@ class ActivityHistoryViewController: BLE_ViewController {
         if openType == 0x31{
             userId = GetSimpleLocalizedString("openType_Button")
         }else if openType == 0x30{
-          userId = GetSimpleLocalizedString("Tamper Sensor")
+            userId = GetSimpleLocalizedString("Tamper Sensor")
         }
         historyCount += 1
         print("userid =\(userId)")
         Config.historyListArr.append(["userID":userId, "openType":openType, "timeText":timeText])
         
-       
         
-       
+        
+        
         let progressValue: Float = Float(historyCount) / Float(historyMax)
         print(progressValue)
         let prog_percent: Int = Int(progressValue * 100)
-         
+        
         
         //Update
         pg_bar_progress_dg_view.setProgress(progressValue, animated: true)
         label_progress_dg_percent.text = "\(prog_percent)%"
         label_progress_dg_count.text = "\(historyCount) / \(historyMax)"
         
-         localHistoryArr = Config.historyListArr
+        localHistoryArr = Config.historyListArr
         
         tableView.reloadData()
         
@@ -256,14 +263,16 @@ class ActivityHistoryViewController: BLE_ViewController {
         
         if !Config.isHistoryDataOK {
             
-          
-
+            
+            
             label_progress_dg_title.text = GetSimpleLocalizedString("download_dialog_title") + GetSimpleLocalizedString("settings_history_list")
             label_progress_dg_msg.text = GetSimpleLocalizedString("download_dialog_message")
-             downloadView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
+            downloadFrame.frame = CGRect(origin: CGPoint(x:0 ,y:0), size: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+            
+            downloadView.center = CGPoint(x: UIScreen.main.bounds.size.width / 2, y: UIScreen.main.bounds.size.height / 2)
             
             
-            UIApplication.shared.keyWindow?.addSubview(self.downloadView);
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame);
             
             isDownloadViewShowing = true;
             pg_bar_progress_dg_view.setProgress(0, animated: true)
@@ -276,7 +285,7 @@ class ActivityHistoryViewController: BLE_ViewController {
             return
         }
     }
-
+    
     override func cmdAnalysis(cmd:[UInt8]){
         let datalen = Int16( UInt16(cmd[2]) << 8 | UInt16(cmd[3] & 0x00FF))
         for i in 0 ... cmd.count - 1{
@@ -286,19 +295,19 @@ class ActivityHistoryViewController: BLE_ViewController {
             
             switch cmd[0]{
                 
-           case BPprotocol.cmd_history_counter:
-                    historyMax = Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF))
-                    print("history Max =%d",historyMax)
-                    
-                    let cmdData = Config.bpProtocol.getHistoryNextCount()
-                    Config.bleManager.writeData(cmd: cmdData, characteristic: bpChar!)
-                    
+            case BPprotocol.cmd_history_counter:
+                historyMax = Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF))
+                print("history Max =%d",historyMax)
+                
+                let cmdData = Config.bpProtocol.getHistoryNextCount()
+                Config.bleManager.writeData(cmd: cmdData, characteristic: bpChar!)
+                
                 break
             case BPprotocol.cmd_history_next_Index:
                 historyReadIndex = Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF)) //- 1
                 print("history Max =%d",historyReadIndex)
                 if historyMax == 0 {
-                   Config.isHistoryDataOK = true
+                    Config.isHistoryDataOK = true
                     pg_bar_progress_dg_view.progress = 0
                 }else {
                     
@@ -335,7 +344,7 @@ class ActivityHistoryViewController: BLE_ViewController {
                     pg_bar_progress_dg_view.progress = 100
                     delayOnMainQueue(delay: 0.1, closure: {
                         self.isDownloadViewShowing = false;
-                        self.downloadView.removeFromSuperview();
+                        self.downloadFrame.removeFromSuperview();
                         self.localHistoryArr = Config.historyListArr
                         
                     })
@@ -346,16 +355,16 @@ class ActivityHistoryViewController: BLE_ViewController {
                 
             default:
                 break
-
+                
                 
             }
         }
         
     }
     
-
-       
-
+    
+    
+    
 }
 
 extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDelegate {
@@ -392,30 +401,30 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                 case 0x30:
                     osStr = GetSimpleLocalizedString("openType_Alarm")
                 case 0x31:
-                   osStr = GetSimpleLocalizedString("openType_Button")
+                    osStr = GetSimpleLocalizedString("openType_Button")
                 default:
                     
                     osStr = "unKnown"
                 }
-               /* if openType == 0x30{
-                    cell.nameLabel.text = GetSimpleLocalizedString("Tamper Alarm")
-                }else{*/
+                /* if openType == 0x30{
+                 cell.nameLabel.text = GetSimpleLocalizedString("Tamper Alarm")
+                 }else{*/
                 
                 if openType == 0x30{
                     cell.nameLabel.textColor = UIColor.red
                     
                     
                     cell.dateLabel.textColor = UIColor.red
-
+                    
                     cell.deviceLabel.textColor = UIColor.red
-
+                    
                 }else if openType == 0x31{
                     cell.nameLabel.textColor = UIColor.blue
                     
                     cell.dateLabel.textColor = UIColor.blue
                     cell.deviceLabel.textColor = UIColor.blue
                 }else{
-                
+                    
                     cell.nameLabel.textColor = UIColor.flatGreenDark
                     cell.dateLabel.textColor = UIColor.flatGray
                     cell.deviceLabel.textColor = UIColor.black
@@ -425,19 +434,19 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                 
                 cell.dateLabel.text = time
                 cell.deviceLabel.text = osStr
-               
+                
             }
         }
-
+        
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         if !Config.isHistoryDataOK {
-        UIApplication.shared.keyWindow?.addSubview(self.downloadView);
-        
-        isDownloadViewShowing = true;
+            UIApplication.shared.keyWindow?.addSubview(self.downloadFrame);
+            
+            isDownloadViewShowing = true;
         }
     }
 }

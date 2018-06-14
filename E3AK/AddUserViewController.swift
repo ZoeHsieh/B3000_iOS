@@ -116,6 +116,28 @@ class AddUserViewController: BLE_ViewController {
             
         }else if field.tag == 1{ // for user pwd
             
+            field.text = field.text?.replacingOccurrences(of: "٠", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "١", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٢", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٣", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٤", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٥", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٦", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٧", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٨", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "٩", with: "9", options: .literal, range: nil)
+            
+            field.text = field.text?.replacingOccurrences(of: "۰", with: "0", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۱", with: "1", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۲", with: "2", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۳", with: "3", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۴", with: "4", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۵", with: "5", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۶", with: "6", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۷", with: "7", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۸", with: "8", options: .literal, range: nil)
+            field.text = field.text?.replacingOccurrences(of: "۹", with: "9", options: .literal, range: nil)
+            
             if ( (field.text?.utf8.count)! > BPprotocol.userPD_maxLen ) {
                 field.deleteBackward();
             }

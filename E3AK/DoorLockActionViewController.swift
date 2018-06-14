@@ -15,8 +15,8 @@ enum DoorLockAction: Int {
     case Always_Locked = 2
 }
 
-class DoorLockActionViewController: UIViewController {
-
+class DoorLockActionViewController: BLE_ViewController {
+    
     @IBOutlet weak var tableView: UITableView!
     
     var selectedIndex: DoorLockAction?
@@ -30,23 +30,23 @@ class DoorLockActionViewController: UIViewController {
         title = GetSimpleLocalizedString("Door Lock Action")
         SettingsTableViewController.settingStatus = settingStatesCase.config_device.rawValue
     }
-
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destinationViewController.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
 
 extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelegate {
@@ -101,3 +101,4 @@ extension DoorLockActionViewController: UITableViewDataSource, UITableViewDelega
         
     }
 }
+

@@ -14,7 +14,7 @@ Welcome = "Welcome";
 "AUTO_ENABLE_CONFLICT" = "Desconectar AUTO";
 "enroll_dialog_title" = "Añadir usuario:";
 "Open"= "Abre";
- "settings_device_vr" = "Versión del firmware";
+"settings_device_vr" = "Versión del firmware";
 
 Next = "Next";
 Skip = "Skip";
@@ -25,7 +25,7 @@ Password = "Password";
 "You can find default password from the manual. Please change your Admin password for security control." = "You can find default password from the manual. Please change your Admin password for security control.";
 "There's no users, add now?" = "There's no users, add now?";
 Add = "Añadir";
-"Confirm" = "Confirmar";
+"Confirm" = "Anular";
 Cancel = "Eliminar";
 "Please Choose" = "Ruego elegir";
 Auto = "Auto";
@@ -39,8 +39,8 @@ Restore = "Recuperación de datos";
 "Door Sensor" = "Sensor puerta";
 "Door Lock Action" = "Comando cerradura";
 "Use Re-lock Time" = "Tiempo de recierre";
-"Door Always Unlocked" = "Puerta siempre cerrada";
-"Door Always Locked" = "Puerta siempre abierta";
+"Door Always Unlocked" = "Puerta siempre abierta";
+"Door Always Locked" = "Puerta siempre cerrada";
 "Tamper Sensor" = "Anti-Tamper";
 "Proximity Read Range" = "Rango de acción";
 "Door Re-lock Time" = "Tiempo de cierre";
@@ -87,7 +87,7 @@ Sunday = "Todos los domingos";
 Date = "Fecha";
 "Lock Action" = "Abierto por";
 "Add more" = "Añadir otro";
-"Finish Done" = "Listo";
+"Finish Done" = "Confirmar";
 "Please Setting Proximity Read Range" = "Rango de acción";
 "Incorrect password. Please try again" = "Password incorrecta";
 "Please enter ID" = "Añadir nombre";
@@ -166,4 +166,39 @@ Date = "Fecha";
 "Device Model" = "Modelo del dispositivo:";
 "APP version" = " Versión App:";
 "no_user_note" = "No hay usuarios, añadir ahora?";
+"open_fail_permission_denied" = "Acceso negado. Ponte en contacto con el Administrador";
+"open_fail_no_eroll" = "Acceso negado. Realizar antes el registro";
+"open_fail_unknown" = "Acceso negado";
+"eroll_fail" = "Registro fallido";
+"eroll_success" = "Correcto, estás registrado";
 
+/*tooltip*/
+"tooltip_FAQ" = "FAQ";
+
+"tooltip_dsc_door_sensor" = "El sensor de la puerta está desactivado por defecto. Se debe habilitar cuando el dispositivo se conecta con un sensor magnético o con un cierre que incluye el sensor de estado de la puerta";
+
+"tooltip_dsc_tamper_alarm" = "El sistema anti sabotaje está desactivado por defecto. Si se activa, hará sonar una sirena en el caso en que el dispositivo se traslade o se abra. Solo el Administrador podrá apagar la sirena";
+
+"tooltip_dsc_proximity_read_range" = "Es posible regular el campo de acción de un mínimo de 1 hasta 20 en la función \"manos libres\". Esta escala no representa unidades de medida lineares, por ejemplo metros, sino que es simplemente una medida variable y fuertemente dependiente del tipo de Smartphone";
+
+"tooltip_dsc_device_time" = "Asegurarse de que la hora del dispositivo sea exacta. Esto permitirá contar con informes precisos sobre los accesos";
+
+"tooltip_dsc_users" = "Hasta 1000 usuarios con contraseñas distintas. Es posible añadir, borrar o modificar la información";
+
+"tooltip_dsc_history" = "Esta es la lista con los últimos 1000 eventos. Incluye las alarmas anti sabotaje y los accesos. Se puede exportar a un documento Excel.";
+
+"tooltip_dsc_backup" = "Esta función permite realizar una Copia de seguridad de los datos desde el teléfono al dispositivo. Los datos se pueden recuperar usando la función Restauración de datos. Se pueden recuperar todos los datos, excepto el nombre del dispositivo, la lista de eventos y la hora del dispositivo.";
+
+"tooltip_dsc_restore" = "Con esta función es posible recuperar los datos del dispositivo en un Nuevo smartphone del Administrador";
+
+"tooltip_dsc_admin_passcode" = "La contraseña por defecto es 12345. Es importante cambiar la contraseña inmediatamente. La nueva contraseña debe ser un número de 4 a 8 cifras";
+
+"tooltip_dsc_reset_title" = "Procedimiento de reseteo";
+
+"tooltip_dsc_reset_button_title" = "¿Cómo reiniciar un teclado Bluetooth con el botón Restablecer en la placa de PC?";
+
+"tooltup_dsc_reset_button_detail" = "1. Cortar el suministro de corriente del dispositivo\n2. Mantenga presionado el botón Restablecer y luego enciéndalo.\n3. Un largo pitido confirmará el correcto reseteo\n4. Se han restablecido todos los datos al estado de fábrica, excepto el nombre y la hora del dispositivo y la selección del radio de acción de la función automática";
+
+"tooltip_dsc_reset_pins_title" = "¿Cómo reiniciar un lector Bluetooth con reinicio de pines en la placa de PC?";
+
+"tooltup_dsc_reset_pins_detail" = "1. Cortar el suministro de corriente del dispositivo\n2. Conectar las dos abrazaderas de reseteo entre ellas (provocar un cortocircuito) y volver a activar la alimentación eléctrica\n3. Un largo pitido confirmará el correcto reseteo\n4. Se han restablecido todos los datos al estado de fábrica, excepto el nombre y la hora del dispositivo y la selección del radio de acción de la función automática";

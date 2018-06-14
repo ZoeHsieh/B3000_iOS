@@ -21,6 +21,7 @@ class ProximityReadRangeViewController: BLE_ViewController {
     @IBOutlet weak var proximityReadRangeTitle: UILabel!
      var selectedDevice:CBPeripheral!
      var current_level_RSSI:Int = 0
+     var myCentralManager:CBCentralManager!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +36,10 @@ class ProximityReadRangeViewController: BLE_ViewController {
         let setupRSSILevel = readExpectLevelFromDbByUUID(selectedDevice.identifier.uuidString)
         
         //Label_CurrentRSSILevel.text = ""//String(format:"%d",Convert_RSSI_to_LEVEL(Int(selectedDevice.rssi!)))
-        selectedDevice.readRSSI()
+//        selectedDevice.readRSSI()
+        Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(my_read_rssi), userInfo: nil, repeats: true)
+        
+        
         deviceSettingSliderValueLabel.text = String(format:"%d",setupRSSILevel)
         
         let defSliderValue = Float(setupRSSILevel) / 100 / 0.2
@@ -44,18 +48,17 @@ class ProximityReadRangeViewController: BLE_ViewController {
         levelSlider.setValue(defSliderValue, animated: true)
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
 
-        
     }
     
     @IBAction func deviceSettingSliderValueChanged(_ sender: UISlider) {
         
         var currentValue = Int(sender.value * 100 * 0.2)
-        if currentValue <= 1{
-         currentValue = 1
-            levelSlider.setValue(Float(currentValue) / 100 / 0.2
-, animated: true)
-
-        }
+//        if currentValue <= 1{
+//         currentValue = 1
+//            levelSlider.setValue(Float(currentValue) / 100 / 0.2
+//, animated: true)
+//
+//        }
         deviceSettingSliderValueLabel.text = "\(currentValue)"
         saveExpectLevelToDbByUUID(selectedDevice.identifier.uuidString, currentValue)
     }
@@ -83,5 +86,15 @@ class ProximityReadRangeViewController: BLE_ViewController {
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    
+    
+    
+    func my_read_rssi()
+    {
+        selectedDevice.readRSSI()
+    }
+    
 
 }

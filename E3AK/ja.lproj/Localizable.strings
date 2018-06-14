@@ -42,7 +42,7 @@ Restore = "バックアップの復元";
 "Door Always Unlocked" = "常にアンロック";
 "Door Always Locked" = "常にロック";
 "Tamper Sensor" = "衝撃アラーム センサー";
-"Proximity Read Range" = "非接触読み取り距離";
+"Proximity Read Range" = "オート時の読み取り距離";
 "Door Re-lock Time" = "ドアリロックタイム";
 "Sec." = "秒";
 "Please choose" = "選んでください";
@@ -51,18 +51,18 @@ Restore = "バックアップの復元";
 "Searching…" = "探しています…";
 "Please wait a moment…" = "お待ちください…";
 "Device Distance" = "デバイスの距離";
-"Proximity Read Range Settings" = "非接触読み取り距離";
+"Proximity Read Range Settings" = "オート時の読み取り距離";
 "Edit Door Re-lock Time (1~1800 seconds)" = "ドアリロックタイムの編集（1~1800秒）";
 "Please enter the number of seconds" = "秒数を入力してください";
 ID = "ID";
-"Password/PIN Code" = "パスワード / PINコード";
-"Password" = "パスワード";
+"Password/PIN Code" = "パスコード";
+"Password" = "パスコード";
 "Add Users" = "ユーザーを追加";
 "Please Provide Up to 16 characters" = "16文字まで";
 "4~8 digits" = "4~8桁";
 "User Info" = "ユーザー情報";
 Delete = "削除";
-"Password/PIN Code (4~8 Digits)" = "パスワード / PINコード(4~8桁）";
+"Password/PIN Code (4~8 Digits)" = "パスコード(4~8桁）";
 "Enable Keypad PIN Code to Access" = "キーパッド　アクセス";
 "Access Types/Schedule" = "アクセスタイプ";/*"Access Types/Schedule";*/
 TYPES = "アクセスタイプ";
@@ -88,10 +88,10 @@ Date = "日付";
 "Lock Action" = "アンロックした人";
 "Add more" = "更に追加";
 "Finish Done" = "完了";
-"Please Setting Proximity Read Range" = "非接触読み取り距離";
-"Incorrect password. Please try again" = "パスワードが間違っています。もう一度トライしてください";
+"Please Setting Proximity Read Range" = "オート時の読み取り距離";
+"Incorrect password. Please try again" = "パスコードが間違っています。もう一度トライしてください";
 "Please enter ID" = "IDを入力してください";
-"Please enter password" = "パスワードを入力してください";
+"Please enter password" = "パスコードを入力してください";
 //"4~8 digits" = "4~8桁";
 //"Edit Device Name" = "デバイス名の編集";
 "Up to 16 characters" = "16文字まで";
@@ -104,8 +104,8 @@ Date = "日付";
 "Backup Done" = "バックアップ完了";
 "Restore Done" = "復元完了";
 "You must connect to a Bluetooth device to set up" = "セットアップのためにBluetoothに接続してください";
-"If you forgot your ID or password, please contact your administrator." = "IDまたはパスワードを忘れたら管理者に確認してください";
-"Device Time" = "デバイスの時間";
+"If you forgot your ID or password, please contact your administrator." = "IDまたはパスコードを忘れたら管理者に確認してください";
+"Device Time" = "デバイス上の時間";
 "About Us" = "会社概要";
 "Automatic Setting" = "オート設定";
 "Search" = "探す";
@@ -137,18 +137,18 @@ Date = "日付";
 "download_dialog_message" = "ロード中…";
 "settings_users_manage_list" = " ユーザーリスト";
 "settings_history_list" = " ヒストリーリスト";
-"settings_Admin_pwd_Edit" = "アドミンパスワードの編集";
+"settings_Admin_pwd_Edit" = "管理者パスコードの編集";
 
 /*user data check*/
 "users_manage_edit_status_Admin_name" = "Invalid ID !!";
 "users_manage_edit_status_Admin_pwd" = "Invalid Password!!";
 "users_manage_edit_status_busy" = "System busy!!";
 "users_manage_edit_status_duplication_name" = "IDの複製 !!";
-"users_manage_edit_status_duplication_password" = "パスワードの複製 !!";
-"settings_Admin_pwd" = "アドミン  パスワード";
+"users_manage_edit_status_duplication_password" = "パスコードの複製 !!";
+"settings_Admin_pwd" = "管理者パスコード";
 "wrong format!" = "Format error!";
 "users_id_edit_dialog_title" = "IDの編集：（16文字）";
-"users_pwd_edit_dialog_title" = "パスワードの編集：(4~8桁）";
+"users_pwd_edit_dialog_title" = "パスコードの編集：(4~8桁）";
 "progress_dialog_hide_btn_title" = "非表示";
 "progress_dialog_cancel_btn_title" = "キャンセル";
 "users_edit_access_control_dialog_type_times_mark" = "現在のアクセス回数：";
@@ -166,4 +166,40 @@ Date = "日付";
 "Device Model" = "デバイスのモデル:";
 "APP version" = "APPバージョン:";
 "no_user_note" = "ユーザーがいません!!";
+"open_fail_permission_denied" = "アクセスが拒否されました。 あなたの管理者に連絡してください。";
+"open_fail_no_eroll" = "アクセスが拒否されました。 最初にログインしてアクセスしてください。";
+"open_fail_unknown" = "アクセスが拒否されました。 あなたの管理者に連絡してください。";
+"eroll_fail" = "ログインに失敗しました。 ログイン情報を確認するか、管理者に連絡してください。";
+"eroll_success" = "あなたは正常にログインしました。 あなたは今ドアを開けることができます。";
+
+/*tooltip*/
+"tooltip_FAQ" = "よくある質問";
+
+"tooltip_dsc_door_sensor" = "ドアセンサーはデフォルトでは無効になっています。ドアセンサーを有効にするには、 閉回路の磁気センサーに接続する時、またはドアセンサー（またはロックセンサー）出力を備えた監視可能な錠を使用して、ドアの開閉状態をモニターします。";
+
+"tooltip_dsc_tamper_alarm" = "衝撃アラームはデフォルトでは無効になっています。 キーパッド/リーダが移動された場合、または盗難や不法に侵入した場合、衝撃アラームを有効にすると、衝撃アラームは破壊や不法侵入を防ぐのに効果的です。 衝撃アラームは、管理者だけがオフにすることができます。";
+
+"tooltip_dsc_proximity_read_range" = "自動ロック解除アクセスでは、非接触読み取り距離を最小1から最大20まで調整できます。 スマートフォンごとに異なる地域や状況によって異なる結果が生じることがあります。";
+
+"tooltip_dsc_device_time" = "現在の時間をデバイス上の時間として正確に設定してください。 正確にデータと情報にアクセスするのに役立ちます。";
+
+"tooltip_dsc_users" = "最大1000人のユーザ / パスコードが利用可能です。 ユーザー情報を追加 / 削除 / 編集をする事ができます。";
+
+"tooltip_dsc_history" = "監査証跡は、改ざんを含む1000件のイベントログを追跡しています。 アクセス履歴はExcelファイルにエクスポートできます。";
+
+"tooltip_dsc_backup" = "バックアップデータとは、すべてのデータを管理者のスマートフォンにバックアップすることで、デバイス名、監査証跡ログ、デバイス時間を除いて復元できます。";
+
+"tooltip_dsc_restore" = "バックアップの復元は、管理者のスマートフォンから最後のバックアップを新しいアクセスコントロール・デバイスに復元することです。";
+
+"tooltip_dsc_admin_passcode" = "12345は管理者のデフォルトパスコードです。 管理者のパスコードをすぐに変更することが重要です。 管理者のパスコードは、4〜8の数値のパスコードでなければなりません。";
+
+"tooltip_dsc_reset_title" = "リセット手順";
+
+"tooltip_dsc_reset_button_title" = "PCのリセットボタンでBluetoothキーパッドをリセットするには？";
+
+"tooltup_dsc_reset_button_detail" = "1.アクセスコントロール・キーパッド / リーダーの電源を切る。\n2.リセットボタンを押したまま電源を入れます。\n3.リセットの手順を完了するまで長いビープ音が聞こえます。\n4.管理者としてログインし、すべてのユーザをチェックすると、デバイス名、非接触読み取り距離、デバイス時間を除き、すべてのデータが工場出荷時の設定にリセットされ、すべてのデータがクリアされます。";
+
+"tooltip_dsc_reset_pins_title" = "PCボード上でリセットピン付きBluetoothリーダーをリセットするには？";
+
+"tooltup_dsc_reset_pins_detail" = "1.アクセスコントロール・キーパッド / リーダーの電源を切ります。\n2. 2つのリセットピンを短絡してから電源を入れます。\n3.リセットの手順を完了するまで長いビープ音が聞こえます。\n4.管理者としてログインし、すべてのユーザをチェックすると、デバイス名、非接触読み取り距離、デバイス時間を除き、すべてのデータが工場出荷時の設定にリセットされ、すべてのデータがクリアされます。";
 

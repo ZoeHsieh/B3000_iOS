@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
@@ -25,11 +26,14 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="anxell_logo" translatesAutoresizingMaskIntoConstraints="NO" id="OxY-uC-21S">
-                    <rect key="frame" x="127.5" y="125" width="120" height="104"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="rofulogo" translatesAutoresizingMaskIntoConstraints="NO" id="OxY-uC-21S">
+                    <rect key="frame" x="124" y="70" width="127" height="200"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="200" id="UoG-8n-k0d"/>
+                    </constraints>
                 </imageView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eaE-nc-Amb">
-                    <rect key="frame" x="35" y="309" width="305" height="40"/>
+                    <rect key="frame" x="35" y="350" width="305" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="305" id="jcr-d1-ZPR"/>
                     </constraints>
@@ -40,23 +44,23 @@
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="016-7s-ccD">
-                    <rect key="frame" x="35" y="355" width="305" height="40"/>
+                    <rect key="frame" x="35" y="396" width="305" height="40"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="www.anxell.com" image="icon_website">
+                    <state key="normal" title="www.rofu.com" image="icon_website">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LPc-pH-fsy">
-                    <rect key="frame" x="35" y="401" width="305" height="40"/>
+                    <rect key="frame" x="35" y="442" width="305" height="40"/>
                     <fontDescription key="fontDescription" name="Montserrat-Regular" family="Montserrat" pointSize="14"/>
                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="info@anxell.com" image="icon_email">
+                    <state key="normal" title="OrderEntry@ROFU.com" image="icon_email">
                         <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                 </button>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KGU-Y0-dzJ">
-                    <rect key="frame" x="26" y="349" width="323" height="1"/>
+                    <rect key="frame" x="26" y="390" width="323" height="1"/>
                     <color key="backgroundColor" red="0.78431372549019607" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="lessThanOrEqual" constant="323" id="O9i-dg-UzH"/>
@@ -67,7 +71,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LhD-RX-lF1">
-                    <rect key="frame" x="26" y="395" width="323" height="1"/>
+                    <rect key="frame" x="26" y="436" width="323" height="1"/>
                     <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="Eoc-9M-A8A"/>
@@ -77,13 +81,13 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Device Model:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mHn-cH-xzQ">
-                    <rect key="frame" x="35" y="267" width="109" height="20.5"/>
+                    <rect key="frame" x="35" y="308" width="109" height="20.5"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fvh-a0-SvS">
-                    <rect key="frame" x="26" y="303" width="323" height="1"/>
+                    <rect key="frame" x="26" y="344" width="323" height="1"/>
                     <color key="backgroundColor" red="0.7843137255" green="0.78039215689999997" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="1" id="Y4q-4S-EH7"/>
@@ -113,21 +117,23 @@
                 <constraint firstItem="fvh-a0-SvS" firstAttribute="top" secondItem="mHn-cH-xzQ" secondAttribute="bottom" constant="15.5" id="bp5-4H-fb5"/>
                 <constraint firstItem="KGU-Y0-dzJ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" priority="999" constant="26" id="d9c-dt-txp"/>
                 <constraint firstItem="fvh-a0-SvS" firstAttribute="width" secondItem="KGU-Y0-dzJ" secondAttribute="width" id="fbn-cI-CBQ"/>
-                <constraint firstItem="OxY-uC-21S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="125" id="ih0-8N-Qxm"/>
+                <constraint firstAttribute="trailing" secondItem="OxY-uC-21S" secondAttribute="trailing" constant="124" id="g29-5o-f9h"/>
+                <constraint firstItem="OxY-uC-21S" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" constant="70" id="ih0-8N-Qxm"/>
                 <constraint firstAttribute="trailing" secondItem="KGU-Y0-dzJ" secondAttribute="trailing" priority="999" constant="26" id="itY-2Q-lsy"/>
                 <constraint firstItem="eaE-nc-Amb" firstAttribute="top" secondItem="fvh-a0-SvS" secondAttribute="bottom" constant="5" id="kMr-7d-9aI"/>
                 <constraint firstItem="fvh-a0-SvS" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="kbA-kQ-DPj"/>
                 <constraint firstItem="mHn-cH-xzQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="35" id="nQp-ss-QAc"/>
                 <constraint firstItem="mHn-cH-xzQ" firstAttribute="top" secondItem="OxY-uC-21S" secondAttribute="bottom" constant="38" id="pwO-1t-FVy"/>
                 <constraint firstAttribute="trailing" secondItem="eaE-nc-Amb" secondAttribute="trailing" priority="999" constant="35" id="spk-kf-yVg"/>
+                <constraint firstItem="OxY-uC-21S" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="124" id="tOA-1i-fHD"/>
             </constraints>
             <point key="canvasLocation" x="33.5" y="53.5"/>
         </view>
     </objects>
     <resources>
-        <image name="anxell_logo" width="120" height="104"/>
         <image name="icon_email" width="40" height="40"/>
         <image name="icon_version" width="40" height="40"/>
         <image name="icon_website" width="40" height="40"/>
+        <image name="rofulogo" width="1827" height="2621"/>
     </resources>
 </document>
