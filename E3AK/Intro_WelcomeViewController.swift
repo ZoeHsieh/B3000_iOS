@@ -112,7 +112,7 @@ class Intro_WelcomeViewController: BLE_ViewController {
 
     }
     
-    func didTapChooseDevice() {
+    @objc func didTapChooseDevice() {
         var deviceList:[String] = []
         if deviceInfoList.count > 0 {
         for i in 0 ... deviceInfoList.count - 1{
@@ -202,7 +202,7 @@ class Intro_WelcomeViewController: BLE_ViewController {
         }
     }
     
-    func didTapReloadItem() {
+    @objc func didTapReloadItem() {
         
         changeRightButtonStatus()
         let when = DispatchTime.now() + 10

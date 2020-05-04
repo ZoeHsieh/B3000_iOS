@@ -222,7 +222,7 @@ class UserInfoTableViewController: BLE_tableViewController {
             if newName.utf8.count > 16{
                 
                 repeat{
-                    var chars = newName.characters
+                    var chars = newName
                     chars.removeLast()
                     newName = String(chars)
                 }while newName.utf8.count > 16
@@ -263,7 +263,7 @@ class UserInfoTableViewController: BLE_tableViewController {
                 return
             }
             if !((inputText?.isEmpty)!){
-                guard (inputText?.characters.count)! > 3 && (inputText?.characters.count)! < BPprotocol.userPD_maxLen+1 else{
+                guard (inputText?.count)! > 3 && (inputText?.count)! < BPprotocol.userPD_maxLen+1 else{
                     
                     self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_Admin_pwd"))
                     return

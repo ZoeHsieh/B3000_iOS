@@ -35,14 +35,14 @@ class Intro_PasswordViewController: UIViewController, UITextFieldDelegate {
         rightButton.addTarget(self, action: #selector(didTapSkipItem), for: .touchUpInside)
         //passwordTextField.becomeFirstResponder()
         //passwordTextField.delegate = self
-        passwordTextField.addTarget(self, action: #selector(TextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        passwordTextField.addTarget(self, action: #selector(TextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         nextButton.setShadowWithColor(color: HexColor("a4aab3"), opacity: 0.3, offset: CGSize(width: 0, height: 6), radius: 5, viewCornerRadius: 0)
         deviceNameLabel.text = selectedDevice.name
         helloLabel.text = "Enroll User"
         accountTextField.becomeFirstResponder()
         accountTextField.isHidden = false
         accountTextField.isUserInteractionEnabled = true
-        accountTextField.addTarget(self, action: #selector(TextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        accountTextField.addTarget(self, action: #selector(TextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         passwordTopLayoutConstraint.constant = 8
         noteLabel.text = "if you forgot your ID or password, please contact your administrator"//"密碼請參閱說明書"
         registeredStatus = .NotRegistered
@@ -108,7 +108,7 @@ class Intro_PasswordViewController: UIViewController, UITextFieldDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func TextFieldDidChange(field: UITextField){
+    @objc func TextFieldDidChange(field: UITextField){
         
         
         if field == accountTextField{
@@ -118,7 +118,7 @@ class Intro_PasswordViewController: UIViewController, UITextFieldDelegate {
             }
         }
          else if field == passwordTextField{
-         if ( (field.text?.characters.count)! > 8 ) {
+         if ( (field.text?.count)! > 8 ) {
              field.deleteBackward();
          }
          
@@ -127,7 +127,7 @@ class Intro_PasswordViewController: UIViewController, UITextFieldDelegate {
         
         /* let countOfWords = string.characters.count +  textField.text!.characters.count - range.length*/
         
-        if ((accountTextField.text?.characters.count)! >= 1) && ((passwordTextField.text?.characters.count)! >= 4)
+        if ((accountTextField.text?.count)! >= 1) && ((passwordTextField.text?.count)! >= 4)
         {   
             nextButton.isUserInteractionEnabled = true
             nextButton.setBackgroundImage(R.image.btnGreen(), for: .normal)

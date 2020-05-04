@@ -330,13 +330,13 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                 self.restoreMax = userMax + 3/*4*/
                 
                 self.showProgressDialog(Title:self.GetSimpleLocalizedString("restore_dialog_title"), Message:self.GetSimpleLocalizedString("restore_dialog_message"), countMax: self.restoreMax)
-                var dataDict = UserDefaults.standard.object(forKey: Config.ConfigTag_backup) as? [String:Any]!
+                var dataDict = UserDefaults.standard.object(forKey: Config.ConfigTag_backup) as? [String:Any]?
                 
                 //DeviceConfig
-                Config.doorSensor = dataDict?[Config.ConfigDoorSensorTag] as? UInt8
-                Config.doorLockType = dataDict?[Config.ConfigDoorLockTypeTag]  as? UInt8
-                Config.doorOpenTime = dataDict?[Config.ConfigDoorOpenTimeTag] as? UInt16
-                Config.TamperSensor = dataDict?[Config.ConfigGSensorTag] as? UInt8
+                Config.doorSensor = dataDict??[Config.ConfigDoorSensorTag] as? UInt8
+                Config.doorLockType = dataDict??[Config.ConfigDoorLockTypeTag]  as? UInt8
+                Config.doorOpenTime = dataDict??[Config.ConfigDoorOpenTimeTag] as? UInt16
+                Config.TamperSensor = dataDict??[Config.ConfigGSensorTag] as? UInt8
                 Config.ADMINPWD = (UserDefaults.standard.object(forKey: Config.ADMIN_PWDTag_backup) as? String)!
                 //DeviceData.sharedInstance.deviceName = (UserDefaults.standard.object(forKey: DeviceData.DeviceNameTag_backup) as? String)!
                 let cmd = Config.bpProtocol.setDeviceConfig(door_option: Config.doorSensor! , lockType: Config.doorLockType!, delayTime: Int16(Config.doorOpenTime!), G_sensor_option: Config.TamperSensor!)
@@ -440,7 +440,7 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                 if newName.utf8.count > 16{
                     
                     repeat{
-                        var chars = newName.characters
+                        var chars = newName
                         chars.removeLast()
                         newName = String(chars)
                     }while newName.utf8.count > 16
@@ -479,7 +479,7 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                         return
                     }
                     if !((inputText?.isEmpty)!){
-                        guard (inputText?.characters.count)! > 3 && (inputText?.characters.count)! < BPprotocol.userPD_maxLen+1 else{
+                        guard (inputText?.count)! > 3 && (inputText?.count)! < BPprotocol.userPD_maxLen+1 else{
                             
                             self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_Admin_pwd"))
                             return
@@ -728,8 +728,8 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                             
                             if (subStr == "en" || subStr == "it" || subStr == "fr" || subStr == "ja" || subStr == "es")
                             {
-                                let img = UIImage(named: "instruction")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-                                let bar_item_bt_instruction : UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.plain, target: self, action: #selector(showMasterFAQ))
+                                let img = UIImage(named: "instruction")!.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                                let bar_item_bt_instruction : UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: #selector(showMasterFAQ))
                                 
                                 //        bar_item_bt_instruction.imageInsets = UIEdgeInsetsMake(0, 32, 0, -32)
                                 self.navigationItem.rightBarButtonItem = bar_item_bt_instruction
@@ -771,7 +771,7 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
             case BPprotocol.cmd_user_counter:
                 if isbackup{
                     let userMax = Int(Int16( UInt16(cmd[4]) << 8 | UInt16(cmd[5] & 0x00FF)))
-                    backupMax = userMax + 2//3
+                    backupMax = Int16(userMax + 2)//3
                     
                     showProgressDialog(Title:GetSimpleLocalizedString("backup_dialog_title"), Message:GetSimpleLocalizedString("backup_dialog_message"),countMax: backupMax)
                     /* let cmd = bpProtocol.getDeviceName()
@@ -875,8 +875,8 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                         
                         
                     }else{
-                        let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize
-                        
+                        let user_addr = Int((restoreCount - 3/*4*/)) * Int(BPprotocol.userDataSize)
+                        //let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize //
                         print(String(format:"addr=%d\r\n", user_addr))
                         print(String(format:"array cnt=%d\r\n", Config.userDataArr.count))
                         var userData = [UInt8]()
@@ -1103,7 +1103,8 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
                 updateRestoreDialog()
                 
                 if restoreMax > 3/*4*/ {
-                    let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize
+                    let user_addr = Int((restoreCount - 3/*4*/)) * Int(BPprotocol.userDataSize)
+                    //let user_addr = (restoreCount - 3/*4*/) * BPprotocol.userDataSize  //
                     
                     
                     let userIndex = Int16((UInt16(Config.userDataArr[user_addr]) << 8 ) | (UInt16(Config.userDataArr[user_addr+1]) & 0x00FF))
@@ -1219,7 +1220,7 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
         
         
     }
-    func connectTimeOutTask(){
+    @objc func connectTimeOutTask(){
         print("connect time out");
         Config.bleManager.disconnect()
         connectTimer = nil
@@ -1282,7 +1283,7 @@ class SettingsTableViewController: BLE_tableViewController,PassDataDelegate {
     
     
     
-    func showMasterFAQ() {
+    @objc func showMasterFAQ() {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = mainStoryboard.instantiateViewController(withIdentifier: "MasterFAQ") as! MasterFAQ
         vc.mydelegate = self

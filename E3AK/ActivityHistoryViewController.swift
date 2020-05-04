@@ -98,7 +98,7 @@ class ActivityHistoryViewController: BLE_ViewController {
         
     }
     
-    func didTapReloadItem() {
+    @objc func didTapReloadItem() {
         
         print("didTapReloadItem")
         if Config.isHistoryDataOK {
@@ -156,7 +156,7 @@ class ActivityHistoryViewController: BLE_ViewController {
     }
     
     
-    func didTapshareItem() {
+    @objc func didTapshareItem() {
         
         print("didTapshareItem")
         if Config.isHistoryDataOK {
@@ -425,8 +425,8 @@ extension ActivityHistoryViewController: UITableViewDataSource, UITableViewDeleg
                     cell.deviceLabel.textColor = UIColor.blue
                 }else{
                     
-                    cell.nameLabel.textColor = UIColor.flatGreenDark
-                    cell.dateLabel.textColor = UIColor.flatGray
+                    cell.nameLabel.textColor = UIColor.flatGreenDark()
+                    cell.dateLabel.textColor = UIColor.flatGray()
                     cell.deviceLabel.textColor = UIColor.black
                 }
                 cell.nameLabel.text = name

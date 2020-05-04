@@ -38,9 +38,9 @@ class AddUserViewController: BLE_ViewController {
         passwordTextField.placeholder = GetSimpleLocalizedString("4~8 digits")
         Config.bleManager.setPeripheralDelegate(vc_delegate: self)
         accountTextField.tag = 0
-        accountTextField.addTarget(self, action: #selector(self.userAddTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        accountTextField.addTarget(self, action: #selector(self.userAddTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         passwordTextField.tag = 1
-        passwordTextField.addTarget(self, action: #selector(self.userAddTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+        passwordTextField.addTarget(self, action: #selector(self.userAddTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         passwordTextField.keyboardType = .numberPad
         self.navigationItem.rightBarButtonItem?.isEnabled = false
     }
@@ -50,7 +50,7 @@ class AddUserViewController: BLE_ViewController {
         setNavigationBarRightItemWithTitle(title: self.GetSimpleLocalizedString("Add"))
         let leftBtn = UIButton(type: .custom)
         leftBtn.setTitle(self.GetSimpleLocalizedString("Cancel"), for: .normal)
-        leftBtn.setTitleColor(UIColor.flatGreen, for: .normal)
+        leftBtn.setTitleColor(UIColor.flatGreen(), for: .normal)
         leftBtn.frame = CGRect(x: 0, y: 0, width: 60, height: 30)
         leftBtn.addTarget(self, action: #selector(didTapLeftBarButtonItem), for: .touchUpInside)
         let leftBarButtonItem = UIBarButtonItem(customView: leftBtn)
@@ -102,7 +102,7 @@ class AddUserViewController: BLE_ViewController {
         }
         
     }
-    func userAddTextFieldDidChange(field: UITextField){
+    @objc func userAddTextFieldDidChange(field: UITextField){
         
         
         
@@ -141,7 +141,7 @@ class AddUserViewController: BLE_ViewController {
             if ( (field.text?.utf8.count)! > BPprotocol.userPD_maxLen ) {
                 field.deleteBackward();
             }
-         self.navigationItem.rightBarButtonItem?.isEnabled = ((field.text?.characters.count)! >= 4 ) && ((self.accountTextField.text?.utf8.count)! >= 1 )
+         self.navigationItem.rightBarButtonItem?.isEnabled = ((field.text?.count)! >= 4 ) && ((self.accountTextField.text?.utf8.count)! >= 1 )
         }
         
         
@@ -150,14 +150,14 @@ class AddUserViewController: BLE_ViewController {
         
     }
 
-    func didTapLeftBarButtonItem() {
+    @objc func didTapLeftBarButtonItem() {
         print("cancel")
         dismiss(animated: true, completion: nil)
     }
     
     override func didTapItem() {
         if !(accountTextField?.text?.isEmpty)! && !(passwordTextField?.text?.isEmpty)!{
-            guard (passwordTextField?.text?.characters.count)! > 3 && (passwordTextField?.text?.characters.count)! < BPprotocol.userPD_maxLen+1 else{
+            guard (passwordTextField?.text?.count)! > 3 && (passwordTextField?.text?.count)! < BPprotocol.userPD_maxLen+1 else{
                 
                 
                 self.showToastDialog(title: "", message: self.GetSimpleLocalizedString("users_manage_edit_status_Admin_pwd"))

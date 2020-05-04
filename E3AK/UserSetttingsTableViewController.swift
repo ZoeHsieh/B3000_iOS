@@ -69,8 +69,8 @@ class UserSettingsTableViewController: BLE_tableViewController {
             
             if (subStr == "en" || subStr == "it" || subStr == "fr" || subStr == "ja" || subStr == "es")
             {
-                let img = UIImage(named: "instruction")!.withRenderingMode(UIImageRenderingMode.alwaysOriginal)
-                let bar_item_bt_instruction : UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItemStyle.plain, target: self, action: #selector(showUserFAQ))
+                let img = UIImage(named: "instruction")!.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+                let bar_item_bt_instruction : UIBarButtonItem = UIBarButtonItem(image: img, style: UIBarButtonItem.Style.plain, target: self, action: #selector(showUserFAQ))
                 
                 //        bar_item_bt_instruction.imageInsets = UIEdgeInsetsMake(0, 32, 0, -32)
                 self.navigationItem.rightBarButtonItem = bar_item_bt_instruction
@@ -157,7 +157,7 @@ class UserSettingsTableViewController: BLE_tableViewController {
     
     
     
-    func showUserFAQ() {
+    @objc func showUserFAQ() {
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle.main)
         let vc = mainStoryboard.instantiateViewController(withIdentifier: "UserFAQ") as! UserFAQ
         self.navigationController?.pushViewController(vc, animated: true)

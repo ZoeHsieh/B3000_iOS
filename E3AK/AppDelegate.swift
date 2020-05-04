@@ -5,7 +5,7 @@
 //  Created by nsdi36 on 2017/6/7.
 //  Copyright © 2017年 com.E3AK. All rights reserved.
 //
-////123123123
+////1
 import UIKit
 import ChameleonFramework
 import IQKeyboardManagerSwift
@@ -28,10 +28,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-       
-
-        let isfirst = Config.saveParam.bool(forKey: Config.firstOpen)
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        
+        UIApplication.shared.isIdleTimerDisabled = true //恆亮
+       let isfirst = Config.saveParam.bool(forKey: Config.firstOpen)
         var storyboard:UIStoryboard!
         
         storyboard = UIStoryboard(storyboard: .Main)
@@ -53,8 +53,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         configUI()
-        IQKeyboardManager.sharedManager().enable = true
-        IQKeyboardManager.sharedManager().shouldResignOnTouchOutside = true
+        IQKeyboardManager.shared.enable = true
+        IQKeyboardManager.shared.shouldResignOnTouchOutside = true
 
         return true
     }

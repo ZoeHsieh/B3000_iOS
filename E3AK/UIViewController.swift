@@ -15,14 +15,15 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     
     
     public func openBlueTooth_Setting() {
-        let url = URL(string: "APP-Prefs:root=Bluetooth") //for Bluetooth Setting
+        //let url = URL(string: "APP-Prefs:root=Bluetooth") //for Bluetooth Setting
+        let url = URL(string: UIApplication.openSettingsURLString)
         let app = UIApplication.shared
         
         let alertController = UIAlertController(title: "Enable the BlueTooth?", message: "Do You Enable the BlueTooth ?", preferredStyle: .alert)
         
-        let cancelAct = UIAlertAction(title: GetSimpleLocalizedString("Cancel"), style: UIAlertActionStyle.cancel, handler: nil)
+        let cancelAct = UIAlertAction(title: GetSimpleLocalizedString("Cancel"), style: UIAlertAction.Style.cancel, handler: nil)
         
-        let openBtAct = UIAlertAction(title: GetSimpleLocalizedString("Open"), style: UIAlertActionStyle.default) { (action: UIAlertAction) in
+        let openBtAct = UIAlertAction(title: GetSimpleLocalizedString("Open"), style: UIAlertAction.Style.default) { (action: UIAlertAction) in
             app.openURL(url!)
         }
         
@@ -51,12 +52,12 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
-    public func didTapItem() {
+    @objc public func didTapItem() {
         
         _ = navigationController?.popViewController(animated: true)
     }
     
-    public func didTapSkipItem() {
+    @objc public func didTapSkipItem() {
         guard let window = UIApplication.shared.keyWindow else {
             return
         }
@@ -172,10 +173,10 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         alertController.addTextField(configurationHandler: { (textField) in
             var PlaceHolder = NSMutableAttributedString()
             // Set the Font
-            PlaceHolder = NSMutableAttributedString(string: placeHolder, attributes: [NSFontAttributeName:UIFont(name: "Helvetica", size: 15.0)!])
+            PlaceHolder = NSMutableAttributedString(string: placeHolder, attributes: [NSAttributedString.Key.font:UIFont(name: "Helvetica", size: 15.0)!])
             
             // Set the color
-            PlaceHolder.addAttribute(NSForegroundColorAttributeName, value: UIColor.gray, range:NSRange(location:0,length:placeHolder.characters.count))
+            PlaceHolder.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.gray, range:NSRange(location:0,length:placeHolder.count))
             
             // Add attribute
             
@@ -184,7 +185,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             textField.tag = Tag
             textField.text = defaultValue
             //textField.textColor = UIColor.gray
-            textField.addTarget(self, action: #selector(self.editAlertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+            textField.addTarget(self, action: #selector(self.editAlertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         })
         
         
@@ -203,7 +204,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
         self.present(alertController, animated: true, completion: nil)
     }
     
-    func editAlertTextFieldDidChange(field: UITextField){
+    @objc func editAlertTextFieldDidChange(field: UITextField){
         let alertController: UIAlertController = self.presentedViewController as! UIAlertController
         let textField: UITextField = alertController.textFields![0];
         
@@ -242,7 +243,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             if ( (textField.text?.utf8.count)! > BPprotocol.userPD_maxLen ) {
                 textField.deleteBackward();
             }
-            addAction.isEnabled = ((textField.text?.characters.count)! >= 4 );
+            addAction.isEnabled = ((textField.text?.count)! >= 4 );
         }else if textField.tag == 2{ // for door delay time
             
             field.text = field.text?.replacingOccurrences(of: "٠", with: "0", options: .literal, range: nil)
@@ -271,7 +272,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
                 textField.deleteBackward();
             }
             if (textField.text?.utf8.count)! > 0{
-                addAction.isEnabled = ((textField.text?.characters.count)! <= 4 ) &&  (Int16((textField.text!))! <= Config.DOOR_DELAY_TIME_LIMIT) &&  (Int16((textField.text!))! > 0)
+                addAction.isEnabled = ((textField.text?.count)! <= 4 ) &&  (Int16((textField.text!))! <= Config.DOOR_DELAY_TIME_LIMIT) &&  (Int16((textField.text!))! > 0)
             }else{
                 addAction.isEnabled = false
             }
@@ -281,7 +282,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
                 textField.deleteBackward();
             }
             if (textField.text?.utf8.count)! > 0{
-                addAction.isEnabled = ((textField.text?.characters.count)! <= 3 ) && (Int(textField.text!)!<=255)
+                addAction.isEnabled = ((textField.text?.count)! <= 3 ) && (Int(textField.text!)!<=255)
             }else{
                 addAction.isEnabled = false
             }
@@ -302,7 +303,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             textField.keyboardType = keyboard1
             textField.tag = 0;
             textField.textColor = UIColor.black
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         })
         /*alertController.addTextField(configurationHandler: { (textField) in
          textField.placeholder = "User Name"
@@ -314,7 +315,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             textField.keyboardType = keyboard2
             textField.tag = 1;
             textField.textColor = UIColor.black
-            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControlEvents.editingChanged)
+            textField.addTarget(self, action: #selector(self.alertTextFieldDidChange(field:)), for: UIControl.Event.editingChanged)
         })
         
         let confirmAction = UIAlertAction(title: GetSimpleLocalizedString("Confirm"), style: .default, handler: { action in
@@ -337,7 +338,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
     }
     
     
-    func alertTextFieldDidChange(field: UITextField){
+    @objc func alertTextFieldDidChange(field: UITextField){
         let alertController: UIAlertController = self.presentedViewController as! UIAlertController
         let textField_id: UITextField = alertController.textFields![0];
         let textField_password: UITextField = alertController.textFields![1];
@@ -376,7 +377,7 @@ extension UIViewController: StoryboardIdentifiable, UIActionSheetDelegate{
             textField_password.deleteBackward();
         }
         
-        addAction.isEnabled = ((textField_id.text?.characters.count)! >= 1 ) && ((textField_password.text?.characters.count)! >= 4 );
+        addAction.isEnabled = ((textField_id.text?.count)! >= 1 ) && ((textField_password.text?.count)! >= 4 );
         
     }
     

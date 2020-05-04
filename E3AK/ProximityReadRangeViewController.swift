@@ -91,7 +91,7 @@ class ProximityReadRangeViewController: BLE_ViewController {
     
     
     
-    func my_read_rssi()
+    @objc func my_read_rssi()
     {
         selectedDevice.readRSSI()
     }

@@ -17,25 +17,6 @@ struct R: Rswift.Validatable {
     try intern.validate()
   }
   
-  /// This `R.color` struct is generated, and contains static references to 0 color palettes.
-  struct color {
-    fileprivate init() {}
-  }
-  
-  /// This `R.file` struct is generated, and contains static references to 1 files.
-  struct file {
-    /// Resource file `Montserrat-Regular.ttf`.
-    static let montserratRegularTtf = Rswift.FileResource(bundle: R.hostingBundle, name: "Montserrat-Regular", pathExtension: "ttf")
-    
-    /// `bundle.url(forResource: "Montserrat-Regular", withExtension: "ttf")`
-    static func montserratRegularTtf(_: Void = ()) -> Foundation.URL? {
-      let fileResource = R.file.montserratRegularTtf
-      return fileResource.bundle.url(forResource: fileResource)
-    }
-    
-    fileprivate init() {}
-  }
-  
   /// This `R.font` struct is generated, and contains static references to 1 fonts.
   struct font: Rswift.Validatable {
     /// Font `Montserrat-Regular`.
@@ -419,116 +400,226 @@ struct R: Rswift.Validatable {
     /// Nib `UsersTableViewCell`.
     static let usersTableViewCell = _R.nib._UsersTableViewCell()
     /// Nib `WSDatePickerView`.
-    static let wSDatePickerView = _R.nib._WSDatePickerView()
+    static let wsDatePickerView = _R.nib._WSDatePickerView()
     
     /// `UINib(name: "AboutUsViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.aboutUsViewController) instead")
     static func aboutUsViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.aboutUsViewController)
     }
     
     /// `UINib(name: "AccessTimesTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.accessTimesTableViewCell) instead")
     static func accessTimesTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.accessTimesTableViewCell)
     }
     
     /// `UINib(name: "AccessTypesViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.accessTypesViewController) instead")
     static func accessTypesViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.accessTypesViewController)
     }
     
     /// `UINib(name: "ActivityHistoryTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.activityHistoryTableViewCell) instead")
     static func activityHistoryTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.activityHistoryTableViewCell)
     }
     
     /// `UINib(name: "ActivityHistoryViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.activityHistoryViewController) instead")
     static func activityHistoryViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.activityHistoryViewController)
     }
     
     /// `UINib(name: "AddUserViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.addUserViewController) instead")
     static func addUserViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.addUserViewController)
     }
     
     /// `UINib(name: "DatePickerTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.datePickerTableViewCell) instead")
     static func datePickerTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.datePickerTableViewCell)
     }
     
     /// `UINib(name: "DateTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.dateTableViewCell) instead")
     static func dateTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.dateTableViewCell)
     }
     
     /// `UINib(name: "DeviceTimeSwitchTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.deviceTimeSwitchTableViewCell) instead")
     static func deviceTimeSwitchTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.deviceTimeSwitchTableViewCell)
     }
     
     /// `UINib(name: "DeviceTimeViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.deviceTimeViewController) instead")
     static func deviceTimeViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.deviceTimeViewController)
     }
     
     /// `UINib(name: "DoorLockActionViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.doorLockActionViewController) instead")
     static func doorLockActionViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.doorLockActionViewController)
     }
     
     /// `UINib(name: "DoorRe-lockTimeViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.doorReLockTimeViewController) instead")
     static func doorReLockTimeViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.doorReLockTimeViewController)
     }
     
     /// `UINib(name: "Intro_AddMoreUserFooterView", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.intro_AddMoreUserFooterView) instead")
     static func intro_AddMoreUserFooterView(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.intro_AddMoreUserFooterView)
     }
     
     /// `UINib(name: "Intro_AddMoreUserViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.intro_AddMoreUserViewController) instead")
     static func intro_AddMoreUserViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.intro_AddMoreUserViewController)
     }
     
     /// `UINib(name: "Intro_NOUsersViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.intro_NOUsersViewController) instead")
     static func intro_NOUsersViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.intro_NOUsersViewController)
     }
     
     /// `UINib(name: "ProximityReadRangeViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.proximityReadRangeViewController) instead")
     static func proximityReadRangeViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.proximityReadRangeViewController)
     }
     
     /// `UINib(name: "RepeatDateViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.repeatDateViewController) instead")
     static func repeatDateViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.repeatDateViewController)
     }
     
     /// `UINib(name: "RepeatTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.repeatTableViewCell) instead")
     static func repeatTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.repeatTableViewCell)
     }
     
     /// `UINib(name: "SettingsTableViewSectionFooter", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.settingsTableViewSectionFooter) instead")
     static func settingsTableViewSectionFooter(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.settingsTableViewSectionFooter)
     }
     
     /// `UINib(name: "UserProximityReadRangeViewController", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.userProximityReadRangeViewController) instead")
     static func userProximityReadRangeViewController(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.userProximityReadRangeViewController)
     }
     
     /// `UINib(name: "UsersTableViewCell", in: bundle)`
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.usersTableViewCell) instead")
     static func usersTableViewCell(_: Void = ()) -> UIKit.UINib {
       return UIKit.UINib(resource: R.nib.usersTableViewCell)
     }
     
     /// `UINib(name: "WSDatePickerView", in: bundle)`
-    static func wSDatePickerView(_: Void = ()) -> UIKit.UINib {
-      return UIKit.UINib(resource: R.nib.wSDatePickerView)
+    @available(*, deprecated, message: "Use UINib(resource: R.nib.wsDatePickerView) instead")
+    static func wsDatePickerView(_: Void = ()) -> UIKit.UINib {
+      return UIKit.UINib(resource: R.nib.wsDatePickerView)
+    }
+    
+    static func aboutUsViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.aboutUsViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func accessTimesTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> AccessTimesTableViewCell? {
+      return R.nib.accessTimesTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? AccessTimesTableViewCell
+    }
+    
+    static func accessTypesViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.accessTypesViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func activityHistoryTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> ActivityHistoryTableViewCell? {
+      return R.nib.activityHistoryTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? ActivityHistoryTableViewCell
+    }
+    
+    static func activityHistoryViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.activityHistoryViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func addUserViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.addUserViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func datePickerTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DatePickerTableViewCell? {
+      return R.nib.datePickerTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DatePickerTableViewCell
+    }
+    
+    static func dateTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DateTableViewCell? {
+      return R.nib.dateTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DateTableViewCell
+    }
+    
+    static func deviceTimeSwitchTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DeviceTimeSwitchTableViewCell? {
+      return R.nib.deviceTimeSwitchTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DeviceTimeSwitchTableViewCell
+    }
+    
+    static func deviceTimeViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.deviceTimeViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func doorLockActionViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.doorLockActionViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func doorReLockTimeViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.doorReLockTimeViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func intro_AddMoreUserFooterView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> Intro_AddMoreUserFooterView? {
+      return R.nib.intro_AddMoreUserFooterView.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? Intro_AddMoreUserFooterView
+    }
+    
+    static func intro_AddMoreUserViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.intro_AddMoreUserViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func intro_NOUsersViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.intro_NOUsersViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func proximityReadRangeViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.proximityReadRangeViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func repeatDateViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.repeatDateViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func repeatTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> RepeatTableViewCell? {
+      return R.nib.repeatTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? RepeatTableViewCell
+    }
+    
+    static func settingsTableViewSectionFooter(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> SettingsTableViewSectionFooter? {
+      return R.nib.settingsTableViewSectionFooter.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? SettingsTableViewSectionFooter
+    }
+    
+    static func userProximityReadRangeViewController(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
+      return R.nib.userProximityReadRangeViewController.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
+    }
+    
+    static func usersTableViewCell(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UsersTableViewCell? {
+      return R.nib.usersTableViewCell.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UsersTableViewCell
+    }
+    
+    static func wsDatePickerView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> WSDatePickerView? {
+      return R.nib.wsDatePickerView.instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? WSDatePickerView
     }
     
     fileprivate init() {}
@@ -740,7 +831,7 @@ struct R: Rswift.Validatable {
       /// Base translation: APP version:
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let aPPVersion = Rswift.StringResource(key: "APP version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let appVersion = Rswift.StringResource(key: "APP version", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: About Us
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -764,7 +855,7 @@ struct R: Rswift.Validatable {
       /// Base translation: Access Types
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let tYPES = Rswift.StringResource(key: "TYPES", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let typeS = Rswift.StringResource(key: "TYPES", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: Add
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -1064,7 +1155,7 @@ struct R: Rswift.Validatable {
       /// Base translation: LOCKED
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let dOORCLOSED = Rswift.StringResource(key: "DOOR CLOSED", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let doorcloseD = Rswift.StringResource(key: "DOOR CLOSED", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: Loading...
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -1100,7 +1191,7 @@ struct R: Rswift.Validatable {
       /// Base translation: OPEN
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let oPEN = Rswift.StringResource(key: "OPEN", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let opeN = Rswift.StringResource(key: "OPEN", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: Open
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -1132,7 +1223,7 @@ struct R: Rswift.Validatable {
       /// Base translation: Please disable 'AUTO' first!!
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let aUTO_ENABLE_CONFLICT = Rswift.StringResource(key: "AUTO_ENABLE_CONFLICT", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let auto_ENABLE_CONFLICT = Rswift.StringResource(key: "AUTO_ENABLE_CONFLICT", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: Please enter ID
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -1268,7 +1359,7 @@ struct R: Rswift.Validatable {
       /// Base translation: UNLOCKED
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static let dOOROPENED = Rswift.StringResource(key: "DOOR OPENED", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
+      static let dooropeneD = Rswift.StringResource(key: "DOOR OPENED", tableName: "Localizable", bundle: R.hostingBundle, locales: ["zh-Hant", "Base", "it", "fr", "es", "ja", "ar"], comment: nil)
       /// Base translation: Unlocked By
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
@@ -1384,7 +1475,7 @@ struct R: Rswift.Validatable {
       /// Base translation: APP version:
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func aPPVersion(_: Void = ()) -> String {
+      static func appVersion(_: Void = ()) -> String {
         return NSLocalizedString("APP version", bundle: R.hostingBundle, value: "APP version:", comment: "")
       }
       
@@ -1426,7 +1517,7 @@ struct R: Rswift.Validatable {
       /// Base translation: Access Types
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func tYPES(_: Void = ()) -> String {
+      static func typeS(_: Void = ()) -> String {
         return NSLocalizedString("TYPES", bundle: R.hostingBundle, value: "Access Types", comment: "")
       }
       
@@ -1951,7 +2042,7 @@ struct R: Rswift.Validatable {
       /// Base translation: LOCKED
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func dOORCLOSED(_: Void = ()) -> String {
+      static func doorcloseD(_: Void = ()) -> String {
         return NSLocalizedString("DOOR CLOSED", bundle: R.hostingBundle, value: "LOCKED", comment: "")
       }
       
@@ -2014,7 +2105,7 @@ struct R: Rswift.Validatable {
       /// Base translation: OPEN
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func oPEN(_: Void = ()) -> String {
+      static func opeN(_: Void = ()) -> String {
         return NSLocalizedString("OPEN", bundle: R.hostingBundle, value: "OPEN", comment: "")
       }
       
@@ -2070,7 +2161,7 @@ struct R: Rswift.Validatable {
       /// Base translation: Please disable 'AUTO' first!!
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func aUTO_ENABLE_CONFLICT(_: Void = ()) -> String {
+      static func auto_ENABLE_CONFLICT(_: Void = ()) -> String {
         return NSLocalizedString("AUTO_ENABLE_CONFLICT", bundle: R.hostingBundle, value: "Please disable 'AUTO' first!!", comment: "")
       }
       
@@ -2308,7 +2399,7 @@ struct R: Rswift.Validatable {
       /// Base translation: UNLOCKED
       /// 
       /// Locales: zh-Hant, Base, it, fr, es, ja, ar
-      static func dOOROPENED(_: Void = ()) -> String {
+      static func dooropeneD(_: Void = ()) -> String {
         return NSLocalizedString("DOOR OPENED", bundle: R.hostingBundle, value: "UNLOCKED", comment: "")
       }
       
@@ -2457,7 +2548,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc Auto Proximity Range
       /// 
       /// Locales: en, zh-Hant, ar
-      static let iMSF5ECDText = Rswift.StringResource(key: "IMS-F5-ECD.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
+      static let imsf5ECDText = Rswift.StringResource(key: "IMS-F5-ECD.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
       /// en translation: Dsc Backup Data
       /// 
       /// Locales: en, zh-Hant, ar
@@ -2481,7 +2572,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc Users
       /// 
       /// Locales: en, zh-Hant, ar
-      static let uU50YIZoText = Rswift.StringResource(key: "UU5-0Y-iZo.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
+      static let uu50YIZoText = Rswift.StringResource(key: "UU5-0Y-iZo.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
       /// en translation: Dsc admin passcode
       /// 
       /// Locales: en, zh-Hant, ar
@@ -2489,7 +2580,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc auto proximity range
       /// 
       /// Locales: en, zh-Hant, ar
-      static let vWWC3Z7aText = Rswift.StringResource(key: "VWW-c3-Z7a.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
+      static let vwwc3Z7aText = Rswift.StringResource(key: "VWW-c3-Z7a.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
       /// en translation: Tamper Alarm
       /// 
       /// Locales: en, zh-Hant, ar
@@ -2541,7 +2632,7 @@ struct R: Rswift.Validatable {
       /// en translation: door sensor
       /// 
       /// Locales: en, zh-Hant, ar
-      static let jE24IBDmText = Rswift.StringResource(key: "JE2-4I-bDm.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
+      static let je24IBDmText = Rswift.StringResource(key: "JE2-4I-bDm.text", tableName: "Main", bundle: R.hostingBundle, locales: ["en", "zh-Hant", "ar"], comment: nil)
       /// en translation: dsc door sensor
       /// 
       /// Locales: en, zh-Hant, ar
@@ -2621,7 +2712,7 @@ struct R: Rswift.Validatable {
       /// it translation: Download Users List
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let dI0NOUPBText = Rswift.StringResource(key: "DI0-NO-UPB.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let di0NOUPBText = Rswift.StringResource(key: "DI0-NO-UPB.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: Download Users List
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2681,7 +2772,7 @@ struct R: Rswift.Validatable {
       /// it translation: OK
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let nKS3HZWNNormalTitle = Rswift.StringResource(key: "NKS-3H-ZWN.normalTitle", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let nks3HZWNNormalTitle = Rswift.StringResource(key: "NKS-3H-ZWN.normalTitle", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: OK
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2689,7 +2780,7 @@ struct R: Rswift.Validatable {
       /// it translation: OPEN
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let qR8785ZmNormalTitle = Rswift.StringResource(key: "QR8-78-5Zm.normalTitle", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let qr8785ZmNormalTitle = Rswift.StringResource(key: "QR8-78-5Zm.normalTitle", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: User ID
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2741,7 +2832,7 @@ struct R: Rswift.Validatable {
       /// it translation: 型號ABC123
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let qNB2WLWText = Rswift.StringResource(key: "9QN-b2-WLW.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let qnb2WLWText = Rswift.StringResource(key: "9QN-b2-WLW.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: 密碼(4~8個字元)
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2757,7 +2848,7 @@ struct R: Rswift.Validatable {
       /// it translation: 感應距離
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let cP7JhText = Rswift.StringResource(key: "039-CP-7Jh.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let cp7JhText = Rswift.StringResource(key: "039-CP-7Jh.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: 感應距離
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2777,7 +2868,7 @@ struct R: Rswift.Validatable {
       /// it translation: 日期
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let sIQJ8R8jText = Rswift.StringResource(key: "SIQ-J8-r8j.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let siqj8R8jText = Rswift.StringResource(key: "SIQ-J8-r8j.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: 星期二、四、五、六，時間為04:00 ~ 16:00
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2801,7 +2892,7 @@ struct R: Rswift.Validatable {
       /// it translation: 裝置名稱
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static let hHSEAAfIText = Rswift.StringResource(key: "HHS-EA-AfI.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
+      static let hhseaAfIText = Rswift.StringResource(key: "HHS-EA-AfI.text", tableName: "Main", bundle: R.hostingBundle, locales: ["it", "fr", "es", "en", "zh-Hant", "ja", "ar"], comment: nil)
       /// it translation: 設定
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
@@ -2861,7 +2952,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc Auto Proximity Range
       /// 
       /// Locales: en, zh-Hant, ar
-      static func iMSF5ECDText(_: Void = ()) -> String {
+      static func imsf5ECDText(_: Void = ()) -> String {
         return NSLocalizedString("IMS-F5-ECD.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -2903,7 +2994,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc Users
       /// 
       /// Locales: en, zh-Hant, ar
-      static func uU50YIZoText(_: Void = ()) -> String {
+      static func uu50YIZoText(_: Void = ()) -> String {
         return NSLocalizedString("UU5-0Y-iZo.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -2917,7 +3008,7 @@ struct R: Rswift.Validatable {
       /// en translation: Dsc auto proximity range
       /// 
       /// Locales: en, zh-Hant, ar
-      static func vWWC3Z7aText(_: Void = ()) -> String {
+      static func vwwc3Z7aText(_: Void = ()) -> String {
         return NSLocalizedString("VWW-c3-Z7a.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3008,7 +3099,7 @@ struct R: Rswift.Validatable {
       /// en translation: door sensor
       /// 
       /// Locales: en, zh-Hant, ar
-      static func jE24IBDmText(_: Void = ()) -> String {
+      static func je24IBDmText(_: Void = ()) -> String {
         return NSLocalizedString("JE2-4I-bDm.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3148,7 +3239,7 @@ struct R: Rswift.Validatable {
       /// it translation: Download Users List
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func dI0NOUPBText(_: Void = ()) -> String {
+      static func di0NOUPBText(_: Void = ()) -> String {
         return NSLocalizedString("DI0-NO-UPB.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3253,7 +3344,7 @@ struct R: Rswift.Validatable {
       /// it translation: OK
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func nKS3HZWNNormalTitle(_: Void = ()) -> String {
+      static func nks3HZWNNormalTitle(_: Void = ()) -> String {
         return NSLocalizedString("NKS-3H-ZWN.normalTitle", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3267,7 +3358,7 @@ struct R: Rswift.Validatable {
       /// it translation: OPEN
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func qR8785ZmNormalTitle(_: Void = ()) -> String {
+      static func qr8785ZmNormalTitle(_: Void = ()) -> String {
         return NSLocalizedString("QR8-78-5Zm.normalTitle", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3358,7 +3449,7 @@ struct R: Rswift.Validatable {
       /// it translation: 型號ABC123
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func qNB2WLWText(_: Void = ()) -> String {
+      static func qnb2WLWText(_: Void = ()) -> String {
         return NSLocalizedString("9QN-b2-WLW.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3386,7 +3477,7 @@ struct R: Rswift.Validatable {
       /// it translation: 感應距離
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func cP7JhText(_: Void = ()) -> String {
+      static func cp7JhText(_: Void = ()) -> String {
         return NSLocalizedString("039-CP-7Jh.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3421,7 +3512,7 @@ struct R: Rswift.Validatable {
       /// it translation: 日期
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func sIQJ8R8jText(_: Void = ()) -> String {
+      static func siqj8R8jText(_: Void = ()) -> String {
         return NSLocalizedString("SIQ-J8-r8j.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3463,7 +3554,7 @@ struct R: Rswift.Validatable {
       /// it translation: 裝置名稱
       /// 
       /// Locales: it, fr, es, en, zh-Hant, ja, ar
-      static func hHSEAAfIText(_: Void = ()) -> String {
+      static func hhseaAfIText(_: Void = ()) -> String {
         return NSLocalizedString("HHS-EA-AfI.text", tableName: "Main", bundle: R.hostingBundle, comment: "")
       }
       
@@ -3578,24 +3669,26 @@ struct _R: Rswift.Validatable {
   
   struct nib: Rswift.Validatable {
     static func validate() throws {
+      try _AboutUsViewController.validate()
       try _Intro_NOUsersViewController.validate()
       try _UsersTableViewCell.validate()
-      try _AboutUsViewController.validate()
     }
     
     struct _AboutUsViewController: Rswift.NibResourceType, Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "AboutUsViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "icon_website", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_website' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "icon_version", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_version' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "icon_email", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_email' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "icon_version", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_version' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "icon_website", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'icon_website' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
         if UIKit.UIImage(named: "rofulogo", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'rofulogo' is used in nib 'AboutUsViewController', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+        }
       }
       
       fileprivate init() {}
@@ -3608,7 +3701,7 @@ struct _R: Rswift.Validatable {
       let identifier = "accessTimesCell"
       let name = "AccessTimesTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> AccessTimesTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> AccessTimesTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? AccessTimesTableViewCell
       }
       
@@ -3619,7 +3712,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "AccessTypesViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3633,7 +3726,7 @@ struct _R: Rswift.Validatable {
       let identifier = "activityHistoryCell"
       let name = "ActivityHistoryTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> ActivityHistoryTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> ActivityHistoryTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? ActivityHistoryTableViewCell
       }
       
@@ -3644,7 +3737,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "ActivityHistoryViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3655,7 +3748,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "AddUserViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3669,7 +3762,7 @@ struct _R: Rswift.Validatable {
       let identifier = "datePickerCell"
       let name = "DatePickerTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> DatePickerTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DatePickerTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DatePickerTableViewCell
       }
       
@@ -3683,7 +3776,7 @@ struct _R: Rswift.Validatable {
       let identifier = "dateCell"
       let name = "DateTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> DateTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DateTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DateTableViewCell
       }
       
@@ -3697,7 +3790,7 @@ struct _R: Rswift.Validatable {
       let identifier = "deviceTimeSwitchCell"
       let name = "DeviceTimeSwitchTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> DeviceTimeSwitchTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> DeviceTimeSwitchTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? DeviceTimeSwitchTableViewCell
       }
       
@@ -3708,7 +3801,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "DeviceTimeViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3719,7 +3812,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "DoorLockActionViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3730,7 +3823,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "DoorRe-lockTimeViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3741,7 +3834,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "Intro_AddMoreUserFooterView"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> Intro_AddMoreUserFooterView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> Intro_AddMoreUserFooterView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? Intro_AddMoreUserFooterView
       }
       
@@ -3752,7 +3845,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "Intro_AddMoreUserViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3763,12 +3856,14 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "Intro_NOUsersViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
       static func validate() throws {
         if UIKit.UIImage(named: "users-list", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'users-list' is used in nib 'Intro_NOUsersViewController', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+        }
       }
       
       fileprivate init() {}
@@ -3778,7 +3873,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "ProximityReadRangeViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3789,7 +3884,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "RepeatDateViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3803,7 +3898,7 @@ struct _R: Rswift.Validatable {
       let identifier = "repeatCell"
       let name = "RepeatTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> RepeatTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> RepeatTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? RepeatTableViewCell
       }
       
@@ -3817,7 +3912,7 @@ struct _R: Rswift.Validatable {
       let identifier = "settingsSectionFooter"
       let name = "SettingsTableViewSectionFooter"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> SettingsTableViewSectionFooter? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> SettingsTableViewSectionFooter? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? SettingsTableViewSectionFooter
       }
       
@@ -3828,7 +3923,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "UserProximityReadRangeViewController"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UIKit.UIView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UIKit.UIView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UIKit.UIView
       }
       
@@ -3842,12 +3937,14 @@ struct _R: Rswift.Validatable {
       let identifier = "usersCell"
       let name = "UsersTableViewCell"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> UsersTableViewCell? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> UsersTableViewCell? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? UsersTableViewCell
       }
       
       static func validate() throws {
         if UIKit.UIImage(named: "disclosure Indicator", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'disclosure Indicator' is used in nib 'UsersTableViewCell', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+        }
       }
       
       fileprivate init() {}
@@ -3857,7 +3954,7 @@ struct _R: Rswift.Validatable {
       let bundle = R.hostingBundle
       let name = "WSDatePickerView"
       
-      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [NSObject : AnyObject]? = nil) -> WSDatePickerView? {
+      func firstView(owner ownerOrNil: AnyObject?, options optionsOrNil: [UINib.OptionsKey : Any]? = nil) -> WSDatePickerView? {
         return instantiate(withOwner: ownerOrNil, options: optionsOrNil)[0] as? WSDatePickerView
       }
       
@@ -3869,9 +3966,9 @@ struct _R: Rswift.Validatable {
   
   struct storyboard: Rswift.Validatable {
     static func validate() throws {
-      try main.validate()
       try intro.validate()
       try launchScreen.validate()
+      try main.validate()
     }
     
     struct intro: Rswift.StoryboardResourceWithInitialControllerType, Rswift.Validatable {
@@ -3906,22 +4003,24 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "triangle") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "loading-green") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-green' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "bluetooth") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'bluetooth' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "slid-dot-1") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-1' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "slid-dot-3") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-3' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "btn-green") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "green-dot") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "slid-dot-4") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-4' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "loading-white") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "btn-gray") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-gray' is used in storyboard 'Intro', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "plants") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "bluetooth", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'bluetooth' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "btn-gray", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-gray' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "btn-green", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "green-dot", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "loading-green", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-green' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "loading-white", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "plants", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "slid-dot-1", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-1' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "slid-dot-3", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-3' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "slid-dot-4", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'slid-dot-4' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "triangle", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Intro', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+        }
+        if _R.storyboard.intro().introNavigationController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'introNavigationController' could not be loaded from storyboard 'Intro' as 'IntroNavigationController'.") }
+        if _R.storyboard.intro().intro_DistanceSettingsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_DistanceSettingsViewController' could not be loaded from storyboard 'Intro' as 'Intro_DistanceSettingsViewController'.") }
+        if _R.storyboard.intro().intro_PasswordViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_PasswordViewController' could not be loaded from storyboard 'Intro' as 'Intro_PasswordViewController'.") }
         if _R.storyboard.intro().intro_UserViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_UserViewController' could not be loaded from storyboard 'Intro' as 'Intro_UserViewController'.") }
         if _R.storyboard.intro().intro_WelcomeViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_WelcomeViewController' could not be loaded from storyboard 'Intro' as 'Intro_WelcomeViewController'.") }
-        if _R.storyboard.intro().intro_DistanceSettingsViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_DistanceSettingsViewController' could not be loaded from storyboard 'Intro' as 'Intro_DistanceSettingsViewController'.") }
-        if _R.storyboard.intro().introNavigationController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'introNavigationController' could not be loaded from storyboard 'Intro' as 'IntroNavigationController'.") }
-        if _R.storyboard.intro().intro_PasswordViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'intro_PasswordViewController' could not be loaded from storyboard 'Intro' as 'Intro_PasswordViewController'.") }
       }
       
       fileprivate init() {}
@@ -3934,7 +4033,9 @@ struct _R: Rswift.Validatable {
       let name = "LaunchScreen"
       
       static func validate() throws {
-        if UIKit.UIImage(named: "launch-screen-door") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'launch-screen-door' is used in storyboard 'LaunchScreen', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "launch-screen-door", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'launch-screen-door' is used in storyboard 'LaunchScreen', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+        }
       }
       
       fileprivate init() {}
@@ -3987,32 +4088,35 @@ struct _R: Rswift.Validatable {
       }
       
       static func validate() throws {
-        if UIKit.UIImage(named: "backup") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'backup' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "ds") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'ds' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "door-close") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'door-close' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "user") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'user' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "btn-green") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "green-dot") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "reset_pins") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'reset_pins' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "loading-white") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "reset_button") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'reset_button' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "history") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'history' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "back-btn-left") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'back-btn-left' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "signal_icon") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'signal_icon' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "triangle") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "checkbox-none") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'checkbox-none' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "Back Chevron") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'Back Chevron' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "revert") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'revert' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "relogin") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'relogin' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "setup") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'setup' is used in storyboard 'Main', but couldn't be loaded.") }
-        if UIKit.UIImage(named: "plants") == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Main', but couldn't be loaded.") }
-        if _R.storyboard.main().masterFAQ() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'masterFAQ' could not be loaded from storyboard 'Main' as 'MasterFAQ'.") }
-        if _R.storyboard.main().userFAQ() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userFAQ' could not be loaded from storyboard 'Main' as 'UserFAQ'.") }
-        if _R.storyboard.main().homeViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'homeViewController' could not be loaded from storyboard 'Main' as 'HomeViewController'.") }
-        if _R.storyboard.main().settingsTableViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsTableViewController' could not be loaded from storyboard 'Main' as 'SettingsTableViewController'.") }
-        if _R.storyboard.main().userSettingsTableViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userSettingsTableViewController' could not be loaded from storyboard 'Main' as 'UserSettingsTableViewController'.") }
+        if UIKit.UIImage(named: "Back Chevron", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'Back Chevron' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "back-btn-left", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'back-btn-left' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "backup", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'backup' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "btn-green", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'btn-green' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "checkbox-none", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'checkbox-none' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "door-close", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'door-close' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "ds", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'ds' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "green-dot", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'green-dot' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "history", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'history' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "loading-white", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'loading-white' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "plants", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'plants' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "relogin", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'relogin' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "reset_button", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'reset_button' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "reset_pins", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'reset_pins' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "revert", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'revert' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "setup", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'setup' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "signal_icon", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'signal_icon' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "triangle", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'triangle' is used in storyboard 'Main', but couldn't be loaded.") }
+        if UIKit.UIImage(named: "user", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Image named 'user' is used in storyboard 'Main', but couldn't be loaded.") }
+        if #available(iOS 11.0, *) {
+          if UIKit.UIColor(named: "secondaryLabelColor", in: R.hostingBundle, compatibleWith: nil) == nil { throw Rswift.ValidationError(description: "[R.swift] Color named 'secondaryLabelColor' is used in storyboard 'Main', but couldn't be loaded.") }
+        }
         if _R.storyboard.main().homeNavigationController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'homeNavigationController' could not be loaded from storyboard 'Main' as 'HomeNavigationController'.") }
+        if _R.storyboard.main().homeViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'homeViewController' could not be loaded from storyboard 'Main' as 'HomeViewController'.") }
+        if _R.storyboard.main().masterFAQ() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'masterFAQ' could not be loaded from storyboard 'Main' as 'MasterFAQ'.") }
+        if _R.storyboard.main().settingsTableViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'settingsTableViewController' could not be loaded from storyboard 'Main' as 'SettingsTableViewController'.") }
+        if _R.storyboard.main().userFAQ() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userFAQ' could not be loaded from storyboard 'Main' as 'UserFAQ'.") }
         if _R.storyboard.main().userInfoTableViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userInfoTableViewController' could not be loaded from storyboard 'Main' as 'UserInfoTableViewController'.") }
+        if _R.storyboard.main().userSettingsTableViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'userSettingsTableViewController' could not be loaded from storyboard 'Main' as 'UserSettingsTableViewController'.") }
         if _R.storyboard.main().usersViewController() == nil { throw Rswift.ValidationError(description:"[R.swift] ViewController with identifier 'usersViewController' could not be loaded from storyboard 'Main' as 'UsersViewController'.") }
       }
       

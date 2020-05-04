@@ -377,7 +377,7 @@ extension UsersViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
         
-        let moreRowAction = UITableViewRowAction(style: UITableViewRowActionStyle.default, title: GetSimpleLocalizedString("Delete"), handler:{action, indexpath in
+        let moreRowAction = UITableViewRowAction(style: UITableViewRowAction.Style.default, title: GetSimpleLocalizedString("Delete"), handler:{action, indexpath in
             print("delete");
             if let userIndex = self.localUserArr[indexPath.row]["index"] as? Int16{
                 print("del0")
