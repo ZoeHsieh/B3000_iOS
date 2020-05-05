@@ -245,6 +245,7 @@ class HomeViewController: BLE_ViewController{
                 return
         }
         
+        
         if rawData.count > 0{
             let len:Int = (rawData.count)
             for i in 0 ... len - 1 {
@@ -265,18 +266,18 @@ class HomeViewController: BLE_ViewController{
                 return
         }
         
-        guard let deviceModelStr = AdvertisingData.dev_Model[deviceModel]
-            else{
-                return
-        }
+//        guard let deviceModelStr = AdvertisingData.dev_Model[deviceModel]
+//            else{
+//                return
+//        }
         //        if !deviceModelStr.contains(Config.deviceSeries){
         //            return
         //
         //        }
-        if !Config.deviceSeries.contains(deviceModelStr){
-            return
-            
-        }
+//        if !Config.deviceSeries.contains(deviceModelStr){
+//            return
+//
+//        }
         
         //        guard let deviceColorStr = AdvertisingData.dev_Color[deviceColor] as? String
         //            else{
@@ -289,7 +290,7 @@ class HomeViewController: BLE_ViewController{
         }
         
         
-        if Config.CustomID !=  customStr{
+        if Config.CustomID == customStr{
             
             return
         }

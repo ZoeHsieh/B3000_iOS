@@ -92,7 +92,7 @@ class Config{
     public static var deviceModel:String = "E5AKR"
     public static var deviceSeries:String = "BK-3000B,BK-3000S" //DG最後要刪除
     
-    public static let CustomID = AdvertisingData.CUSTOM_IDs[UInt16(0x0001)] //只要找某客戶 ex:GEM
+    public static let CustomID = AdvertisingData.CUSTOM_IDs[UInt16(0x0002)] //只要找某客戶 ex:GEM
     
     
     //public static let SCAN_TIME_INTRO:Int = 10

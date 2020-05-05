@@ -13,6 +13,7 @@ class AdvertisingData{
     public static let CUSTOM_IDs:[UInt16:String] = [
         0x0000:"custom1"
         ,0x0001:"ROFU"
+        ,0x0002:"SECO-LARM"
         ,0xFFFE:"GEM"
         ,0xFFFF:"ANXELL"
         
